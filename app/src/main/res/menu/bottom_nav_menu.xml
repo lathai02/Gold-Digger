@@ -3,21 +3,21 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/home_navigation_bar" />
     <item
         android:id="@+id/navigation_gold_price"
         android:icon="@drawable/ic_gold"
-        android:title="Gold" />
+        android:title="@string/gold_navigation_bar" />
     <item
         android:id="@+id/navigation_add"
         android:icon="@drawable/ic_add"
-        android:title="Add" />
+        android:title="@string/add_navigation_bar" />
     <item
         android:id="@+id/navigation_google_map"
         android:icon="@drawable/ic_map"
-        android:title="Map" />
+        android:title="@string/map_navigation_bar" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile"
-        android:title="Profile" />
+        android:title="@string/profile_navigation_bar" />
 </menu>
