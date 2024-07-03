@@ -1,45 +1,53 @@
 package com.fpt.team5.golddigger;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
-    private Button homeBtn;
+    private OverviewFragment overviewFragment;
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof OverviewFragment) {
+            overviewFragment = ((OverviewFragment) fragment);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         BindingView();
         BindingAction();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, overviewFragment)
+                .commit();
     }
 
     private void BindingView(){
-        homeBtn = findViewById(R.id.homeBtn);
+        if (overviewFragment == null){
+            overviewFragment = new OverviewFragment();
+        }
     }
 
     private void BindingAction(){
-        homeBtn.setOnClickListener(this::onClickHomeBtn);
-    }
 
-    private void onClickHomeBtn(View view){
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
     }
-
 }
