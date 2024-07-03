@@ -25,6 +25,11 @@
             android:name=".HomeActivity"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name=".AddActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
