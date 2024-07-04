@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/blue"
             android:padding="20dp">
 
@@ -28,6 +28,7 @@
                 android:layout_height="212dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="50dp"
+                android:contentDescription="@string/add_activity_collect_money"
                 android:background="@drawable/rounded_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,6 +40,7 @@
                 android:layout_height="212dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="20dp"
+                android:contentDescription="@string/add_activity_pay"
                 android:background="@drawable/rounded_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
