@@ -10,8 +10,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 public class AddActivity extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
 

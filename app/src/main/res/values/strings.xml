@@ -4,4 +4,13 @@
     <string name="home_activity_welcome">Welcome An Thái!</string>
     <string name="home_activity_total_balance">Total balance</string>
 
+    <string name="add_activity_pay">Pay</string>
+    <string name="add_activity_collect_money">Collect money</string>
+
+    <string name="home_navigation_bar">Home</string>
+    <string name="gold_navigation_bar">Gold</string>
+    <string name="add_navigation_bar">Add</string>
+    <string name="map_navigation_bar">Map</string>
+    <string name="profile_navigation_bar">Profile</string>
+
 </resources>
