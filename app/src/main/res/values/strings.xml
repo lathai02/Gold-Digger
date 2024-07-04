@@ -8,6 +8,7 @@
     <string name="add_activity_lend">Lend</string>
     <string name="add_activity_borrow">Borrow</string>
     <string name="add_activity_expense">Expense</string>
+    <string name="add_activity_header">Choose an action</string>
 
     <string name="home_navigation_bar">Home</string>
     <string name="gold_navigation_bar">Gold</string>
