@@ -32,10 +32,12 @@ public class AddActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
         BindingView();
         BindingAction();
+        InjectFragment();
+    }
+
+    private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, navigationBarFragment)
