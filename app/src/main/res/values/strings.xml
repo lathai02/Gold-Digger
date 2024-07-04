@@ -12,5 +12,12 @@
     <string name="add_navigation_bar">Add</string>
     <string name="map_navigation_bar">Map</string>
     <string name="profile_navigation_bar">Profile</string>
+    <string name="amount">Amount</string>
+    <string name="revenue">Revenue\n</string>
+    <string name="done_content_description">Done</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="pick_category">Pick Category</string>
+    <string name="submit">Submit</string>
 
 </resources>

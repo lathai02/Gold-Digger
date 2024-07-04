@@ -23,7 +23,7 @@
             android:padding="20dp">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/imageButtonRevenue"
                 android:layout_width="152dp"
                 android:layout_height="212dp"
                 android:layout_marginStart="20dp"
@@ -35,7 +35,7 @@
                 app:srcCompat="@drawable/ic_add_black" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/imageButtonExpense"
                 android:layout_width="152dp"
                 android:layout_height="212dp"
                 android:layout_marginTop="50dp"
