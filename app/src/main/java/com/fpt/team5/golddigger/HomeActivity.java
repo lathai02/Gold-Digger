@@ -35,19 +35,23 @@ public class HomeActivity extends AppCompatActivity {
 
         BindingView();
         BindingAction();
+        InjectFragment();
+    }
+
+    private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, overviewFragment)
                 .commit();
     }
 
-    private void BindingView(){
-        if (overviewFragment == null){
+    private void BindingView() {
+        if (overviewFragment == null) {
             overviewFragment = new NaviagtionBarFragment();
         }
     }
 
-    private void BindingAction(){
+    private void BindingAction() {
 
     }
 }

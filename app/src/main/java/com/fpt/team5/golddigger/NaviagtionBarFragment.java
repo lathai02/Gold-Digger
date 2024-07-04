@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,39 +32,62 @@ public class NaviagtionBarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         bindingView();
         bindingAction();
+        setDefaultNavigationTab();
+
+    }
+
+    private void setDefaultNavigationTab() {
+        editor.putInt("selected_item_id", R.id.navigation_home);
+        editor.apply();
     }
 
     private void bindingAction() {
+        onNavigationItemSelected();
+    }
+
+    private void onNavigationItemSelected() {
         int selectedItemId = pref.getInt("selected_item_id", R.id.navigation_home);
         bottomNavigationView.setSelectedItemId(selectedItemId);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this::OnNavigationItemSelected);
+    }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            Intent intent = null;
-            int itemId = item.getItemId();
+    private boolean OnNavigationItemSelected(MenuItem item) {
+        Intent intent = null;
+        int itemId = item.getItemId();
 
-            editor.putInt("selected_item_id", itemId);
-            editor.apply();
+        editor.putInt("selected_item_id", itemId);
+        editor.apply();
 
-            if (itemId == R.id.navigation_home) {
-                intent = new Intent(getActivity(), HomeActivity.class);
-            } else if (itemId == R.id.navigation_add) {
-                intent = new Intent(getActivity(), AddActivity.class);
-            }
+        if (itemId == R.id.navigation_home) {
+            intent = new Intent(getActivity(), HomeActivity.class);
+        } else if (itemId == R.id.navigation_add) {
+            intent = new Intent(getActivity(), AddActivity.class);
+        }
 
-            if (intent != null) {
-                startActivity(intent);
+        if (intent != null) {
+            startActivity(intent);
+            return true;
+        }
 
-                return true;
-            }
-            return false;
-        });
+        return false;
     }
 
     private void bindingView() {
-        bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
-        pref = getActivity().getSharedPreferences("my_pref", Context.MODE_PRIVATE);
+        if (getView() != null) {
+            bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
+        } else {
+            Log.e("NavBarFragment", "getView() returned null");
+        }
+
+        if (getActivity() != null) {
+            pref = getActivity().getSharedPreferences("my_pref", Context.MODE_PRIVATE);
+        } else {
+            Log.e("NavBarFragment", "getActivity() returned null");
+        }
+
         editor = pref.edit();
     }
 }
