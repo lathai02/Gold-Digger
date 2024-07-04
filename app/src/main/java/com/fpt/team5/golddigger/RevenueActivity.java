@@ -1,8 +1,9 @@
 package com.fpt.team5.golddigger;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
@@ -13,10 +14,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-public class AddActivity extends AppCompatActivity {
+public class RevenueActivity extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
-    private ImageButton imgBtnRevenue;
-    private ImageButton imgBtnExpense;
+    private ImageButton imgBtnDone;
+    private EditText edtAmount;
+    private EditText edtCategory;
+    private EditText edtDescription;
+    private EditText edtDate;
+
+    private Button btnSubmit;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -30,19 +36,17 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        setContentView(R.layout.activity_revenue);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_revenue), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+
+
         BindingView();
         BindingAction();
-        InjectFragment();
-    }
-
-    private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, navigationBarFragment)
@@ -50,17 +54,21 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void BindingAction() {
-        imgBtnRevenue.setOnClickListener(this::onBtnRevenueClick);
+        imgBtnDone.setOnClickListener(this::onSubmit);
+        btnSubmit.setOnClickListener(this::onSubmit);
     }
 
-    private void onBtnRevenueClick(View view) {
-        Intent i = new Intent(this,RevenueActivity.class);
-        startActivity(i);
+    private void onSubmit(View view) {
+
     }
 
     private void BindingView() {
-        imgBtnExpense = findViewById(R.id.imageButtonExpense);
-        imgBtnRevenue = findViewById(R.id.imageButtonRevenue);
+        edtAmount = findViewById(R.id.edtAmountRevenue);
+        edtCategory = findViewById(R.id.edtCategory);
+        edtDate = findViewById(R.id.edtDate);
+        edtDescription = findViewById(R.id.edtDescription);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        imgBtnDone = findViewById(R.id.imgBtnDone);
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
         }
