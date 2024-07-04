@@ -36,6 +36,7 @@ public class NaviagtionBarFragment extends Fragment {
         bindingView();
         bindingAction();
         setDefaultNavigationTab();
+
     }
 
     private void setDefaultNavigationTab() {
