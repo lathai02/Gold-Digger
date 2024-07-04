@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -35,13 +36,6 @@ public class NaviagtionBarFragment extends Fragment {
 
         bindingView();
         bindingAction();
-        setDefaultNavigationTab();
-
-    }
-
-    private void setDefaultNavigationTab() {
-        editor.putInt("selected_item_id", R.id.navigation_home);
-        editor.apply();
     }
 
     private void bindingAction() {

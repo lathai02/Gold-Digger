@@ -1,6 +1,9 @@
 package com.fpt.team5.golddigger;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -13,6 +16,9 @@ import androidx.fragment.app.Fragment;
 public class HomeActivity extends AppCompatActivity {
 
     private NaviagtionBarFragment overviewFragment;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences pref;
+    private Fragment navigationBarFragment;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -35,7 +41,13 @@ public class HomeActivity extends AppCompatActivity {
 
         BindingView();
         BindingAction();
+        setDefaultNavigationTab();
         InjectFragment();
+    }
+
+    private void setDefaultNavigationTab() {
+        editor.putInt("selected_item_id", R.id.navigation_home);
+        editor.apply();
     }
 
     private void InjectFragment() {
@@ -49,6 +61,9 @@ public class HomeActivity extends AppCompatActivity {
         if (overviewFragment == null) {
             overviewFragment = new NaviagtionBarFragment();
         }
+
+        pref = getSharedPreferences("my_pref", Context.MODE_PRIVATE);
+        editor = pref.edit();
     }
 
     private void BindingAction() {
