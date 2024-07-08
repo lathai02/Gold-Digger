@@ -37,7 +37,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         SubCategory sc = subCategories.get(position);
-        holder.setProduct(sc);
+        holder.setSubCategory(sc);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
             bindingAction();
         }
 
-        public void setProduct(SubCategory subCategory) {
+        public void setSubCategory(SubCategory subCategory) {
             sc = subCategory;
             subCategoryButton.setText(subCategory.getTitle());
         }

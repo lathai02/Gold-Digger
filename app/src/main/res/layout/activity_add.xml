@@ -32,10 +32,10 @@
                 android:contentDescription="@string/add_activity_income"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:srcCompat="@drawable/ic_add_black" />
+                app:srcCompat="@drawable/ic_category_income" />
 
             <ImageButton
-                android:id="@+id/imageButtonExpense"
+                android:id="@+id/categoryIbtn"
                 android:layout_width="152dp"
                 android:layout_height="212dp"
                 android:layout_marginTop="50dp"
@@ -44,7 +44,7 @@
                 android:contentDescription="@string/add_activity_expense"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:srcCompat="@drawable/baseline_minimize_24" />
+                app:srcCompat="@drawable/ic_category_expense" />
 
             <TextView
                 android:id="@+id/textView"
@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageButtonRevenue" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/categoryNameTv"
                 android:layout_width="152dp"
                 android:layout_height="31dp"
                 android:layout_marginTop="10dp"
@@ -83,7 +83,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageButtonExpense" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryIbtn" />
 
             <ImageButton
                 android:id="@+id/imageButton3"
@@ -95,7 +95,7 @@
                 android:contentDescription="@string/add_activity_income"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
-                app:srcCompat="@drawable/ic_lend" />
+                app:srcCompat="@drawable/ic_category_lending" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -119,8 +119,8 @@
                 android:background="@drawable/image_button_background"
                 android:contentDescription="@string/add_activity_income"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                app:srcCompat="@drawable/ic_borrow" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryNameTv"
+                app:srcCompat="@drawable/ic_category_borrow" />
 
             <TextView
                 android:id="@+id/textView4"

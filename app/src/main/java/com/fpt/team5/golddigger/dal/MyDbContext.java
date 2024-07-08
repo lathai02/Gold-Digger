@@ -146,6 +146,11 @@ public class MyDbContext extends SQLiteOpenHelper {
         return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(cateId)});
     }
 
+    public Cursor getAllCate() {
+        String sql = "SELECT * FROM " + TABLE_CATEGORY ;
+        return getReadableDatabase().rawQuery(sql, null);
+    }
+
     public Cursor getAllContact() {
         String sql = "select * from " + TABLE_CATEGORY;
         return getReadableDatabase().rawQuery(sql, null);

@@ -12,12 +12,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.fpt.team5.golddigger.Model.SubCategory;
-import com.fpt.team5.golddigger.dal.MyDbContext;
-
-import java.util.List;
 
 public class AddActivity extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
@@ -76,7 +70,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void BindingView() {
-        imgBtnExpense = findViewById(R.id.imageButtonExpense);
+        imgBtnExpense = findViewById(R.id.categoryIbtn);
         imgBtnRevenue = findViewById(R.id.imageButtonRevenue);
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
