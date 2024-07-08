@@ -9,19 +9,40 @@ public class Transaction {
     private int categoryId;
     private int subCategoryId;
     private String createDate;
+    private String dueDate;
 
     public Transaction() {
     }
 
-    public Transaction(int id, String title, int userId, int categoryId, String amount, String description, int subCategoryId, String createDate) {
+    public Transaction(int id, String title, int userId, String description, String amount, int categoryId, int subCategoryId, String createDate) {
         this.id = id;
         this.title = title;
         this.userId = userId;
+        this.description = description;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
+        this.createDate = createDate;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Transaction(String dueDate, String createDate, int subCategoryId, int categoryId, String amount, String description, int userId, String title, int id) {
+        this.dueDate = dueDate;
+        this.createDate = createDate;
+        this.subCategoryId = subCategoryId;
         this.categoryId = categoryId;
         this.amount = amount;
         this.description = description;
-        this.subCategoryId = subCategoryId;
-        this.createDate = createDate;
+        this.userId = userId;
+        this.title = title;
+        this.id = id;
     }
 
     public String getCreateDate() {
