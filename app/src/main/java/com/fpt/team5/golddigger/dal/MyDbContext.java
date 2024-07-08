@@ -237,6 +237,22 @@ public class MyDbContext extends SQLiteOpenHelper {
 
     }
 
+    public boolean updateUser(int id, String name, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_PHONE, phone); // Assuming "phone" here is the new value for the email column
+
+        // Update the user with the specified ID
+        int rowsAffected = db.update(TABLE_USER,
+                values,
+                COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)});
+
+        db.close();
+        return rowsAffected > 0;
+    }
+
 
 //    @Override
 //    public void onOpen(SQLiteDatabase db) {
