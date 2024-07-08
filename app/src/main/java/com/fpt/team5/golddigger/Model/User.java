@@ -6,16 +6,26 @@ public class User {
     private String phone;
     private String name;
     private String password;
+    private int imageId;
 
     public User() {
     }
 
-    public User(int id, String email, String phone, String name, String password) {
+    public User(int id, String email, String phone, String name, String password, int imageId) {
         this.id = id;
         this.email = email;
         this.phone = phone;
         this.name = name;
         this.password = password;
+        this.imageId = imageId;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public int getId() {

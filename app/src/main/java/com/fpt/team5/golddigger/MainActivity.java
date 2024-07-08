@@ -45,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
         homeBtn.setOnClickListener(this::onClickHomeBtn);
         Cursor c = myDbContext.getAllContact();
 
+
+
         if (c.moveToFirst()) {
             do {
                 int id = c.getInt(0);
-                String title = c.getString(1);
+                String title = c.getString(2);
+                int imageId = c.getInt(1);
 
-                Log.d("THAILA.debug", id + " --- " + title);
+                Log.d("THAILA.debug", id + " --- " + title + " ---" + imageId);
 
             } while (c.moveToNext());
 

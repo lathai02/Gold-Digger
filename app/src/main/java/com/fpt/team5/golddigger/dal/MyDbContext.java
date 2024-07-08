@@ -26,6 +26,7 @@ public class MyDbContext extends SQLiteOpenHelper {
     private static final String TABLE_USER = "users";
     private static final String TABLE_SUBCATEGORY = "subCategories";
     private static final String TABLE_BUDGET = "budgets";
+    private static final String TABLE_NOTIFICATION = "notifications";
     private static final String PATTERN = "yyyy-MM-dd";
     private static final String PATTERN_ORIGIN = "yyyy-MM-dd HH:mm:ss";
     private static int DATABASE_VERSION = 1;
@@ -54,6 +55,7 @@ public class MyDbContext extends SQLiteOpenHelper {
         String sqlCreateCategory = "CREATE TABLE " +
                 TABLE_CATEGORY +
                 "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "ImageId INTEGER," +
                 "Title TEXT)";
         db.execSQL(sqlCreateCategory);
 
@@ -61,6 +63,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 TABLE_SUBCATEGORY +
                 "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "CategoryId INTEGER," +
+                "ImageId INTEGER," +
                 "Title TEXT," +
                 "FOREIGN KEY(CategoryId) REFERENCES Categories(Id))";
         db.execSQL(sqlCreateSubCategory);
@@ -71,6 +74,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "Email INTEGER," +
                 "Phone TEXT," +
                 "Name TEXT," +
+                "ImageId INTEGER," +
                 "Password TEXT)";
         db.execSQL(sqlCreateUser);
 
@@ -80,16 +84,24 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "Title TEXT," +
                 "Amount FLOAT," +
                 "UserId INTEGER," +
-                "Time TEXT," +
                 "CreateDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
         db.execSQL(sqlCreateBudget);
 
-        String sqlInsertDefaultData = "INSERT INTO " + TABLE_CATEGORY + " (Title) VALUES " +
-                "('Income')," +
-                "('Expense')," +
-                "('Borrow')," +
-                "('Lending')";
+        String sqlCreateNotification = "CREATE TABLE " +
+                TABLE_NOTIFICATION +
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Title TEXT," +
+                "UserId INTEGER," +
+                "CreateDate DATETIME," +
+                "FOREIGN KEY(UserId) REFERENCES Users(Id))";
+        db.execSQL(sqlCreateNotification);
+
+        String sqlInsertDefaultData = "INSERT INTO " + TABLE_CATEGORY + " (Title,ImageId) VALUES " +
+                "('Income',1)," +
+                "('Expense',2)," +
+                "('Borrow',3)," +
+                "('Lending',4)";
         db.execSQL(sqlInsertDefaultData);
 
         String sqlInsertDefaultSubCategories = "INSERT INTO " + TABLE_SUBCATEGORY + " (CategoryId, Title) VALUES " +
