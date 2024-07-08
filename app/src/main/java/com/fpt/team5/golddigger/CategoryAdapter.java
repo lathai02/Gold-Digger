@@ -78,7 +78,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.VH> {
 
         public void setCategory(Category category) {
             c = category;
-//            categoryButton.setImageResource(category.getImageId());
+            categoryImageButton.setImageResource(category.getImageId());
             categoryName.setText(category.getTitle());
         }
     }
