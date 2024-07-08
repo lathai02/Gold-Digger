@@ -1,12 +1,12 @@
 package com.fpt.team5.golddigger.Model;
 
-public class Budget {
+public class Notification {
     private int id;
     private String title;
     private int userId;
     private String createDate;
 
-    public Budget(int id, String title, int userId, String createDate) {
+    public Notification(int id, String title, int userId, String createDate) {
         this.id = id;
         this.title = title;
         this.userId = userId;

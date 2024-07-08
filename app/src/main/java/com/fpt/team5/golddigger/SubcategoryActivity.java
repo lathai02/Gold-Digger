@@ -85,9 +85,10 @@ public class SubcategoryActivity extends AppCompatActivity {
             do {
                 int id = c.getInt(0);
                 int cateId = c.getInt(1);
-                String title = c.getString(2);
+                int imageId = c.getInt(2);
+                String title = c.getString(3);
 
-                SubCategory subCategory = new SubCategory(id, cateId, title);
+                SubCategory subCategory = new SubCategory(id,cateId,title,imageId);
                 subCategories.add(subCategory);
             } while (c.moveToNext());
 
