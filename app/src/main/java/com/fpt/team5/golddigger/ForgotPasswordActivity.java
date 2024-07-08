@@ -39,7 +39,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void onBtnClickResetPassword(View view) {
-        String emailPhone = etEmailPhone.getText().toString().trim();
+//        Intent intent = new Intent(this, ResetActivity.class);
+//        startActivity(intent);
     }
 
     @Override
