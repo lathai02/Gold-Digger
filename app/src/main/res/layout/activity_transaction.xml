@@ -2,55 +2,222 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_revenue"
-    tools:context=".RevenueActivity">
+    android:background="@color/blue"
+    tools:context=".TransactionActivity">
 
     <TextView
-        android:id="@+id/editTextText411111111111111111111"
-        android:layout_width="80dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_edittext"
-        android:ems="10"
-        android:gravity="center|center_horizontal|center_vertical"
-        android:inputType="text"
-        android:padding="10dp"
-        android:text="Tittle"
-        android:textColor="#FFFFFF"
+        android:id="@+id/headerSubCategoryTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Salary"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/headerCategoryTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="Income"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextText133"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_edittext"
-        android:ems="10"
-        android:gravity="center|center_horizontal|center_vertical"
-        android:inputType="text"
-        android:padding="10dp"
-        android:text="tiền đi chợ"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/editTextText411111111111111111111"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnSubmit"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="550dp"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="240dp"
-        android:backgroundTint="@color/blue"
-        android:text="@string/submit"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerSubCategoryTv">
+
+        <TextView
+            android:id="@+id/TextView1"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Title"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="PRO1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/TextView2"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Descrip"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView1" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="PRO1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView2"
+            app:layout_constraintTop_toBottomOf="@+id/editText1" />
+
+        <TextView
+            android:id="@+id/TextView3"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Amount"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView2" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="number"
+            android:padding="10dp"
+            android:text="PRO1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView3"
+            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+        <TextView
+            android:id="@+id/TextView4"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="CreateDate"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView3" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="date"
+            android:padding="10dp"
+            android:text="PRO1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView3"
+            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+        <TextView
+            android:id="@+id/TextView5"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="DueDate"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView4" />
+
+        <EditText
+            android:id="@+id/editText5"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="date"
+            android:padding="10dp"
+            android:text="PRO1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView5"
+            app:layout_constraintTop_toBottomOf="@+id/editText4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegister"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="50dp"
+            android:backgroundTint="@color/white"
+            android:text="ADD"
+            android:textColor="@color/gold"
+            android:textSize="17sp"
+            app:cornerRadius="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView5"
+            app:layout_constraintWidth_percent="0.8" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -59,4 +226,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toEndOf="@+id/headerCategoryTv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_right" />
 </androidx.constraintlayout.widget.ConstraintLayout>

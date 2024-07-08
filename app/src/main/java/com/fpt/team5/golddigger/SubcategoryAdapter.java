@@ -21,11 +21,13 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     private List<SubCategory> subCategories;
     private Context context;
     private LayoutInflater inflater;
+    private String category;
 
-    public SubcategoryAdapter(List<SubCategory> subCategories, Context context) {
+    public SubcategoryAdapter(List<SubCategory> subCategories, Context context, String category) {
         this.subCategories = subCategories;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.category = category;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     protected class VH extends RecyclerView.ViewHolder {
 
         private ImageButton subcategoryImageButton;
-        private TextView subcategoryName;;
+        private TextView subcategoryName;
 
         private SubCategory sc;
 
@@ -60,14 +62,15 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
         }
 
         private void bindingAction() {
-            itemView.setOnClickListener(this::onItemViewClick);
+            subcategoryImageButton.setOnClickListener(this::onSubcategoryImageButtonClick);
         }
 
-        private void onItemViewClick(View view) {
-//            Intent i = new Intent(context, DetailActivity.class);
-//            i.putExtra("productName", sc.getTitle());
-//
-//            context.startActivity(i);
+        private void onSubcategoryImageButtonClick(View view) {
+            Intent i = new Intent(context, TransactionActivity.class);
+            i.putExtra("subCategory", sc.getTitle());
+            i.putExtra("category", category);
+
+            context.startActivity(i);
         }
 
         public VH(@NonNull View itemView) {
@@ -80,8 +83,6 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
             sc = subCategory;
             subcategoryImageButton.setImageResource(subCategory.getImageId());
             subcategoryName.setText(subCategory.getTitle());
-
-
         }
     }
 }

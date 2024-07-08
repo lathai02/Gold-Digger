@@ -3,7 +3,6 @@ package com.fpt.team5.golddigger;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.SubCategory;
@@ -73,12 +71,12 @@ public class SubcategoryActivity extends AppCompatActivity {
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
         }
-        headerTv = findViewById(R.id.headerTv);
+        headerTv = findViewById(R.id.headerCategoryTv);
     }
 
     private void initRcv() {
         getSubCategories();
-        adapter = new SubcategoryAdapter(subCategories, this);
+        adapter = new SubcategoryAdapter(subCategories, this, cateName);
         rcv.setAdapter(adapter);
         rcv.setLayoutManager(new GridLayoutManager(this, 2));
     }
