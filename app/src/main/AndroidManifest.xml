@@ -15,7 +15,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"/>
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -32,17 +31,19 @@
             android:exported="true" />
         <activity
             android:name=".HomeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".SubcategoryActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".RevenueActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AddActivity"
-            android:exported="true"></activity>
-
+            android:exported="true" />
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="true" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

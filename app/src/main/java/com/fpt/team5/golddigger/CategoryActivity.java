@@ -3,7 +3,6 @@ package com.fpt.team5.golddigger;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,19 +13,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpt.team5.golddigger.Model.Category;
 import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubcategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
     private RecyclerView rcv;
-    private List<SubCategory> subCategories;
-    private SubcategoryAdapter adapter;
+    private List<Category> categories;
+    private CategoryAdapter adapter;
     private MyDbContext dbContext;
     private int cateId;
     private NaviagtionBarFragment navigationBarFragment;
@@ -65,7 +64,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     private void bindingView() {
         rcv = findViewById(R.id.subCateRcv);
         dbContext = new MyDbContext(this);
-        subCategories = new ArrayList<>();
+        categories = new ArrayList<>();
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
         }
@@ -73,23 +72,22 @@ public class SubcategoryActivity extends AppCompatActivity {
 
     private void initRcv() {
         getSubCategories();
-        adapter = new SubcategoryAdapter(subCategories, this);
+        adapter = new CategoryAdapter(categories, this);
         rcv.setAdapter(adapter);
         rcv.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     private void getSubCategories() {
-        Cursor c = dbContext.getAllSubCateByCateId(cateId);
+        Cursor c = dbContext.getAllCate();
 
         if (c.moveToFirst()) {
             do {
                 int id = c.getInt(0);
-                int cateId = c.getInt(1);
-                int imageId = c.getInt(2);
-                String title = c.getString(3);
+                int imageId = c.getInt(1);
+                String title = c.getString(2);
 
-                SubCategory subCategory = new SubCategory(id,cateId,title,imageId);
-                subCategories.add(subCategory);
+                Category category = new Category(imageId,title,id);
+                categories.add(category);
             } while (c.moveToNext());
 
         } else {
@@ -100,6 +98,5 @@ public class SubcategoryActivity extends AppCompatActivity {
     private void onReceiveIntent() {
         Intent i = getIntent();
         cateId = i.getIntExtra("cateId", 1);
-
     }
 }
