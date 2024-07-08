@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private NaviagtionBarFragment overviewFragment;
     private String email;
+
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -115,6 +116,4 @@ public class ProfileActivity extends AppCompatActivity {
                 .replace(R.id.fragmentContainerView, overviewFragment)
                 .commit();
     }
-
-
 }

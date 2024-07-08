@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Gold Digger</string>
 
-    <string name="home_activity_welcome">Welcome An Thái!</string>
+    <string name="home_activity_welcome">Welcome</string>
     <string name="home_activity_total_balance">Total balance</string>
 
     <string name="add_activity_income">Income</string>

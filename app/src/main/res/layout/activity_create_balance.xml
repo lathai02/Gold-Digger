@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResetPasswordActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".ResetPasswordActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -14,68 +14,87 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/blue"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Reset password"
-        />
+        app:title="Create balance" />
 
     <TextView
         android:id="@+id/tvPasswordPrompt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="108dp"
-        android:text="Enter password:"
-        android:textSize="16sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Make yourself a wallet"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintWidth_percent="0.9" />
 
-    <EditText
-        android:id="@+id/etNewPassword"
+    <TextView
+        android:id="@+id/tvdsf"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_edit_text"
-        android:hint="New password"
-        android:inputType="textPassword"
-        android:padding="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="How much money do you have in your wallet?"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPasswordPrompt"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPasswordPrompt"
+        app:layout_constraintWidth_percent="0.9" />
 
     <EditText
         android:id="@+id/balanceEt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="65dp"
         android:background="@drawable/rounded_edit_text"
-        android:hint="Confirm password"
-        android:inputType="textPassword"
+        android:hint="0"
+        android:inputType="numberDecimal"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNewPassword"
+        app:layout_constraintTop_toBottomOf="@+id/tvdsf"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+    <EditText
+        android:id="@+id/titleEt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Title"
+        android:inputType="text"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceEt"
         app:layout_constraintWidth_percent="0.8" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/startBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/blue"
-        android:text="Submit"
+        android:text="START"
         android:textColor="@android:color/white"
         android:textSize="17sp"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/balanceEt"
+        app:layout_constraintTop_toBottomOf="@+id/titleEt"
         app:layout_constraintWidth_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

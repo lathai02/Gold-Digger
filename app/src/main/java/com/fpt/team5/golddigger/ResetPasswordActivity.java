@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -27,8 +26,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void BingdingView() {
         etNewPassword = findViewById(R.id.etNewPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        btnResetPassword = findViewById(R.id.btnResetPassword);
+        etConfirmPassword = findViewById(R.id.balanceEt);
+        btnResetPassword = findViewById(R.id.startBtn);
         context = new MyDbContext(this);
     }
 

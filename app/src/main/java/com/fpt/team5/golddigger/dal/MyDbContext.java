@@ -10,6 +10,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 
+import com.fpt.team5.golddigger.Model.Budget;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.Model.User;
 
@@ -141,10 +142,31 @@ public class MyDbContext extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getBudgetByUserId(int userId) {
+        String sql = "SELECT * FROM " + TABLE_BUDGET + " WHERE userId = ?";
+        return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
+    }
+
+    public long addBudget(Budget budget) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Title", budget.getTitle());
+        values.put("Amount", budget.getAmount());
+        values.put("UserId", budget.getUserId());
+        values.put("CreateDate", budget.getCreateDate());
+
+        long newRowId = db.insert(TABLE_BUDGET, null, values);
+        db.close();
+        return newRowId;
+    }
+
+
     public Cursor getAllSubCateByCateId(int cateId) {
         String sql = "SELECT * FROM " + TABLE_SUBCATEGORY + " WHERE CategoryId = ?";
         return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(cateId)});
     }
+
+
 
     public Cursor getAllCate() {
         String sql = "SELECT * FROM " + TABLE_CATEGORY ;
@@ -246,7 +268,7 @@ public class MyDbContext extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
-        values.put(COLUMN_PHONE, phone); // Assuming "phone" here is the new value for the email column
+        values.put(COLUMN_PHONE, phone);
 
         // Update the user with the specified ID
         int rowsAffected = db.update(TABLE_USER,

@@ -2,8 +2,11 @@ package com.fpt.team5.golddigger;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -13,12 +16,22 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.fpt.team5.golddigger.Model.Budget;
+import com.fpt.team5.golddigger.Model.SubCategory;
+import com.fpt.team5.golddigger.dal.MyDbContext;
+
+import java.sql.Date;
+
 public class HomeActivity extends AppCompatActivity {
 
     private NaviagtionBarFragment overviewFragment;
     private SharedPreferences.Editor editor;
     private SharedPreferences pref;
     private Fragment navigationBarFragment;
+    private TextView welcomeTv;
+    private TextView balanceTv;
+    private MyDbContext dbContext;
+    private Budget b;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -43,6 +56,29 @@ public class HomeActivity extends AppCompatActivity {
         BindingAction();
         setDefaultNavigationTab();
         InjectFragment();
+        setValues();
+    }
+
+    private void setValues() {
+       Cursor c = dbContext.getBudgetByUserId(pref.getInt("userId", 0));
+        if (c.moveToFirst()) {
+            do {
+                int id = c.getInt(0);
+                String title = c.getString(1);
+                float amount = c.getFloat(2);
+                int userId = c.getInt(3);
+                String date = c.getString(4);
+
+                b = new Budget(title, userId, date, amount);
+
+            } while (c.moveToNext());
+
+        } else {
+            Toast.makeText(this, "Không có bản ghi nào cả!", Toast.LENGTH_SHORT).show();
+        }
+
+        welcomeTv.setText("Welcome " + pref.getString("name", ""));
+        balanceTv.setText(b.getFormattedAmount() + " đ");
     }
 
     private void setDefaultNavigationTab() {
@@ -61,9 +97,11 @@ public class HomeActivity extends AppCompatActivity {
         if (overviewFragment == null) {
             overviewFragment = new NaviagtionBarFragment();
         }
-
         pref = getSharedPreferences("my_pref", Context.MODE_PRIVATE);
         editor = pref.edit();
+        welcomeTv = findViewById(R.id.welcomeTv);
+        balanceTv = findViewById(R.id.balanceTv);
+        dbContext = new MyDbContext(this);
     }
 
     private void BindingAction() {

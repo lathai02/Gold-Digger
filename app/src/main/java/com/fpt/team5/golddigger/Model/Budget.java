@@ -1,16 +1,40 @@
 package com.fpt.team5.golddigger.Model;
 
+import java.text.DecimalFormat;
+
 public class Budget {
     private int id;
     private String title;
     private int userId;
     private String createDate;
+    private float amount;
 
-    public Budget(int id, String title, int userId, String createDate) {
+    public Budget(int id, String title, int userId, String createDate, float amount) {
         this.id = id;
         this.title = title;
         this.userId = userId;
         this.createDate = createDate;
+        this.amount = amount;
+    }
+
+    public Budget(String title, int userId, String createDate, float amount) {
+        this.title = title;
+        this.userId = userId;
+        this.createDate = createDate;
+        this.amount = amount;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public String getFormattedAmount() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(amount);
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
     public int getId() {
