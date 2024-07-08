@@ -1,9 +1,9 @@
 package com.fpt.team5.golddigger;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -12,17 +12,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpt.team5.golddigger.Model.Category;
 import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AddActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
+    private RecyclerView rcv;
+    private List<Category> categories;
+    private CategoryAdapter adapter;
+    private MyDbContext dbContext;
+    private int cateId;
     private NaviagtionBarFragment navigationBarFragment;
-    private ImageButton imgBtnRevenue;
-    private ImageButton imgBtnExpense;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -36,18 +42,17 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_subcategory);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        BindingView();
-        BindingAction();
+        bindingView();
         InjectFragment();
+        initRcv();
     }
-
     private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -55,31 +60,37 @@ public class AddActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void BindingAction() {
-
-        imgBtnRevenue.setOnClickListener(this::onBtnRevenueClick);
-        imgBtnExpense.setOnClickListener(this::onBtnExpenseClick);
-    }
-
-    private void onBtnExpenseClick(View view) {
-        Intent i = new Intent(this, SubcategoryActivity.class);
-        i.putExtra("cateId", 2);
-        i.putExtra("fucHeader", "Expense");
-        startActivity(i);
-    }
-
-    private void onBtnRevenueClick(View view) {
-        Intent i = new Intent(this, SubcategoryActivity.class);
-        i.putExtra("cateId", 1);
-        i.putExtra("fucHeader", "Income");
-        startActivity(i);
-    }
-
-    private void BindingView() {
-        imgBtnExpense = findViewById(R.id.imageButtonExpense);
-        imgBtnRevenue = findViewById(R.id.imageButtonRevenue);
+    private void bindingView() {
+        rcv = findViewById(R.id.subCateRcv);
+        dbContext = new MyDbContext(this);
+        categories = new ArrayList<>();
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
+        }
+    }
+
+    private void initRcv() {
+        getSubCategories();
+        adapter = new CategoryAdapter(categories, this);
+        rcv.setAdapter(adapter);
+        rcv.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
+    private void getSubCategories() {
+        Cursor c = dbContext.getAllCate();
+
+        if (c.moveToFirst()) {
+            do {
+                int id = c.getInt(0);
+                int imageId = c.getInt(1);
+                String title = c.getString(2);
+
+                Category category = new Category(imageId,title,id);
+                categories.add(category);
+            } while (c.moveToNext());
+
+        } else {
+            Toast.makeText(this, "Không có bản ghi nào cả!", Toast.LENGTH_SHORT).show();
         }
     }
 }

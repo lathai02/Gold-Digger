@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +30,8 @@ public class SubcategoryActivity extends AppCompatActivity {
     private SubcategoryAdapter adapter;
     private MyDbContext dbContext;
     private int cateId;
+    private String cateName;
+    private TextView headerTv;
     private NaviagtionBarFragment navigationBarFragment;
 
     @Override
@@ -55,6 +58,7 @@ public class SubcategoryActivity extends AppCompatActivity {
         onReceiveIntent();
         initRcv();
     }
+
     private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -69,6 +73,7 @@ public class SubcategoryActivity extends AppCompatActivity {
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
         }
+        headerTv = findViewById(R.id.headerTv);
     }
 
     private void initRcv() {
@@ -88,7 +93,7 @@ public class SubcategoryActivity extends AppCompatActivity {
                 int imageId = c.getInt(2);
                 String title = c.getString(3);
 
-                SubCategory subCategory = new SubCategory(id,cateId,title,imageId);
+                SubCategory subCategory = new SubCategory(id, cateId, title, imageId);
                 subCategories.add(subCategory);
             } while (c.moveToNext());
 
@@ -100,5 +105,8 @@ public class SubcategoryActivity extends AppCompatActivity {
     private void onReceiveIntent() {
         Intent i = getIntent();
         cateId = i.getIntExtra("cateId", 1);
+        cateName = i.getStringExtra("cateName");
+
+        headerTv.setText(cateName);
     }
 }
