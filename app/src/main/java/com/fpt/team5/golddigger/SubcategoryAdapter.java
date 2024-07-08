@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,12 +48,15 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
     protected class VH extends RecyclerView.ViewHolder {
 
-        private Button subCategoryButton;;
+        private ImageButton subcategoryImageButton;
+        private TextView subcategoryName;;
 
         private SubCategory sc;
 
         private void bindingView() {
-            subCategoryButton = itemView.findViewById(R.id.subCateBtn);
+
+            subcategoryImageButton = itemView.findViewById(R.id.subcategoryIbtn);
+            subcategoryName = itemView.findViewById(R.id.subcategoryNameTv);
         }
 
         private void bindingAction() {
@@ -74,7 +78,10 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
         public void setSubCategory(SubCategory subCategory) {
             sc = subCategory;
-            subCategoryButton.setText(subCategory.getTitle());
+            subcategoryImageButton.setImageResource(subCategory.getImageId());
+            subcategoryName.setText(subCategory.getTitle());
+
+
         }
     }
 }

@@ -286,6 +286,24 @@ public class MyDbContext extends SQLiteOpenHelper {
         return rowsAffected > 0; // Return true if at least one row was updated
     }
 
+    public void updateCategoryImageId(int categoryId, int imageId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("imageId", imageId);
+
+        db.update(TABLE_CATEGORY, values, "id = ?", new String[]{String.valueOf(categoryId)});
+        db.close();
+    }
+
+    public void updateSubcategoryImageId(int subcategoryId, int imageId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("imageId", imageId);
+
+        db.update(TABLE_SUBCATEGORY, values, "id = ?", new String[]{String.valueOf(subcategoryId)});
+        db.close();
+    }
+
 
 //    @Override
 //    public void onOpen(SQLiteDatabase db) {

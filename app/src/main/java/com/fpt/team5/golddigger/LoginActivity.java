@@ -29,8 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvForgotPassword;
     private TextView tvRegister;
-    private ImageView loginByFacebook;
-    private ImageView loginByGoogle;
+    private static final String PREF_FIRST_RUN = "FirstRun";
     private SharedPreferences.Editor editor;
     private SharedPreferences pref;
     private MyDbContext context;
@@ -41,8 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
         tvRegister = findViewById(R.id.tvRegister);
-        loginByFacebook = findViewById(R.id.btnFacebook);
-        loginByGoogle = findViewById(R.id.btnGoogle);
         context = new MyDbContext(this);
         pref = getSharedPreferences("my_pref", Context.MODE_PRIVATE);
         editor = pref.edit();
@@ -96,6 +93,46 @@ public class LoginActivity extends AppCompatActivity {
 
         bindingView();
         bindingAction();
+        if (isFirstRun()) {
+            initializeCategories();
+            setFirstRunFlag();
+        }
+
+
+    }
+
+    private boolean isFirstRun() {
+        SharedPreferences prefs = getSharedPreferences("my_pref", MODE_PRIVATE);
+        return prefs.getBoolean(PREF_FIRST_RUN, true);
+    }
+
+    private void setFirstRunFlag() {
+        SharedPreferences prefs = getSharedPreferences("my_pref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(PREF_FIRST_RUN, false);
+        editor.apply();
+    }
+
+    private void initializeCategories() {
+        int[] imageIds = {R.drawable.ic_category_income,R.drawable.ic_category_expense,R.drawable.ic_category_borrow,R.drawable.ic_category_lending};
+
+        int[] categoryIds = {1, 2, 3,4};
+
+        for (int i=0;i<4;i++) {
+            context.updateCategoryImageId(categoryIds[i], imageIds[i]);
+        }
+
+        int[] imageIds2 = {R.drawable.ic_subcategory_income_salary,R.drawable.ic_subcategory_income_family
+        ,R.drawable.ic_subcategory_income_bonus,R.drawable.ic_subcategory_income_interest,R.drawable.ic_subcategory_income_others
+        ,R.drawable.ic_subcategory_expense_foodanddining,R.drawable.ic_subcategory_expense_utilities,R.drawable.ic_subcategory_expense_transport,
+        R.drawable.ic_subcategory_expense_clothing,R.drawable.ic_subcategory_expense_personal,R.drawable.ic_subcategory_expense_entertainment
+        ,R.drawable.ic_subcategory_expense_home,R.drawable.ic_subcategory_expense_kids,R.drawable.ic_category_borrow,R.drawable.ic_category_lending};
+        int[] subcategoryIds = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        for (int i=0;i<15;i++) {
+            context.updateSubcategoryImageId(subcategoryIds[i], imageIds2[i]);
+        }
+
+
     }
 
     @Override
