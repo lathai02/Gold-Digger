@@ -99,7 +99,7 @@
         android:layout_height="63dp"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/blue"
-        android:text="Cập nhật"
+        android:text="Update"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

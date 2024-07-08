@@ -258,6 +258,34 @@ public class MyDbContext extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
+    public boolean checkEmailExist(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USER,
+                new String[]{COLUMN_EMAIL},
+                COLUMN_EMAIL + "=?",
+                new String[]{email},
+                null, null, null);
+
+        boolean exists = (cursor.getCount() > 0); // Check if at least one record is returned
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    public boolean resetPassword(String email, String newPass) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PASSWORD, newPass);
+
+        int rowsAffected = db.update(TABLE_USER,
+                values,
+                COLUMN_EMAIL + "=?",
+                new String[]{email});
+
+        db.close();
+        return rowsAffected > 0; // Return true if at least one row was updated
+    }
+
 
 //    @Override
 //    public void onOpen(SQLiteDatabase db) {

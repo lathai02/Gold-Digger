@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,34 +14,35 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.fpt.team5.golddigger.dal.MyDbContext;
+
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText etEmailPhone;
     private Button btnResetPassword;
-    private Toolbar toolbar;
+    private MyDbContext context;
+
     private void BingdingView() {
         etEmailPhone = findViewById(R.id.etEmailPhone);
         btnResetPassword = findViewById(R.id.btnResetPassword);
-        toolbar = findViewById(R.id.toolbar);
+        context = new MyDbContext(this);
     }
 
     private void BingdingAction() {
         btnResetPassword.setOnClickListener(this::onBtnClickResetPassword);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
-    @Override
-    public void onBackPressed() {
-        // Navigate back to LoginActivity
-        super.onBackPressed();
-        Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     private void onBtnClickResetPassword(View view) {
-//        Intent intent = new Intent(this, ResetActivity.class);
-//        startActivity(intent);
+        String email = etEmailPhone.getText().toString();
+        if(context.checkEmailExist(email)) {
+            Intent i = new Intent(this,ResetPasswordActivity.class);
+            i.putExtra("email",email);
+            i.putExtra("father","Login");
+            startActivity(i);
+        }else{
+            Toast.makeText(this, "Email is not registered", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

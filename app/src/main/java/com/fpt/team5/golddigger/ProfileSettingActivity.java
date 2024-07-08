@@ -56,6 +56,8 @@ public class ProfileSettingActivity extends AppCompatActivity {
         String phone = edtPhone.getText().toString();
         if(dbContext.updateUser(pref.getInt("userId",0),name,phone)){
             Toast.makeText(this, "Update successful!", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, ProfileActivity.class);
+            startActivity(i);
         }else{
             Toast.makeText(this, "Update failed!", Toast.LENGTH_SHORT).show();
         }
