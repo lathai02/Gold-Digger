@@ -12,6 +12,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.fpt.team5.golddigger.Model.SubCategory;
+import com.fpt.team5.golddigger.dal.MyDbContext;
+
+import java.util.List;
 
 public class AddActivity extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
@@ -50,11 +56,22 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void BindingAction() {
+
         imgBtnRevenue.setOnClickListener(this::onBtnRevenueClick);
+        imgBtnExpense.setOnClickListener(this::onBtnExpenseClick);
+    }
+
+    private void onBtnExpenseClick(View view) {
+        Intent i = new Intent(this, SubcategoryActivity.class);
+        i.putExtra("cateId", 2);
+        i.putExtra("fucHeader", "Expense");
+        startActivity(i);
     }
 
     private void onBtnRevenueClick(View view) {
-        Intent i = new Intent(this,RevenueActivity.class);
+        Intent i = new Intent(this, SubcategoryActivity.class);
+        i.putExtra("cateId", 1);
+        i.putExtra("fucHeader", "Income");
         startActivity(i);
     }
 

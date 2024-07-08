@@ -38,50 +38,50 @@ public class MyDbContext extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sqlCreateTransition = "CREATE TABLE " +
                 TABLE_TRANSACTIONS +
-                "(Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "Title TEXT,"+
-                "UserId INTEGER,"+
-                "Description TEXT,"+
-                "CategoryId INTEGER,"+
-                "SubCategoryId INTEGER,"+
-                "Amount TEXT,"+
-                "CreateDate DATETIME,"+
-                "FOREIGN KEY(UserId) REFERENCES Users(Id)," + // Assuming the Users table has Id as primary key
-                "FOREIGN KEY(CategoryId) REFERENCES Categories(Id)," + // Assuming the Categories table has Id as primary key
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Title TEXT," +
+                "UserId INTEGER," +
+                "Description TEXT," +
+                "CategoryId INTEGER," +
+                "SubCategoryId INTEGER," +
+                "Amount TEXT," +
+                "CreateDate DATETIME," +
+                "FOREIGN KEY(UserId) REFERENCES Users(Id)," +
+                "FOREIGN KEY(CategoryId) REFERENCES Categories(Id)," +
                 "FOREIGN KEY(SubCategoryId) REFERENCES SubCategories(Id))";
         db.execSQL(sqlCreateTransition);
 
         String sqlCreateCategory = "CREATE TABLE " +
                 TABLE_CATEGORY +
-                "(Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Title TEXT)";
         db.execSQL(sqlCreateCategory);
 
         String sqlCreateSubCategory = "CREATE TABLE " +
                 TABLE_SUBCATEGORY +
-                "(Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "CategoryId INTEGER,"+
-                "Title TEXT,"+
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "CategoryId INTEGER," +
+                "Title TEXT," +
                 "FOREIGN KEY(CategoryId) REFERENCES Categories(Id))";
         db.execSQL(sqlCreateSubCategory);
 
         String sqlCreateUser = "CREATE TABLE " +
                 TABLE_USER +
-                "(Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "Email INTEGER,"+
-                "Phone TEXT,"+
-                "Name TEXT,"+
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Email INTEGER," +
+                "Phone TEXT," +
+                "Name TEXT," +
                 "Password TEXT)";
         db.execSQL(sqlCreateUser);
 
-        String sqlCreateBudget = "CREATE TABLE "+
-                TABLE_BUDGET+
-                "(Id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "Title TEXT,"+
-                "Amount FLOAT,"+
-                "UserId INTEGER,"+
-                "Time TEXT,"+
-                "CreateDate DATETIME,"+
+        String sqlCreateBudget = "CREATE TABLE " +
+                TABLE_BUDGET +
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Title TEXT," +
+                "Amount FLOAT," +
+                "UserId INTEGER," +
+                "Time TEXT," +
+                "CreateDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
         db.execSQL(sqlCreateBudget);
 
@@ -115,6 +115,11 @@ public class MyDbContext extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public Cursor getAllSubCateByCateId(int cateId) {
+        String sql = "SELECT * FROM " + TABLE_SUBCATEGORY + " WHERE CategoryId = ?";
+        return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(cateId)});
     }
 
     public Cursor getAllContact() {
