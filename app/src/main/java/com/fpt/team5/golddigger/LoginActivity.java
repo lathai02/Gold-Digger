@@ -1,18 +1,26 @@
 package com.fpt.team5.golddigger;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.fpt.team5.golddigger.Model.User;
+import com.fpt.team5.golddigger.dal.MyDbContext;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvRegister;
     private ImageView loginByFacebook;
     private ImageView loginByGoogle;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences pref;
+    private MyDbContext context;
 
     private void bindingView(){
         etEmailPhone = findViewById(R.id.etEmailPhone);
@@ -32,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.tvRegister);
         loginByFacebook = findViewById(R.id.btnFacebook);
         loginByGoogle = findViewById(R.id.btnGoogle);
+        context = new MyDbContext(this);
+        pref = getSharedPreferences("my_pref", Context.MODE_PRIVATE);
+        editor = pref.edit();
     }
 
     private void bindingAction(){
@@ -53,14 +67,18 @@ public class LoginActivity extends AppCompatActivity {
     private void onBtnGoToMainScreen(View view) {
         String emailPhone = etEmailPhone.getText().toString();
         String password = etPassword.getText().toString();
-//        if (emailPhone.equals("admin") && password.equals("123")) {
-//            Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-//        }
-//        Intent i = new Intent(this, HomeActivity.class);
-//        i.putExtra("data", data);
-//        startActivity(i);
+        int userId = context.checkLogin(emailPhone, password);
+        if(userId != 0){
+            Intent i = new Intent(this, HomeActivity.class);
+            User u = context.getUserById(userId);
+            editor.putInt("userId", userId);
+            editor.putString("name", u.getName());
+            editor.commit();
+            startActivity(i);
+            finish();
+        }else{
+            Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -75,8 +93,20 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         bindingView();
         bindingAction();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (pref.getInt("userId",0) != 0) {
+            Intent i = new Intent(this, HomeActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 
     @Override
