@@ -20,6 +20,14 @@ public class User {
         this.imageId = imageId;
     }
 
+    public User(String email, String phone, String name, String password, int imageId) {
+        this.email = email;
+        this.phone = phone;
+        this.name = name;
+        this.password = password;
+        this.imageId = imageId;
+    }
+
     public int getImageId() {
         return imageId;
     }

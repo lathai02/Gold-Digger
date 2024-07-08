@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 
 import com.fpt.team5.golddigger.Model.Transaction;
+import com.fpt.team5.golddigger.Model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,12 @@ public class MyDbContext extends SQLiteOpenHelper {
     private static final String TABLE_SUBCATEGORY = "subCategories";
     private static final String TABLE_BUDGET = "budgets";
     private static final String TABLE_NOTIFICATION = "notifications";
+    private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_PASSWORD = "password";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_PHONE = "phone";
+    private static final String COLUMN_IMAGE_ID = "imageId";
+    private static final String COLUMN_ID = "id";
     private static final String PATTERN = "yyyy-MM-dd";
     private static final String PATTERN_ORIGIN = "yyyy-MM-dd HH:mm:ss";
     private static int DATABASE_VERSION = 1;
@@ -47,6 +54,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "SubCategoryId INTEGER," +
                 "Amount TEXT," +
                 "CreateDate DATETIME," +
+                "DueDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id)," +
                 "FOREIGN KEY(CategoryId) REFERENCES Categories(Id)," +
                 "FOREIGN KEY(SubCategoryId) REFERENCES SubCategories(Id))";
@@ -104,6 +112,10 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "('Lending',4)";
         db.execSQL(sqlInsertDefaultData);
 
+        String sqlInsertDefaultUser = "INSERT INTO " + TABLE_USER + " (Email,Phone,Name,Password,ImageId) VALUES " +
+                "('thang@gmail.com','0123456789','Thang','123456',1)";
+        db.execSQL(sqlInsertDefaultUser);
+
         String sqlInsertDefaultSubCategories = "INSERT INTO " + TABLE_SUBCATEGORY + " (CategoryId, Title) VALUES " +
                 "(1, 'Salary')," +
                 "(1, 'Family')," +
@@ -142,6 +154,92 @@ public class MyDbContext extends SQLiteOpenHelper {
     public Cursor getAllContact() {
         String sql = "select * from " + TABLE_CATEGORY;
         return getReadableDatabase().rawQuery(sql, null);
+    }
+
+    public Cursor getAllUser() {
+        String sql = "select * from " + TABLE_USER;
+        return getReadableDatabase().rawQuery(sql, null);
+    }
+
+    public int checkLogin(String emailPhone, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USER,
+                new String[]{"id"},
+                "email" + "=? AND " + "password" + "=?",
+                new String[]{emailPhone, password},
+                null, null, null);
+
+        int userId = 0;
+        if (cursor.moveToFirst()) {
+            userId = cursor.getInt(0); // Use column index directly
+        }
+        cursor.close();
+        db.close();
+        return userId;
+    }
+
+    private boolean emailExists(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USER,
+                new String[]{"email"},
+                "email" + "=?",
+                new String[]{email},
+                null, null, null);
+
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
+    public User getUserById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USER,
+                new String[]{COLUMN_EMAIL,COLUMN_PHONE, COLUMN_NAME, COLUMN_PASSWORD, COLUMN_IMAGE_ID},
+                COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null);
+
+        User user = null;
+        if (cursor.moveToFirst()) {
+            String email = cursor.getString(0);
+            String phone = cursor.getString(1);
+            String name = cursor.getString(2);
+            String password = cursor.getString(3);
+            int imageId = cursor.getInt(4);
+
+            user = new User(id, email, phone, name, password, imageId); // Use constructor matching User class
+        }
+        cursor.close();
+        db.close();
+        return user;
+    }
+
+    public int addUser(User u) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Check if email already exists
+        if (emailExists(u.getEmail())) {
+            db.close();
+            return -1; // Indicate that the email already exists
+        }
+        try{
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_EMAIL, u.getEmail());
+            values.put(COLUMN_NAME, u.getName());
+            values.put(COLUMN_PASSWORD, u.getPassword());
+            values.put(COLUMN_IMAGE_ID, u.getImageId());
+            values.put(COLUMN_PHONE, u.getPhone());
+
+            // Insert the new row and get the new row ID
+            long newRowId = db.insert(TABLE_USER, null, values);
+            db.close();
+
+            return (newRowId == -1) ? -1 : (int) newRowId;
+        }catch (Exception e){
+            db.close();
+            return -1;
+        }
+
     }
 
 
