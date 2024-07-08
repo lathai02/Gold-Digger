@@ -32,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private SharedPreferences pref;
     private NaviagtionBarFragment overviewFragment;
+    private String email;
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -60,8 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void onChangePassClick(View view) {
-
-
+        Intent i = new Intent(this,ResetPasswordActivity.class);
+        i.putExtra("email",email);
+        i.putExtra("father","Profile");
+        startActivity(i);
     }
 
     private void onLogOutClick(View view) {
@@ -81,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void InitUser() {
         int id = pref.getInt("userId", 0);
         User u = dbContext.getUserById(id);
+        email = u.getEmail();
         if(u != null){
             tvEmail.setText(u.getEmail());
             tvName.setText(u.getName());
