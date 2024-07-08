@@ -58,7 +58,10 @@ public class NaviagtionBarFragment extends Fragment {
         if (itemId == R.id.navigation_home) {
             intent = new Intent(getActivity(), HomeActivity.class);
         } else if (itemId == R.id.navigation_add) {
-            intent = new Intent(getActivity(), CategoryActivity.class);
+
+            intent = new Intent(getActivity(), AddActivity.class);
+        }else if(itemId == R.id.navigation_profile){
+            intent = new Intent(getActivity(), ProfileActivity.class);
         }
 
         if (intent != null) {

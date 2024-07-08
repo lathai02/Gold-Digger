@@ -2,21 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     >
 
-    <ImageView
-        android:id="@+id/imgBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_back_arrow_black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+
 
     <ImageView
         android:id="@+id/img_avatar"
@@ -31,7 +23,7 @@
 
 
     <TextView
-        android:id="@+id/tvEmail"
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -44,7 +36,7 @@
 
 
     <TextView
-        android:id="@+id/tvEmailSecondary"
+        android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="thangbdhe170642@fpt.edu.vn"
@@ -52,7 +44,7 @@
         android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEmail" />
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -60,17 +52,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
-        android:text="Sửa"
+        android:text="Edit"
         android:layout_marginTop="8dp"
         app:cornerRadius="5dp"
-        app:layout_constraintTop_toBottomOf="@id/tvEmailSecondary"
+        app:layout_constraintTop_toBottomOf="@id/tvEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
     <!-- Account Link -->
     <RelativeLayout
-        android:id="@+id/rlLinkAccount"
+        android:id="@+id/rlChangePass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -80,7 +72,7 @@
             android:id="@+id/tvLinkAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Liên kết tài khoản"
+            android:text="Change password"
             android:textColor="@android:color/black" />
 
         <ImageView
@@ -94,18 +86,19 @@
 
     <!-- Reset Password -->
     <RelativeLayout
-        android:id="@+id/rlResetPassword"
+        android:id="@+id/rlLogOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/rlLinkAccount">
+        app:layout_constraintTop_toBottomOf="@id/rlChangePass">
 
         <TextView
             android:id="@+id/tvResetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đặt mật khẩu"
-            android:textColor="@android:color/black" />
+            android:text="Log out"
+            android:textColor="@android:color/holo_red_dark" />
+            />
 
         <ImageView
             android:id="@+id/imgResetPasswordArrow"
@@ -115,30 +108,14 @@
             android:src="@drawable/ic_arrow_right"
             tools:ignore="ContentDescription" />
     </RelativeLayout>
-
-    <!-- Logout Button -->
-    <RelativeLayout
-        android:id="@+id/rlLogout"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/rlResetPassword">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tvLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đăng xuất"
-            android:textColor="@android:color/holo_red_dark" />
-
-        <ImageView
-            android:id="@+id/imgLogoutArrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_arrow_right"
-            tools:ignore="ContentDescription" />
-    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
