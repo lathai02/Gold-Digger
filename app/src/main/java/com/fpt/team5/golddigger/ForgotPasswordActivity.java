@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,7 +23,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void BingdingView() {
         etEmailPhone = findViewById(R.id.etEmailPhone);
-        btnResetPassword = findViewById(R.id.btnResetPassword);
+        btnResetPassword = findViewById(R.id.startBtn);
         context = new MyDbContext(this);
     }
 

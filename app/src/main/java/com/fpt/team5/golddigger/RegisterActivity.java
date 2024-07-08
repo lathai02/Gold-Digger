@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private SharedPreferences pref;
 
-    private void BingdingView(){
+    private void BingdingView() {
         etName = findViewById(R.id.etName);
         etRepass = findViewById(R.id.etRepass);
         etEmail = findViewById(R.id.etEmail);
@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         editor = pref.edit();
     }
 
-    private void BingdingAction(){
+    private void BingdingAction() {
         tvLoginPrompt.setOnClickListener(this::onBtnGoToLoginScreen);
         btnRegister.setOnClickListener(this::onBtnRegister);
     }
@@ -55,24 +55,24 @@ public class RegisterActivity extends AppCompatActivity {
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         String phone = etPhone.getText().toString();
-        
+
         if (name.isEmpty() || repass.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
             return;
-        }else{
+        } else {
             if (!repass.equals(password)) {
                 Toast.makeText(this, "Repass is different from password", Toast.LENGTH_SHORT).show();
             }
-            User u = new User(email, phone, name, password,0);
+            User u = new User(email, phone, name, password, 0);
             int userId = dbContext.addUser(u);
-            if(userId != -1){
-                Intent i = new Intent(this,HomeActivity.class);
+            if (userId != -1) {
+                Intent i = new Intent(this, BalanceActivity.class);
                 u = dbContext.getUserById(userId);
                 editor.putInt("userId", userId);
                 editor.putString("name", u.getName());
                 editor.commit();
                 startActivity(i);
                 finish();
-            }else{
+            } else {
                 Toast.makeText(this, "Register failed!", Toast.LENGTH_SHORT).show();
             }
         }
