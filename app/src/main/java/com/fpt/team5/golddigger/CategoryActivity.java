@@ -51,7 +51,6 @@ public class CategoryActivity extends AppCompatActivity {
 
         bindingView();
         InjectFragment();
-        onReceiveIntent();
         initRcv();
     }
     private void InjectFragment() {
@@ -93,10 +92,5 @@ public class CategoryActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Không có bản ghi nào cả!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void onReceiveIntent() {
-        Intent i = getIntent();
-        cateId = i.getIntExtra("cateId", 1);
     }
 }

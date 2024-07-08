@@ -66,7 +66,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.VH> {
 
             Intent i = new Intent(context, SubcategoryActivity.class);
             i.putExtra("cateId", c.getId());
-
+            i.putExtra("cateName", c.getTitle());
             context.startActivity(i);
         }
 

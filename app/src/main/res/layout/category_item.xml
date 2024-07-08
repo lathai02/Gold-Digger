@@ -8,13 +8,12 @@
 
     <ImageButton
         android:id="@+id/categoryIbtn"
-        android:layout_width="152dp"
-        android:layout_height="212dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="27dp"
+        android:layout_width="198dp"
+        android:layout_height="198dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/image_button_background"
         android:contentDescription="@string/add_activity_expense"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_category_expense" />
