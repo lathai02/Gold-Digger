@@ -52,7 +52,6 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
         private ImageButton subcategoryImageButton;
         private TextView subcategoryName;
-
         private SubCategory sc;
 
         private void bindingView() {

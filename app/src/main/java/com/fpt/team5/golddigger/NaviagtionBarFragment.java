@@ -60,8 +60,10 @@ public class NaviagtionBarFragment extends Fragment {
         } else if (itemId == R.id.navigation_add) {
 
             intent = new Intent(getActivity(), CategoryActivity.class);
-        }else if(itemId == R.id.navigation_profile){
+        } else if (itemId == R.id.navigation_profile) {
             intent = new Intent(getActivity(), ProfileActivity.class);
+        } else if (itemId == R.id.navigation_google_map) {
+            intent = new Intent(getActivity(), MapActivity.class);
         }
 
         if (intent != null) {

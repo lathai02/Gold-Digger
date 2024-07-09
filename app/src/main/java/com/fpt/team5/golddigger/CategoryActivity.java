@@ -1,6 +1,5 @@
 package com.fpt.team5.golddigger;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.Category;
-import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
 import java.util.ArrayList;
@@ -56,7 +54,7 @@ public class CategoryActivity extends AppCompatActivity {
     private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, navigationBarFragment)
+                .replace(R.id.navBarFragment, navigationBarFragment)
                 .commit();
     }
 

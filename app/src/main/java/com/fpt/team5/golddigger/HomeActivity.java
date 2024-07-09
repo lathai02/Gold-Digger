@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.Budget;
-import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
     private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, overviewFragment)
+                .replace(R.id.navBarFragment, overviewFragment)
                 .commit();
     }
 
