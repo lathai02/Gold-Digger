@@ -461,270 +461,137 @@ public class MyDbContext extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    public List<Transaction> getAllTransactions() {
+        List<Transaction> transactions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSACTIONS, null);
 
-//    @Override
-//    public void onOpen(SQLiteDatabase db) {
-//        super.onOpen(db);
-//    }
-//
-//
-//    public List<Transaction> getAllTransition(){
-//        List<Transaction> list = new ArrayList<>();
-//        try{
-//            SQLiteDatabase sql = getReadableDatabase();
-//            String orderBy = "CreateDate DESC";
-//            Cursor cs = sql.query(TABLE_TRANSACTIONS,null,null,null,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Transaction(id,title,price,categoryId,isIncome,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getAllTransition - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-//
-//
-//    public boolean getCategoryById(int _id ){
-//        try{
-//
-//            SQLiteDatabase sql = getReadableDatabase();
-//            String orderBy = "CreateDate DESC";
-//            Cursor cs = sql.rawQuery("Select * from categories where id = " + _id,null);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String isIncome = cs.getString(2);
-//                String createDateStr = cs.getString(3);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                return true;
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getAllCategory - " + ex.getMessage());
-//        }
-//        return false;
-//    }
-//
-//    public List<Category> getAllCategory(){
-//        List<Category> list = new ArrayList<>();
-//        try{
-//            SQLiteDatabase sql = getReadableDatabase();
-//            String orderBy = "CreateDate DESC";
-//            Cursor cs = sql.query(TABLE_CATEGORY,null,null,null,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String isIncome = cs.getString(2);
-//                String createDateStr = cs.getString(3);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Category(id,title,isIncome,date,Long.valueOf(0)));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getAllCategory - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-//
-//    public List<Category> getAllCategoryByType(String type){
-//        List<Category> list = new ArrayList<>();
-//        try{
-//            SQLiteDatabase sql = getReadableDatabase();
-//            String whereClause = "IsIncome = ? ";
-//            String[] whereArgs = {type};
-//            String orderBy = "CreateDate DESC";
-//            Cursor cs = sql.query(TABLE_CATEGORY,null,whereClause,whereArgs,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String isIncome = cs.getString(2);
-//
-//                String createDateStr = cs.getString(3);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Category(id,title,isIncome,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getAllCategoryByType - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-//
-//    public List<Budget> getAllBudget(){
-//        List<Budget> list = new ArrayList<>();
-//        try{
-//            SQLiteDatabase sql = getReadableDatabase();
-//            String orderBy = "CreateDate DESC";
-//            Cursor cs = sql.query(TABLE_BUDGET,null,null,null,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String typeOfBudget = cs.getString(2);
-//                String time = cs.getString(3);
-//                String categoryId = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Budget(id,title,typeOfBudget,time,categoryId,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getAllBudget - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-//
-//    public long addTransaction(Transaction transaction){
-//        long result = -1;
-//        try{
-//            ContentValues values = new ContentValues();
-//            values.put("title", transaction.getTitle());
-//            values.put("categoryId", transaction.getCategory());
-//            values.put("price", transaction.getPrice());
-//            values.put("isIncome", transaction.getIsIncome());
-//            values.put("createDate", transaction.getCreateDate());
-//            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//            result = sqLiteDatabase.insert(TABLE_TRANSACTIONS,null,values);
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - addTransactions - " + ex.getMessage());
-//        }
-//        return result;
-//    }
-//
-//    public long updateTransaction(Transaction transaction){
-//        long result = -1;
-//        try{
-//            ContentValues values = new ContentValues();
-//            values.put("title", transaction.getTitle());
-//            values.put("categoryId", transaction.getCategory());
-//            values.put("price", transaction.getPrice());
-//            values.put("isIncome", transaction.getIsIncome());
-//            values.put("createDate", transaction.getCreateDate());
-//            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//
-//            String whereClause = "id = ?";
-//            String[] whereArgs = {Integer.toString(transaction.getId())};
-//            result = sqLiteDatabase.update(TABLE_TRANSACTIONS,values,whereClause,whereArgs);
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - updateTransaction - " + ex.getMessage());
-//        }
-//        return result;
-//    }
-//
-//    public boolean deleteTransaction(int transactionId) {
-//        try {
-//            SQLiteDatabase db = getWritableDatabase();
-//            String whereClause = "id = ?";
-//            String[] whereArgs = {String.valueOf(transactionId)};
-//            int rowsDeleted = db.delete(TABLE_TRANSACTIONS, whereClause, whereArgs);
-//            return rowsDeleted > 0;
-//        } catch (Exception ex) {
-//            Log.e(TAG, "MyDbContext - deleteTransaction - " + ex.getMessage());
-//            return false;
-//        }
-//    }
-//
-//    public long addCategory(Category category){
-//        long result = -1;
-//        try{
-//            ContentValues values = new ContentValues();
-//            values.put("title", category.getTitle());
-//            values.put("isIncome", category.getIsIncome());
-//            values.put("createDate", category.getCreateDate());
-//            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//            result = sqLiteDatabase.insert(TABLE_CATEGORY,null,values);
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - addCategory - " + ex.getMessage());
-//        }
-//        return  result;
-//    }
-//
-//    public long updateCategory(Category item){
-//        long result = -1;
-//        try{
-//            ContentValues values = new ContentValues();
-//            values.put("title", item.getTitle());
-//            values.put("isIncome", item.getIsIncome());
-//            values.put("createDate", item.getCreateDate());
-//            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//
-//            String whereClause = "id = ?";
-//            String[] whereArgs = {Integer.toString(item.getId())};
-//            result = sqLiteDatabase.update(TABLE_CATEGORY,values,whereClause,whereArgs);
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - updateCategory - " + ex.getMessage());
-//        }
-//        return result;
-//    }
-//
-//    public boolean deleteCategory(int categoryId) {
-//        try {
-//            SQLiteDatabase db = getWritableDatabase();
-//            String whereClause = "id = ?";
-//            String[] whereArgs = {String.valueOf(categoryId)};
-//            int rowsDeleted = db.delete(TABLE_CATEGORY, whereClause, whereArgs);
-//            return rowsDeleted > 0;
-//        } catch (Exception ex) {
-//            Log.e(TAG, "MyDbContext - deleteCategory - " + ex.getMessage());
-//            return false;
-//        }
-//    }
-//
-//    public long addBudget(Budget budget){
-//        long result = -1;
-//        try{
-//            ContentValues values = new ContentValues();
-//            values.put("title", budget.getTitle());
-//            values.put("typeOfBudget", budget.getTypeOfBudget());
-//            values.put("time", budget.getTime());
-//            values.put("categoryId", budget.getCategotyId());
-//            values.put("createDate", budget.getCreateDate());
-//            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//            result = sqLiteDatabase.insert(TABLE_BUDGET,null,values);
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - addCategory - " + ex.getMessage());
-//        }
-//        return  result;
-//    }
-//    public long updateBudget(Budget item){
-//        long result = -1;
-//        try{
-//            ContentValues values = new ContentValues();
-//            values.put("title", item.getTitle());
-//            values.put("typeofbudget", item.getTypeOfBudget());
-//            values.put("time", item.getTime());
-//            values.put("categoryId", item.getCategotyId());
-//            values.put("createDate", item.getCreateDate());
-//            SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//
-//            String whereClause = "id = ?";
-//            String[] whereArgs = {Integer.toString(item.getId())};
-//            result = sqLiteDatabase.update(TABLE_BUDGET,values,whereClause,whereArgs);
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - updateCategory - " + ex.getMessage());
-//        }
-//        return result;
-//    }
-//
-//    public boolean deleteBudget(int budgetId) {
-//        try {
-//            SQLiteDatabase db = getWritableDatabase();
-//            String whereClause = "id = ?";
-//            String[] whereArgs = {String.valueOf(budgetId)};
-//            int rowsDeleted = db.delete(TABLE_BUDGET, whereClause, whereArgs);
-//            return rowsDeleted > 0;
-//        } catch (Exception ex) {
-//            Log.e(TAG, "MyDbContext - deleteBudget - " + ex.getMessage());
-//            return false;
-//        }
-//    }
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                int userId = cursor.getInt(2);
+                String description = cursor.getString(3);
+                int categoryId = cursor.getInt(4);
+                int subcategoryId = cursor.getInt(5);
+                float amount = cursor.getFloat(6);
+                String createDate = cursor.getString(7);
+                String dueDate = cursor.getString(8);
+
+                Transaction transaction = new Transaction(id,title,userId,description,amount,categoryId,subcategoryId,createDate,dueDate);
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return transactions;
+    }
+
+    public String getCategoryById(int categoryId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CATEGORY,
+                new String[]{COLUMN_TITLE},
+                COLUMN_ID + "=?",
+                new String[]{String.valueOf(categoryId)},
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            String categoryName = cursor.getString(0);
+            cursor.close();
+            db.close();
+            return categoryName;
+        } else {
+            db.close();
+            return "";
+        }
+    }
+
+    public String getSubCategoryById(int subCategoryId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_SUBCATEGORY,
+                new String[]{COLUMN_TITLE},
+                COLUMN_ID + "=?",
+                new String[]{String.valueOf(subCategoryId)},
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            String categoryName = cursor.getString(0);
+            cursor.close();
+            db.close();
+            return categoryName;
+        } else {
+            db.close();
+            return "";
+        }
+    }
+
+    public Transaction getTransactionById(int transactionId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_TRANSACTIONS,
+                null, // null selects all columns
+                COLUMN_ID + " = ?",
+                new String[]{String.valueOf(transactionId)},
+                null, // groupBy
+                null, // having
+                null  // orderBy
+        );
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            int id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            int userId = cursor.getInt(2);
+            String description = cursor.getString(3);
+            int categoryId = cursor.getInt(4);
+            int subcategoryId = cursor.getInt(5);
+            float amount = cursor.getFloat(6);
+            String createDate = cursor.getString(7);
+            String dueDate = cursor.getString(8);
+
+            cursor.close();
+            db.close();
+
+            return new Transaction(id,title,userId,description,amount,categoryId,subcategoryId,createDate,dueDate);
+        } else {
+            db.close();
+            return null;
+        }
+    }
+
+    public boolean updateTransaction(Transaction transaction,int transactionId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, transaction.getTitle());
+        values.put(COLUMN_DESCRIPTION, transaction.getDescription());
+        values.put(COLUMN_AMOUNT, transaction.getAmount());
+        values.put(COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        values.put(COLUMN_SUBCATEGORY_ID, transaction.getSubCategoryId());
+        values.put(COLUMN_USER_ID, transaction.getUserId());
+        values.put(COLUMN_CREATE_DATE, transaction.getCreateDate());
+        values.put(COLUMN_DUE_DATE, transaction.getDueDate());
+
+        // Updating row
+        int rowsAffected = db.update(TABLE_TRANSACTIONS, values, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(transactionId)});
+
+        db.close();
+
+        return rowsAffected > 0;
+    }
+
+    public boolean deleteTransaction(int transactionId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowsAffected = db.delete(TABLE_TRANSACTIONS, COLUMN_ID + " = ?", new String[]{String.valueOf(transactionId)});
+        db.close();
+        return rowsAffected > 0;
+    }
+
+
 //
 //    public List<Transaction> getTransactionByMonth(int month){
 //        List<Transaction> list = new ArrayList<>();
@@ -848,146 +715,6 @@ public class MyDbContext extends SQLiteOpenHelper {
 //        return list;
 //    }
 
-//
-//    public Long getBalance(int month, String type, String categoryID) {
-//        try {
-//            List<Transaction> list = getTransactionByFilter(month,type,categoryID);
-//            if(list.size() != 0 ){
-//                Long result = new Long(0);
-//                for (Transaction item :
-//                        list) {
-//                    if(item.getIsIncome().toString().equals("INCOME")){
-//                        result = result + Long.valueOf(item.getPrice());
-//                    }else{
-//                        result = result - Long.valueOf(item.getPrice());
-//                    }
-//                }
-//                if(type!= null && type.equals("EXPENSE")){
-//                    return Math.abs(result);
-//                }
-//                return result;
-//            }
-//        } catch (Exception ex) {
-//            Log.e(TAG, "MyDbContext - getBalance - " + ex.getMessage());
-//        }
-//        return Long.valueOf(0);
-//    }
-//
-//    public Transaction getTransactionById(int _id) {
-//        try{
-//            String selection = "Id = ?";
-//            String[] selectionArgs = {String.valueOf(_id)};
-//            String orderBy = "CreateDate DESC";
-//            SQLiteDatabase st = getReadableDatabase();
-//            Cursor cs = st.query(TABLE_TRANSACTIONS,null,selection,selectionArgs,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                return (new Transaction(id,title,price,categoryId,isIncome,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getTransactionByDate - " + ex.getMessage());
-//        }
-//        return null;
-//    }
-//
-//    public List<Transaction> getTransactionSearch(String title, String categoryId, String fromDate, String toDate) {
-//        List<Transaction> list = new ArrayList<>();
-//        try{
-//            String selection = null;
-//            List<String> selectionArgsList = new ArrayList<>();
-//            if(!fromDate.equals("")){
-//                selection = "CreateDate >= " + convertDateFormat(fromDate);
-//                selectionArgsList.add(convertDateFormat(fromDate));
-//            }
-//            if(!toDate.equals("")){
-//                if(selection == null){
-//                    selection = " CreateDate <= " + convertDateFormat(toDate);
-//                    selectionArgsList.add(convertDateFormat(toDate));
-//                }else{
-//                    selection = selection + " AND CreateDate <= " + convertDateFormat(toDate);
-//                    selectionArgsList.add(convertDateFormat(toDate));
-//                }
-//            }
-//
-//            if(!categoryId.equals("ALL")){
-//                if(selection == null){
-//                    selection = "CategoryId = " + getStringSQL(categoryId);
-//                    selectionArgsList.add(categoryId);
-//                }else{
-//                    selection =selection + " AND CategoryId = " + getStringSQL(categoryId);
-//                    selectionArgsList.add(categoryId);
-//                }
-//            }
-//
-//            if(!title.equals("")){
-//                if(selection == null){
-//                    selection = "Title = " + getStringSQL(title);
-//                    selectionArgsList.add(title);
-//                }else{
-//                    selection = selection + " AND Title = " + getStringSQL(title);
-//                    selectionArgsList.add(title);
-//                }
-//            }
-//            String[] selectionArgs = new String[selectionArgsList.size()];
-//            selectionArgs = selectionArgsList.toArray(selectionArgs);
-//
-//            String orderBy = "CreateDate DESC";
-//            SQLiteDatabase st = getReadableDatabase();
-//            String query ="";
-//            if(selection == null){
-//                 query = "SELECT * FROM transactions ORDER BY CreateDate DESC";
-//            }else{
-//                 query = "SELECT * FROM transactions where "+ selection + " ORDER BY CreateDate DESC";
-//            }
-//
-//            //Cursor cs = st.query(TABLE_TRANSACTIONS,null,selection,selectionArgs,null,null,orderBy);
-//            Cursor cs = st.rawQuery(query,null);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String _title = cs.getString(1);
-//                String _categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Transaction(id,_title,price,_categoryId,isIncome,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getTransactionSearch - " + ex.getMessage());
-//        }
-//        return list;
-//    }
 
-//    public Long getBalanceIntenal(int currentMonth, String type) {
-//        try {
-//            List<Transaction> list = getTransactionByType(currentMonth,type);
-//            if(list.size() != 0 ){
-//                Long result = new Long(0);
-//                for (Transaction item :
-//                        list) {
-//                    if(item.getIsIncome().toString().equals("INCOME")){
-//                        result = result + Long.valueOf(item.getPrice());
-//                    }else{
-//                        result = result - Long.valueOf(item.getPrice());
-//                    }
-//                }
-//                return result;
-//            }
-//        } catch (Exception ex) {
-//            Log.e(TAG, "MyDbContext - getBalance - " + ex.getMessage());
-//        }
-//        return Long.valueOf(0);
-//    }
-//    public String getStringSQL(String s){
-//        return "'" + s + "' ";
-//    }
 
 }

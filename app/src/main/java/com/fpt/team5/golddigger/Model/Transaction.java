@@ -1,5 +1,7 @@
 package com.fpt.team5.golddigger.Model;
 
+import java.text.DecimalFormat;
+
 public class Transaction {
     private int id;
     private String title;
@@ -92,6 +94,16 @@ public class Transaction {
 
     public float getAmount() {
         return amount;
+    }
+
+    public String getFormattedAmount() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(amount);
+    }
+    public String getStringAmount(){
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        decimalFormat.setGroupingUsed(false);
+        return decimalFormat.format(amount);
     }
 
     public void setAmount(float amount) {

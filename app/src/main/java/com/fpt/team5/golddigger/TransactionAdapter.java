@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.Model.Transaction;
+import com.fpt.team5.golddigger.dal.MyDbContext;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @NonNull
     @Override
     public TransactionAdapter.VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = inflater.inflate(R.layout.subcategory_item, parent, false);
+        View v = inflater.inflate(R.layout.transaction_item, parent, false);
         return new TransactionAdapter.VH(v);
     }
 
@@ -47,13 +48,23 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     protected class VH extends RecyclerView.ViewHolder {
 
-        private ImageButton subcategoryImageButton;
-        private TextView subcategoryName;
         private Transaction t;
+        private TextView titleTv;
+        private TextView amountTv;
+        private TextView createDateTv;
+        private TextView categoryTv;
+        private TextView subCateTV;
+        private MyDbContext dbContext;
+        private String cateName;
+        private String subCateName;
 
         private void bindingView() {
-            subcategoryImageButton = itemView.findViewById(R.id.subcategoryIbtn);
-            subcategoryName = itemView.findViewById(R.id.subcategoryNameTv);
+            titleTv = itemView.findViewById(R.id.titleTv);
+            amountTv = itemView.findViewById(R.id.amountTv);
+            createDateTv = itemView.findViewById(R.id.createDateTv);
+            categoryTv = itemView.findViewById(R.id.categoryTv);
+            subCateTV = itemView.findViewById(R.id.subCateTV);
+            dbContext = new MyDbContext(itemView.getContext());
         }
 
         private void bindingAction() {
@@ -61,7 +72,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         private void onItemViewClick(View view) {
+            Intent i = null;
+            if(cateName.equals("Borrow") || cateName.equals("Lending")){
+                i = new Intent(context,TransactionDetailActivity.class);
+            }else{
+                i = new Intent(context,TransactionDetailActivity2.class);
+            }
 
+            i.putExtra("category",cateName);
+            i.putExtra("subCategory",subCateName);
+            i.putExtra("transactionId",t.getId());
+            context.startActivity(i);
         }
 
 
@@ -73,6 +94,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         public void setTransaction(Transaction transaction) {
             t = transaction;
+            cateName = dbContext.getCategoryById(transaction.getCategoryId());
+            subCateName = dbContext.getSubCategoryById(transaction.getSubCategoryId());
+            if(!cateName.isEmpty() && !subCateName.isEmpty()){
+                titleTv.setText(transaction.getTitle());
+                amountTv.setText(transaction.getFormattedAmount());
+                createDateTv.setText(transaction.getCreateDate());
+                categoryTv.setText(cateName);
+                subCateTV.setText(subCateName);
+            }
+
         }
     }
 }

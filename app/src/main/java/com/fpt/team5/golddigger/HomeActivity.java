@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initRcv() {
+        transactions = dbContext.getAllTransactions();
         adapter = new TransactionAdapter(transactions, this);
         rcv.setAdapter(adapter);
         rcv.setLayoutManager(new GridLayoutManager(this, 1));
