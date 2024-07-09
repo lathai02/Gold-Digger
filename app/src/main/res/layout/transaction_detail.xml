@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    tools:context=".TransactionActivity">
+
+    <TextView
+        android:id="@+id/headerSubCategoryTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Salary"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/headerCategoryTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="Income"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerSubCategoryTv">
+
+        <TextView
+            android:id="@+id/TextView1"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Title"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/edtTitle"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/TextView2"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Descrip"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView1" />
+
+        <EditText
+            android:id="@+id/edtDescription"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView2"
+            app:layout_constraintTop_toBottomOf="@+id/edtTitle" />
+
+        <TextView
+            android:id="@+id/TextView3"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Amount"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView2" />
+
+        <EditText
+            android:id="@+id/edtAmount"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView3"
+            app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
+
+        <TextView
+            android:id="@+id/TextView4"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="CreateDate"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView3" />
+
+        <EditText
+            android:id="@+id/edtCreateDate"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView3"
+            app:layout_constraintTop_toBottomOf="@+id/edtAmount" />
+
+
+        <TextView
+            android:id="@+id/TextView5"
+            android:layout_width="80dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="DueDate"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView4" />
+
+        <EditText
+
+            android:id="@+id/edtDueDate"
+
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/TextView5"
+            app:layout_constraintTop_toBottomOf="@+id/edtCreateDate" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDelete"
+            android:layout_width="160dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="26dp"
+            android:backgroundTint="@color/black"
+            android:text="DELETE"
+            android:textColor="@color/gold"
+            android:textSize="17sp"
+            app:cornerRadius="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnSave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextView5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="160dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="69dp"
+            android:backgroundTint="@color/white"
+            android:text="SAVE"
+            android:textColor="@color/gold"
+            android:textSize="17sp"
+            app:cornerRadius="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnDelete"
+            app:layout_constraintTop_toBottomOf="@+id/edtDueDate" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toEndOf="@+id/headerCategoryTv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_right" />
+</androidx.constraintlayout.widget.ConstraintLayout>

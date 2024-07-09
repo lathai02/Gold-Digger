@@ -77,6 +77,12 @@
             android:name=".TransactionActivity2"
             android:exported="true" />
         <activity
+            android:name=".TransactionDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TransactionDetailActivity2"
+            android:exported="true" />
+        <activity
             android:name=".MapActivity"
             android:exported="true" />
         <meta-data
