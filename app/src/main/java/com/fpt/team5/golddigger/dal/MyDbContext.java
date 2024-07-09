@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 
 
 import com.fpt.team5.golddigger.Model.Budget;
+import com.fpt.team5.golddigger.Model.Category;
+import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.Model.User;
 
@@ -34,9 +36,17 @@ public class MyDbContext extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_PHONE = "phone";
     private static final String COLUMN_IMAGE_ID = "imageId";
+    private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_ID = "id";
     private static final String PATTERN = "yyyy-MM-dd";
     private static final String PATTERN_ORIGIN = "yyyy-MM-dd HH:mm:ss";
+    private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_AMOUNT = "amount";
+    private static final String COLUMN_CATEGORY_ID = "categoryId";
+    private static final String COLUMN_SUBCATEGORY_ID = "subCategoryId";
+    private static final String COLUMN_USER_ID = "userId";
+    private static final String COLUMN_CREATE_DATE = "createDate";
+    private static final String COLUMN_DUE_DATE = "dueDate";
     private static int DATABASE_VERSION = 1;
 
     public MyDbContext(@Nullable Context context) {
@@ -53,7 +63,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "Description TEXT," +
                 "CategoryId INTEGER," +
                 "SubCategoryId INTEGER," +
-                "Amount TEXT," +
+                "Amount FLOAT," +
                 "CreateDate DATETIME," +
                 "DueDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id)," +
@@ -330,6 +340,125 @@ public class MyDbContext extends SQLiteOpenHelper {
 
         db.update(TABLE_SUBCATEGORY, values, "id = ?", new String[]{String.valueOf(subcategoryId)});
         db.close();
+    }
+
+    public static String convertDateFormat(String dateString) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = inputDateFormat.parse(dateString);
+            String result =  outputDateFormat.format(date);
+            return ("'" + result + "'");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public int getCategoryByName(String categoryName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CATEGORY,
+                new String[]{COLUMN_ID},
+                COLUMN_TITLE + "=?",
+                new String[]{categoryName},
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int cateId = cursor.getInt(0);
+            cursor.close();
+            db.close();
+            return cateId;
+        } else {
+            db.close();
+            return -1;
+        }
+    }
+
+    public int getSubCategoryByName(String subCategory) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_SUBCATEGORY,
+                new String[]{COLUMN_ID},
+                COLUMN_TITLE + "=?",
+                new String[]{subCategory},
+                null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int subcateId = cursor.getInt(0);
+            cursor.close();
+            db.close();
+            return subcateId;
+        } else {
+            db.close();
+            return -1;
+        }
+    }
+
+    public boolean addTransaction(Transaction transaction) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, transaction.getTitle());
+        values.put(COLUMN_DESCRIPTION, transaction.getDescription());
+        values.put(COLUMN_AMOUNT, transaction.getAmount());
+        values.put(COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        values.put(COLUMN_SUBCATEGORY_ID, transaction.getSubCategoryId());
+        values.put(COLUMN_USER_ID, transaction.getUserId());
+        values.put(COLUMN_CREATE_DATE, transaction.getCreateDate());
+
+        long result = db.insert(TABLE_TRANSACTIONS, null, values);
+        db.close();
+
+        return result != -1;
+    }
+
+    public float getBudgetAmountByUserId(int userId) {
+        String sql = "SELECT amount FROM " + TABLE_BUDGET + " WHERE userId = ?";
+        Cursor cursor = getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
+
+        float budgetAmount = 0;
+        if (cursor.moveToFirst()) {
+            budgetAmount = cursor.getFloat(0);
+        }
+        cursor.close();
+        return budgetAmount;
+    }
+
+    public boolean updateBalance(String category, float amount,int userId) {
+        float currentBudget = getBudgetAmountByUserId(userId);
+        float newAmount = 0;
+        if(category.equals("Income") || category.equals("Borrow")){
+            newAmount =  currentBudget + amount;
+        }else{
+            newAmount = currentBudget - amount;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("amount", newAmount);
+
+        int rowsAffected = db.update(TABLE_BUDGET, values, "userId = ?", new String[]{String.valueOf(userId)});
+        db.close();
+
+        return rowsAffected > 0;
+    }
+
+    public boolean addTransaction2(Transaction transaction) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, transaction.getTitle());
+        values.put(COLUMN_DESCRIPTION, transaction.getDescription());
+        values.put(COLUMN_AMOUNT, transaction.getAmount());
+        values.put(COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        values.put(COLUMN_SUBCATEGORY_ID, transaction.getSubCategoryId());
+        values.put(COLUMN_USER_ID, transaction.getUserId());
+        values.put(COLUMN_CREATE_DATE, transaction.getCreateDate());
+        values.put(COLUMN_DUE_DATE, transaction.getDueDate());
+
+        long result = db.insert(TABLE_TRANSACTIONS, null, values);
+        db.close();
+
+        return result != -1;
     }
 
 
@@ -718,18 +847,7 @@ public class MyDbContext extends SQLiteOpenHelper {
 //        }
 //        return list;
 //    }
-//public static String convertDateFormat(String dateString) {
-//    SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//    SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//    try {
-//        Date date = inputDateFormat.parse(dateString);
-//        String result =  outputDateFormat.format(date);
-//        return ("'" + result + "'");
-//    } catch (ParseException e) {
-//        e.printStackTrace();
-//        return null;
-//    }
-//}
+
 //
 //    public Long getBalance(int month, String type, String categoryID) {
 //        try {
@@ -871,23 +989,5 @@ public class MyDbContext extends SQLiteOpenHelper {
 //    public String getStringSQL(String s){
 //        return "'" + s + "' ";
 //    }
-//    public void Test(){
-//        try{
-//            String sqlQuery = " SELECT * FROM transactions where CreateDate >= 2024-03-12 ";
-//            SQLiteDatabase st = getReadableDatabase();
-//            Cursor cs = st.rawQuery(sqlQuery, null);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getTransactionByDate - " + ex.getMessage());
-//        }
-//    }
+
 }
