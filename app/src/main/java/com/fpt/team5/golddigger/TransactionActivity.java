@@ -102,8 +102,8 @@ public class TransactionActivity extends AppCompatActivity {
         }
         headerCategoryTv = findViewById(R.id.headerCategoryTv);
         headerSubCategoryTv = findViewById(R.id.headerSubCategoryTv);
-        dateTimePickerCreate = findViewById(R.id.dateTimePickerCreate);
-        dateTimePickerDue = findViewById(R.id.dateTimePickerDue);
+        dateTimePickerCreate = findViewById(R.id.edtCreateDate);
+        dateTimePickerDue = findViewById(R.id.edtDueDate);
         calendar = Calendar.getInstance();
     }
 
