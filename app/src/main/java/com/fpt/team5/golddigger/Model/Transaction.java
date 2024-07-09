@@ -5,7 +5,7 @@ public class Transaction {
     private String title;
     private int userId;
     private String description;
-    private String amount;
+    private float amount;
     private int categoryId;
     private int subCategoryId;
     private String createDate;
@@ -14,7 +14,19 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int id, String title, int userId, String description, String amount, int categoryId, int subCategoryId, String createDate) {
+    public Transaction(int id, String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate, String dueDate) {
+        this.id = id;
+        this.title = title;
+        this.userId = userId;
+        this.description = description;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
+        this.createDate = createDate;
+        this.dueDate = dueDate;
+    }
+
+    public Transaction(int id, String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate) {
         this.id = id;
         this.title = title;
         this.userId = userId;
@@ -25,72 +37,33 @@ public class Transaction {
         this.createDate = createDate;
     }
 
-    public String getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Transaction(String dueDate, String createDate, int subCategoryId, int categoryId, String amount, String description, int userId, String title, int id) {
-        this.dueDate = dueDate;
-        this.createDate = createDate;
-        this.subCategoryId = subCategoryId;
-        this.categoryId = categoryId;
-        this.amount = amount;
-        this.description = description;
-        this.userId = userId;
+    public Transaction(String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate) {
         this.title = title;
-        this.id = id;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
+        this.userId = userId;
+        this.description = description;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
         this.createDate = createDate;
     }
 
-    public int getSubCategoryId() {
-        return subCategoryId;
-    }
-
-    public void setSubCategoryId(int subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
+    public Transaction(String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate, String dueDate) {
+        this.title = title;
         this.userId = userId;
+        this.description = description;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
+        this.createDate = createDate;
+        this.dueDate = dueDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -101,11 +74,59 @@ public class Transaction {
         this.title = title;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getSubCategoryId() {
+        return subCategoryId;
+    }
+
+    public void setSubCategoryId(int subCategoryId) {
+        this.subCategoryId = subCategoryId;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 }
