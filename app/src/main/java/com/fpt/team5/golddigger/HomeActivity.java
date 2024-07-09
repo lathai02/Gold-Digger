@@ -15,12 +15,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.Budget;
 import com.fpt.team5.golddigger.Model.SubCategory;
+import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -32,6 +37,9 @@ public class HomeActivity extends AppCompatActivity {
     private TextView balanceTv;
     private MyDbContext dbContext;
     private Budget b;
+    private RecyclerView rcv;
+    private TransactionAdapter adapter;
+    private List<Transaction> transactions;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -57,6 +65,13 @@ public class HomeActivity extends AppCompatActivity {
         setDefaultNavigationTab();
         InjectFragment();
         setValues();
+        initRcv();
+    }
+
+    private void initRcv() {
+        adapter = new TransactionAdapter(transactions, this);
+        rcv.setAdapter(adapter);
+        rcv.setLayoutManager(new GridLayoutManager(this, 1));
     }
 
     private void setValues() {
@@ -102,6 +117,8 @@ public class HomeActivity extends AppCompatActivity {
         welcomeTv = findViewById(R.id.welcomeTv);
         balanceTv = findViewById(R.id.balanceTv);
         dbContext = new MyDbContext(this);
+        rcv = findViewById(R.id.transactionRcv);
+        transactions = new ArrayList<>();
     }
 
     private void BindingAction() {
