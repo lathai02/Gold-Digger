@@ -66,7 +66,7 @@ public class TransactionActivity2 extends AppCompatActivity {
         BindingAction();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, navigationBarFragment)
+                .replace(R.id.navBarFragment, navigationBarFragment)
                 .commit();
     }
 
