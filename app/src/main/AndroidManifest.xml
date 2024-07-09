@@ -53,6 +53,9 @@
         <activity
             android:name=".TransactionActivity"
             android:exported="true" />
+        <activity
+            android:name=".TransactionActivity2"
+            android:exported="true" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -66,7 +66,12 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
         }
 
         private void onSubcategoryImageButtonClick(View view) {
-            Intent i = new Intent(context, TransactionActivity.class);
+            Intent i = null;
+            if(category.equals("Income") || category.equals("Expense")){
+                i = new Intent(context, TransactionActivity2.class);
+            }else{
+                i = new Intent(context, TransactionActivity.class);
+            }
             i.putExtra("subCategory", sc.getTitle());
             i.putExtra("category", category);
 

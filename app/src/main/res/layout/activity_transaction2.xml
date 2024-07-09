@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/headerSubCategoryTv">
 
         <TextView
-            android:id="@+id/TextView1"
+            android:id="@+id/tvTitle"
             android:layout_width="80dp"
             android:layout_height="55dp"
             android:layout_marginStart="38dp"
@@ -71,7 +71,7 @@
             android:padding="10dp"
             android:text="PRO1"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/TextView1"
+            app:layout_constraintStart_toEndOf="@+id/tvTitle"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -89,7 +89,7 @@
             android:text="Descrip"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextView1" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
         <EditText
             android:id="@+id/edtDescription"
@@ -163,50 +163,15 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_edittext"
             android:ems="10"
-            android:gravity="center"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="date"
             android:padding="10dp"
+            android:text="PRO1"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/TextView3"
             app:layout_constraintTop_toBottomOf="@+id/edtAmount" />
 
 
-        <TextView
-            android:id="@+id/TextView5"
-            android:layout_width="80dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:inputType="text"
-            android:padding="10dp"
-            android:text="DueDate"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextView4" />
-
-        <EditText
-
-            android:id="@+id/edtDueDate"
-
-            android:layout_width="250dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="none"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/TextView5"
-            app:layout_constraintTop_toBottomOf="@+id/edtCreateDate" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
@@ -220,7 +185,7 @@
             android:textSize="17sp"
             app:cornerRadius="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextView5"
+            app:layout_constraintTop_toBottomOf="@+id/TextView4"
             app:layout_constraintWidth_percent="0.8" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
