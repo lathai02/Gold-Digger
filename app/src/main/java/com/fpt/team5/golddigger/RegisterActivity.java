@@ -61,19 +61,20 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             if (!repass.equals(password)) {
                 Toast.makeText(this, "Repass is different from password", Toast.LENGTH_SHORT).show();
-            }
-            User u = new User(email, phone, name, password, 0);
-            int userId = dbContext.addUser(u);
-            if (userId != -1) {
-                Intent i = new Intent(this, BalanceActivity.class);
-                u = dbContext.getUserById(userId);
-                editor.putInt("userId", userId);
-                editor.putString("name", u.getName());
-                editor.commit();
-                startActivity(i);
-                finish();
             } else {
-                Toast.makeText(this, "Register failed!", Toast.LENGTH_SHORT).show();
+                User u = new User(email, phone, name, password, 0);
+                int userId = dbContext.addUser(u);
+                if (userId != -1) {
+                    Intent i = new Intent(this, BalanceActivity.class);
+                    u = dbContext.getUserById(userId);
+                    editor.putInt("userId", userId);
+                    editor.putString("name", u.getName());
+                    editor.commit();
+                    startActivity(i);
+                    finish();
+                } else {
+                    Toast.makeText(this, "Register failed!", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
