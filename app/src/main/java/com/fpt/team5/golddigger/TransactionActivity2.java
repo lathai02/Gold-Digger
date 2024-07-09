@@ -1,7 +1,10 @@
 package com.fpt.team5.golddigger;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -12,12 +15,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.Calendar;
+
 public class TransactionActivity2 extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
     private TextView headerCategoryTv;
     private TextView headerSubCategoryTv;
     private String subCategory;
     private String category;
+    private EditText dateTimePickerCreate;
+    private Calendar calendar;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -53,8 +60,7 @@ public class TransactionActivity2 extends AppCompatActivity {
         headerSubCategoryTv.setText(getIntent().getStringExtra("category"));
     }
 
-    private void BindingAction() {
-    }
+
 
     private void BindingView() {
         if (navigationBarFragment == null) {
@@ -62,6 +68,28 @@ public class TransactionActivity2 extends AppCompatActivity {
         }
         headerCategoryTv = findViewById(R.id.headerCategoryTv);
         headerSubCategoryTv = findViewById(R.id.headerSubCategoryTv);
+        dateTimePickerCreate = findViewById(R.id.edtCreateDate);
+        calendar = Calendar.getInstance();
+    }
+
+    private void BindingAction() {
+        dateTimePickerCreate.setOnClickListener(this::onDateTimePickerCreateClick);
+
+    }
+
+    private void onDateTimePickerCreateClick(View view) {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                TransactionActivity2.this,
+                (dateView, selectedYear, selectedMonth, selectedDay) -> {
+                    calendar.set(selectedYear, selectedMonth, selectedDay);
+                    dateTimePickerCreate.setText(selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear);
+                },
+                year, month, day);
+        datePickerDialog.show();
     }
 
     private void onReceiveIntent() {
