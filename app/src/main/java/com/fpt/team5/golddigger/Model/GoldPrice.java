@@ -58,15 +58,4 @@ public class GoldPrice {
     public void setSellPriceChange(String sellPriceChange) {
         this.sellPriceChange = sellPriceChange;
     }
-
-    @Override
-    public String toString() {
-        return "GoldPrice{" +
-                "imageLink='" + imageLink + '\'' +
-                ", type='" + type + '\'' +
-                ", buyPrice='" + buyPrice + '\'' +
-                ", buyPriceChange='" + buyPriceChange + '\'' +
-                ", sellPriceChange='" + sellPriceChange + '\'' +
-                '}';
-    }
 }
