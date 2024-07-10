@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.SubCategory;
@@ -17,7 +18,7 @@ import com.fpt.team5.golddigger.dal.MyDbContext;
 
 import java.util.List;
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.VH>{
+public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.VH> {
     private List<Transaction> transactions;
     private Context context;
     private LayoutInflater inflater;
@@ -73,15 +74,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         private void onItemViewClick(View view) {
             Intent i = null;
-            if(cateName.equals("Borrow") || cateName.equals("Lending")){
-                i = new Intent(context,TransactionDetailActivity.class);
-            }else{
-                i = new Intent(context,TransactionDetailActivity2.class);
+            if (cateName.equals("Borrow") || cateName.equals("Lending")) {
+                i = new Intent(context, TransactionDetailActivity.class);
+            } else {
+                i = new Intent(context, TransactionDetailActivity2.class);
             }
 
-            i.putExtra("category",cateName);
-            i.putExtra("subCategory",subCateName);
-            i.putExtra("transactionId",t.getId());
+            i.putExtra("category", cateName);
+            i.putExtra("subCategory", subCateName);
+            i.putExtra("transactionId", t.getId());
             context.startActivity(i);
         }
 
@@ -96,14 +97,23 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             t = transaction;
             cateName = dbContext.getCategoryById(transaction.getCategoryId());
             subCateName = dbContext.getSubCategoryById(transaction.getSubCategoryId());
-            if(!cateName.isEmpty() && !subCateName.isEmpty()){
-                titleTv.setText(transaction.getTitle());
-                amountTv.setText(transaction.getFormattedAmount());
-                createDateTv.setText(transaction.getCreateDate());
-                categoryTv.setText(cateName);
-                subCateTV.setText(subCateName);
+            if (!cateName.isEmpty() && !subCateName.isEmpty()) {
+                if (transaction.getCategoryId() == 1 || transaction.getCategoryId() == 3) {
+                    titleTv.setText(transaction.getTitle());
+                    amountTv.setText(transaction.getFormattedAmount());
+                    amountTv.setTextColor(ContextCompat.getColor(context, R.color.green));
+                    createDateTv.setText(transaction.getCreateDate());
+                    categoryTv.setText(cateName);
+                    subCateTV.setText(subCateName);
+                }else{
+                    titleTv.setText(transaction.getTitle());
+                    amountTv.setText(transaction.getFormattedAmount());
+                    amountTv.setTextColor(ContextCompat.getColor(context, R.color.red));
+                    createDateTv.setText(transaction.getCreateDate());
+                    categoryTv.setText(cateName);
+                    subCateTV.setText(subCateName);
+                }
             }
-
         }
     }
 }

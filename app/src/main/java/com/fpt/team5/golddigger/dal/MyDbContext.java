@@ -131,8 +131,6 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "('Tien tkhoan',23000000,1,'2003-15-10')";
         db.execSQL(sqlInsertDefaultBudget);
 
-
-
         String sqlInsertDefaultSubCategories = "INSERT INTO " + TABLE_SUBCATEGORY + " (CategoryId, Title) VALUES " +
                 "(1, 'Salary')," +
                 "(1, 'Family')," +

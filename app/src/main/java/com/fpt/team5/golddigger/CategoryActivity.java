@@ -68,13 +68,13 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void initRcv() {
-        getSubCategories();
+        getCategories();
         adapter = new CategoryAdapter(categories, this);
         rcv.setAdapter(adapter);
         rcv.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
-    private void getSubCategories() {
+    private void getCategories() {
         Cursor c = dbContext.getAllCate();
 
         if (c.moveToFirst()) {
