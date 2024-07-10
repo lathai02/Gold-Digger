@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -113,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, overviewFragment)
+                .replace(R.id.navBarFragment, overviewFragment)
                 .commit();
     }
 }

@@ -1,10 +1,6 @@
 package com.fpt.team5.golddigger;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -14,15 +10,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-public class RevenueActivity extends AppCompatActivity {
-    private NaviagtionBarFragment navigationBarFragment;
-    private ImageButton imgBtnDone;
-    private EditText edtAmount;
-    private EditText edtCategory;
-    private EditText edtDescription;
-    private EditText edtDate;
+import com.google.android.gms.maps.MapFragment;
 
-    private Button btnSubmit;
+public class MapActivity extends AppCompatActivity {
+    private NaviagtionBarFragment navigationBarFragment;
+    private MapFragment mapFragment;
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -36,41 +28,38 @@ public class RevenueActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_revenue);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_revenue), (v, insets) -> {
+        setContentView(R.layout.activity_map);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        bindingView();
+        bindingAction();
+        InjectFragment();
+    }
 
-
-        BindingView();
-        BindingAction();
+    private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.navBarFragment, navigationBarFragment)
                 .commit();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.mapFragment, new MapsFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
-    private void BindingAction() {
-        imgBtnDone.setOnClickListener(this::onSubmit);
-        btnSubmit.setOnClickListener(this::onSubmit);
+    private void bindingAction() {
     }
 
-    private void onSubmit(View view) {
-
-    }
-
-    private void BindingView() {
-        edtAmount = findViewById(R.id.edtAmountRevenue);
-        edtCategory = findViewById(R.id.edtCategory);
-        edtDate = findViewById(R.id.edtDate);
-        edtDescription = findViewById(R.id.edtDescription);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        imgBtnDone = findViewById(R.id.imgBtnDone);
+    private void bindingView() {
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
         }
     }
+
 }

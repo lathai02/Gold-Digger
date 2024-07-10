@@ -60,7 +60,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     private void InjectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, navigationBarFragment)
+                .replace(R.id.navBarFragment, navigationBarFragment)
                 .commit();
     }
 

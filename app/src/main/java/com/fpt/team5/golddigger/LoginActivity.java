@@ -97,8 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             initializeCategories();
             setFirstRunFlag();
         }
-
-
     }
 
     private boolean isFirstRun() {
