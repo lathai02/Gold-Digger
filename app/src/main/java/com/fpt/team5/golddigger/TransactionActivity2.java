@@ -22,7 +22,9 @@ import androidx.fragment.app.Fragment;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class TransactionActivity2 extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
@@ -60,10 +62,10 @@ public class TransactionActivity2 extends AppCompatActivity {
             return insets;
         });
 
-
         BindingView();
         onReceiveIntent();
         BindingAction();
+        setDefaultDateNow();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.navBarFragment, navigationBarFragment)
@@ -143,6 +145,16 @@ public class TransactionActivity2 extends AppCompatActivity {
                 },
                 year, month, day);
         datePickerDialog.show();
+    }
+
+    private void setDefaultDateNow() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = dateFormat.format(new Date());
+        String selectedDay = currentDate.substring(0, 2);
+        String selectedMonth = currentDate.substring(3, 5);
+        String selectedYear = currentDate.substring(6);
+
+        dateTimePickerCreate.setText(selectedDay + "/" + (selectedMonth) + "/" + selectedYear);
     }
 
     private void onReceiveIntent() {

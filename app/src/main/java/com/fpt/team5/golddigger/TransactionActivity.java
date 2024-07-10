@@ -67,11 +67,22 @@ public class TransactionActivity extends AppCompatActivity {
 
         BindingView();
         onReceiveIntent();
+        setDefaultDateNow();
         BindingAction();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.navBarFragment, navigationBarFragment)
                 .commit();
+    }
+
+    private void setDefaultDateNow() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = dateFormat.format(new Date());
+        String selectedDay = currentDate.substring(0, 2);
+        String selectedMonth = currentDate.substring(3, 5);
+        String selectedYear = currentDate.substring(6);
+
+        dateTimePickerCreate.setText(selectedDay + "/" + (selectedMonth) + "/" + selectedYear);
     }
 
     private void SetValues() {
@@ -112,27 +123,26 @@ public class TransactionActivity extends AppCompatActivity {
         int subCategoryId = context.getSubCategoryByName(subCategory);
 
 
-
-        if(title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()){
+        if (title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-        }else{
-            if(checkDate(createDate,dueDate)){
-                if(categoryId != -1 && subCategoryId != -1 ){
-                    Transaction transaction = new Transaction(title,userId,description,amount,categoryId,subCategoryId,createDate,dueDate);
-                    if(context.addTransaction2(transaction)){
+        } else {
+            if (checkDate(createDate, dueDate)) {
+                if (categoryId != -1 && subCategoryId != -1) {
+                    Transaction transaction = new Transaction(title, userId, description, amount, categoryId, subCategoryId, createDate, dueDate);
+                    if (context.addTransaction2(transaction)) {
                         Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
 
-                        context.updateBalance(category,amount,userId);
+                        context.updateBalance(category, amount, userId);
 
                         Intent i = new Intent(this, HomeActivity.class);
                         startActivity(i);
-                    }else{
+                    } else {
                         Toast.makeText(this, "Add failed!", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
                 }
-            }else{
+            } else {
                 Toast.makeText(this, "Due date must be after create date", Toast.LENGTH_SHORT).show();
             }
 
