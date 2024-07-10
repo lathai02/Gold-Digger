@@ -488,6 +488,8 @@ public class MyDbContext extends SQLiteOpenHelper {
         return transactions;
     }
 
+
+
     public String getCategoryById(int categoryId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_CATEGORY,
@@ -589,6 +591,33 @@ public class MyDbContext extends SQLiteOpenHelper {
         int rowsAffected = db.delete(TABLE_TRANSACTIONS, COLUMN_ID + " = ?", new String[]{String.valueOf(transactionId)});
         db.close();
         return rowsAffected > 0;
+    }
+
+    public List<Transaction> getTransactionByUserId(int userId) {
+        List<Transaction> transactions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE userId = ?", new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                int userIdDB = cursor.getInt(2);
+                String description = cursor.getString(3);
+                int categoryId = cursor.getInt(4);
+                int subcategoryId = cursor.getInt(5);
+                float amount = cursor.getFloat(6);
+                String createDate = cursor.getString(7);
+                String dueDate = cursor.getString(8);
+
+                Transaction transaction = new Transaction(id,title,userIdDB,description,amount,categoryId,subcategoryId,createDate,dueDate);
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return transactions;
     }
 
 

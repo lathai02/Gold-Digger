@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView welcomeTv;
     private TextView balanceTv;
     private MyDbContext dbContext;
+    private int userId;
     private Budget b;
     private RecyclerView rcv;
     private TransactionAdapter adapter;
@@ -69,7 +70,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initRcv() {
-        transactions = dbContext.getAllTransactions();
+        userId = pref.getInt("userId", 0);
+        transactions = dbContext.getTransactionByUserId(userId);
         adapter = new TransactionAdapter(transactions, this);
         rcv.setAdapter(adapter);
         rcv.setLayoutManager(new GridLayoutManager(this, 1));
