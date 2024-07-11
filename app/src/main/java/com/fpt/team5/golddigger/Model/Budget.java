@@ -7,9 +7,9 @@ public class Budget {
     private String title;
     private int userId;
     private String createDate;
-    private float amount;
+    private double amount;
 
-    public Budget(int id, String title, int userId, String createDate, float amount) {
+    public Budget(int id, String title, int userId, String createDate, double amount) {
         this.id = id;
         this.title = title;
         this.userId = userId;
@@ -17,14 +17,14 @@ public class Budget {
         this.amount = amount;
     }
 
-    public Budget(String title, int userId, String createDate, float amount) {
+    public Budget(String title, int userId, String createDate, double amount) {
         this.title = title;
         this.userId = userId;
         this.createDate = createDate;
         this.amount = amount;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -33,7 +33,7 @@ public class Budget {
         return decimalFormat.format(amount);
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
