@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.fpt.team5.golddigger.Model.Budget;
 import com.fpt.team5.golddigger.Model.Category;
+import com.fpt.team5.golddigger.Model.Plan;
 import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.Model.User;
@@ -30,6 +31,7 @@ public class MyDbContext extends SQLiteOpenHelper {
     private static final String TABLE_USER = "users";
     private static final String TABLE_SUBCATEGORY = "subCategories";
     private static final String TABLE_BUDGET = "budgets";
+    private static final String TABLE_PLAN = "plans";
     private static final String TABLE_NOTIFICATION = "notifications";
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_PASSWORD = "password";
@@ -47,6 +49,7 @@ public class MyDbContext extends SQLiteOpenHelper {
     private static final String COLUMN_USER_ID = "userId";
     private static final String COLUMN_CREATE_DATE = "createDate";
     private static final String COLUMN_DUE_DATE = "dueDate";
+    private static final String COLUMN_STATUS = "status";
     private static int DATABASE_VERSION = 1;
 
     public MyDbContext(@Nullable Context context) {
@@ -106,6 +109,19 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "CreateDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
         db.execSQL(sqlCreateBudget);
+
+        String sqlCreatePlan = "CREATE TABLE " +
+                TABLE_PLAN +
+                "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Title TEXT," +
+                "Description TEXT," +
+                "Amount DOUBLE," +
+                "UserId INTEGER," +
+                "Status INTEGER," +
+                "CreateDate DATETIME," +
+                "DueDate DATETIME," +
+                "FOREIGN KEY(UserId) REFERENCES Users(Id))";
+        db.execSQL(sqlCreatePlan);
 
         String sqlCreateNotification = "CREATE TABLE " +
                 TABLE_NOTIFICATION +
@@ -457,6 +473,24 @@ public class MyDbContext extends SQLiteOpenHelper {
         values.put(COLUMN_DUE_DATE, transaction.getDueDate());
 
         long result = db.insert(TABLE_TRANSACTIONS, null, values);
+        db.close();
+
+        return result != -1;
+    }
+
+
+    public boolean addPlan(Plan plan) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, plan.getTitle());
+        values.put(COLUMN_DESCRIPTION, plan.getDescription());
+        values.put(COLUMN_AMOUNT, plan.getAmount());
+        values.put(COLUMN_USER_ID, plan.getUserId());
+        values.put(COLUMN_STATUS, plan.getUserId());
+        values.put(COLUMN_CREATE_DATE, plan.getCreateDate());
+        values.put(COLUMN_DUE_DATE, plan.getDueDate());
+
+        long result = db.insert(TABLE_PLAN, null, values);
         db.close();
 
         return result != -1;
