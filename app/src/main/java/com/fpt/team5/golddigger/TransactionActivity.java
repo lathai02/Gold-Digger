@@ -115,7 +115,15 @@ public class TransactionActivity extends AppCompatActivity {
     private void onBtnAddClick(View view) {
         String title = edtTitle.getText().toString();
         String description = edtDescription.getText().toString();
-        float amount = Float.parseFloat(edtAmount.getText().toString());
+
+        float amount = 0;
+        try {
+             amount = Float.parseFloat(edtAmount.getText().toString());
+           
+        } catch (NumberFormatException e) {
+            // Handle the exception
+            Toast.makeText(this, "Amount should be number", Toast.LENGTH_SHORT).show();
+        }
         String createDate = dateTimePickerCreate.getText().toString();
         String dueDate = dateTimePickerDue.getText().toString();
         int userId = pref.getInt("userId", 0);

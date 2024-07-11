@@ -12,9 +12,11 @@ import androidx.annotation.Nullable;
 
 import com.fpt.team5.golddigger.Model.Budget;
 import com.fpt.team5.golddigger.Model.Category;
+import com.fpt.team5.golddigger.Model.Notification;
 import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.Model.User;
+import com.fpt.team5.golddigger.NotificationActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -126,6 +128,11 @@ public class MyDbContext extends SQLiteOpenHelper {
         String sqlInsertDefaultUser = "INSERT INTO " + TABLE_USER + " (Email,Phone,Name,Password,ImageId) VALUES " +
                 "('thang@gmail.com','0123456789','Thang','123456',1)";
         db.execSQL(sqlInsertDefaultUser);
+
+        String sqlInsertDefaultNoti = "INSERT INTO " + TABLE_NOTIFICATION + " (Title,UserId,CreateDate) VALUES " +
+                "('Ban co thong bao ve khoan vay','1','07/07/2024')," +
+                "('Ban co thong bao ve khoan vay 2','1','07/07/2024')";
+        db.execSQL(sqlInsertDefaultNoti);
 
         String sqlInsertDefaultBudget = "INSERT INTO " + TABLE_BUDGET + " (Title,Amount,UserId,CreateDate) VALUES " +
                 "('Tien tkhoan',23000000,1,'2003-15-10')";
@@ -616,6 +623,30 @@ public class MyDbContext extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return transactions;
+    }
+
+
+
+    public List<Notification> getAllNotiByUserId(int userId) {
+        List<Notification> notifications = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTIFICATION + " WHERE userId = ?", new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                int userIdDB = cursor.getInt(2);
+                String createDate = cursor.getString(3);
+
+                Notification noti = new Notification(id,title,userIdDB,createDate);
+                notifications.add(noti);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return notifications;
     }
 
 
