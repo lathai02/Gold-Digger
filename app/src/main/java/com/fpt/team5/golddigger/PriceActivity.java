@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.fpt.team5.golddigger.Model.GoldPrice;
 import com.fpt.team5.golddigger.api.ApiResponse.GoldPriceResponse;
@@ -39,6 +40,16 @@ import retrofit2.Response;
 
 public class PriceActivity extends AppCompatActivity {
     private TableLayout tableLayoutGoldPrice;
+    private NaviagtionBarFragment navigationBarFragment;
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof NaviagtionBarFragment) {
+            navigationBarFragment = ((NaviagtionBarFragment) fragment);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +61,24 @@ public class PriceActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        tableLayoutGoldPrice = findViewById(R.id.tableLayoutGoldPrice);
-        // get data from api
+
+        BindingView();
         getGoldPriceByApi();
+        InjectFragment();
+    }
+
+    private void InjectFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.navBarFragment, navigationBarFragment)
+                .commit();
+    }
+
+    private void BindingView() {
+        tableLayoutGoldPrice = findViewById(R.id.tableLayoutGoldPrice);
+        if (navigationBarFragment == null) {
+            navigationBarFragment = new NaviagtionBarFragment();
+        }
     }
 
     private void getGoldPriceByApi() {
