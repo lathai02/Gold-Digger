@@ -78,7 +78,6 @@ public class TransactionActivity2 extends AppCompatActivity {
     }
 
 
-
     private void BindingView() {
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
@@ -102,34 +101,37 @@ public class TransactionActivity2 extends AppCompatActivity {
     }
 
     private void onBtnAddClick(View view) {
-        String title = edtTitle.getText().toString();
-        String description = edtDescription.getText().toString();
-        float amount = Float.parseFloat(edtAmount.getText().toString());
-        String date = dateTimePickerCreate.getText().toString();
-        int userId = pref.getInt("userId", 0);
-        int categoryId = context.getCategoryByName(category);
-        int subCategoryId = context.getSubCategoryByName(subCategory);
+        if (edtAmount.getText().toString().equals("")) {
+            Toast.makeText(this, "Please fill amount fields", Toast.LENGTH_SHORT).show();
+        } else {
+            String title = edtTitle.getText().toString();
+            String description = edtDescription.getText().toString();
+            float amount = Float.parseFloat(edtAmount.getText().toString());
+            String date = dateTimePickerCreate.getText().toString();
+            int userId = pref.getInt("userId", 0);
+            int categoryId = context.getCategoryByName(category);
+            int subCategoryId = context.getSubCategoryByName(subCategory);
 
-        if(title.isEmpty() || amount == 0 || date.isEmpty()){
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-        }else{
-            if(categoryId != -1 && subCategoryId != -1){
-                Transaction transaction = new Transaction(title,userId,description,amount,categoryId,subCategoryId,date);
-                if(context.addTransaction(transaction)){
-                    Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
+            if (title.isEmpty() || amount == 0 || date.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            } else {
+                if (categoryId != -1 && subCategoryId != -1) {
+                    Transaction transaction = new Transaction(title, userId, description, amount, categoryId, subCategoryId, date);
+                    if (context.addTransaction(transaction)) {
+                        Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
 
-                    context.updateBalance(category,amount,userId);
+                        context.updateBalance(category, amount, userId);
 
-                    Intent i = new Intent(this, HomeActivity.class);
-                    startActivity(i);
-                }else{
-                    Toast.makeText(this, "Add failed!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(this, HomeActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(this, "Add failed!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
                 }
-            }else{
-                Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     private void onDateTimePickerCreateClick(View view) {
