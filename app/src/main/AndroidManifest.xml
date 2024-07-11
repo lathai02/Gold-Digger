@@ -91,6 +91,12 @@
         <activity
             android:name=".NotificationActivity"
             android:exported="true" />
+        <activity
+            android:name=".PlanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddPlanActivity"
+            android:exported="true" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
