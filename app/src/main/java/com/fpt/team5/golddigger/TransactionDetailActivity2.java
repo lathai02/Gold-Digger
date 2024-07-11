@@ -35,7 +35,7 @@ public class TransactionDetailActivity2 extends AppCompatActivity {
     private TextView headerSubCategoryTv;
     private String subCategory;
     private String category;
-    private float currentAmount;
+    private double currentAmount;
     private int transactionId;
     private EditText edtTitle;
     private EditText edtDescription;
@@ -119,7 +119,7 @@ public class TransactionDetailActivity2 extends AppCompatActivity {
     private void onBtnSaveClick(View view) {
         String title = edtTitle.getText().toString();
         String description = edtDescription.getText().toString();
-        float amount = Float.parseFloat(edtAmount.getText().toString());
+        double amount = Double.parseDouble(edtAmount.getText().toString());
         String createDate = dateTimePickerCreate.getText().toString();
         int userId = pref.getInt("userId", 0);
         int categoryId = context.getCategoryByName(category);

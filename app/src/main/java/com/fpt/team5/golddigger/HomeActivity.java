@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             do {
                 int id = c.getInt(0);
                 String title = c.getString(1);
-                float amount = c.getFloat(2);
+                double amount = c.getDouble(2);
                 int userId = c.getInt(3);
                 String date = c.getString(4);
 

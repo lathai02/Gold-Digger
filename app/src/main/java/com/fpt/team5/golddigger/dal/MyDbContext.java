@@ -65,7 +65,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "Description TEXT," +
                 "CategoryId INTEGER," +
                 "SubCategoryId INTEGER," +
-                "Amount FLOAT," +
+                "Amount DOUBLE," +
                 "CreateDate DATETIME," +
                 "DueDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id)," +
@@ -103,7 +103,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 TABLE_BUDGET +
                 "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Title TEXT," +
-                "Amount FLOAT," +
+                "Amount DOUBLE," +
                 "UserId INTEGER," +
                 "CreateDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
@@ -420,21 +420,21 @@ public class MyDbContext extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public float getBudgetAmountByUserId(int userId) {
+    public double getBudgetAmountByUserId(int userId) {
         String sql = "SELECT amount FROM " + TABLE_BUDGET + " WHERE userId = ?";
         Cursor cursor = getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
 
-        float budgetAmount = 0;
+        double budgetAmount = 0;
         if (cursor.moveToFirst()) {
-            budgetAmount = cursor.getFloat(0);
+            budgetAmount = cursor.getDouble(0);
         }
         cursor.close();
         return budgetAmount;
     }
 
-    public boolean updateBalance(String category, float amount,int userId) {
-        float currentBudget = getBudgetAmountByUserId(userId);
-        float newAmount = 0;
+    public boolean updateBalance(String category, double amount,int userId) {
+        double currentBudget = getBudgetAmountByUserId(userId);
+        double newAmount = 0;
         if(category.equals("Income") || category.equals("Borrow")){
             newAmount =  currentBudget + amount;
         }else{
@@ -482,7 +482,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 String description = cursor.getString(3);
                 int categoryId = cursor.getInt(4);
                 int subcategoryId = cursor.getInt(5);
-                float amount = cursor.getFloat(6);
+                double amount = cursor.getDouble(6);
                 String createDate = cursor.getString(7);
                 String dueDate = cursor.getString(8);
 
@@ -559,7 +559,7 @@ public class MyDbContext extends SQLiteOpenHelper {
             String description = cursor.getString(3);
             int categoryId = cursor.getInt(4);
             int subcategoryId = cursor.getInt(5);
-            float amount = cursor.getFloat(6);
+            double amount = cursor.getDouble(6);
             String createDate = cursor.getString(7);
             String dueDate = cursor.getString(8);
 
@@ -614,7 +614,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 String description = cursor.getString(3);
                 int categoryId = cursor.getInt(4);
                 int subcategoryId = cursor.getInt(5);
-                float amount = cursor.getFloat(6);
+                double amount = cursor.getDouble(6);
                 String createDate = cursor.getString(7);
                 String dueDate = cursor.getString(8);
 

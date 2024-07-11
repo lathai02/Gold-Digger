@@ -118,7 +118,7 @@ public class TransactionActivity extends AppCompatActivity {
         } else {
             String title = edtTitle.getText().toString();
             String description = edtDescription.getText().toString();
-            float amount = Float.parseFloat(edtAmount.getText().toString());
+            Double amount = Double.parseDouble(edtAmount.getText().toString());
             String createDate = dateTimePickerCreate.getText().toString();
             String dueDate = dateTimePickerDue.getText().toString();
             int userId = pref.getInt("userId", 0);

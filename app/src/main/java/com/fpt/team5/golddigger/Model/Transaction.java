@@ -7,7 +7,7 @@ public class Transaction {
     private String title;
     private int userId;
     private String description;
-    private float amount;
+    private double amount;
     private int categoryId;
     private int subCategoryId;
     private String createDate;
@@ -16,7 +16,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int id, String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate, String dueDate) {
+    public Transaction(int id, String title, int userId, String description, double amount, int categoryId, int subCategoryId, String createDate, String dueDate) {
         this.id = id;
         this.title = title;
         this.userId = userId;
@@ -28,7 +28,7 @@ public class Transaction {
         this.dueDate = dueDate;
     }
 
-    public Transaction(int id, String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate) {
+    public Transaction(int id, String title, int userId, String description, double amount, int categoryId, int subCategoryId, String createDate) {
         this.id = id;
         this.title = title;
         this.userId = userId;
@@ -39,7 +39,7 @@ public class Transaction {
         this.createDate = createDate;
     }
 
-    public Transaction(String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate) {
+    public Transaction(String title, int userId, String description, double amount, int categoryId, int subCategoryId, String createDate) {
         this.title = title;
         this.userId = userId;
         this.description = description;
@@ -49,7 +49,7 @@ public class Transaction {
         this.createDate = createDate;
     }
 
-    public Transaction(String title, int userId, String description, float amount, int categoryId, int subCategoryId, String createDate, String dueDate) {
+    public Transaction(String title, int userId, String description, double amount, int categoryId, int subCategoryId, String createDate, String dueDate) {
         this.title = title;
         this.userId = userId;
         this.description = description;
@@ -92,7 +92,7 @@ public class Transaction {
         this.description = description;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -106,7 +106,7 @@ public class Transaction {
         return decimalFormat.format(amount);
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
