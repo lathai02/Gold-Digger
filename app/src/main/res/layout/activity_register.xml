@@ -76,7 +76,7 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_edit_text"
             android:hint="Email"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:padding="12dp" />
     </LinearLayout>
     <LinearLayout
@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_edit_text"
             android:hint="Phone number"
-            android:inputType="textEmailAddress"
+            android:inputType="phone"
             android:padding="12dp" />
     </LinearLayout>
     <LinearLayout
