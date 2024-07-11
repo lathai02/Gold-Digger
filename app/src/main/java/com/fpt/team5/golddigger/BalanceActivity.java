@@ -58,7 +58,7 @@ public class BalanceActivity extends AppCompatActivity {
     }
 
     private void OnBtnStartClick(View view) {
-        float amount = Float.parseFloat(balanceEt.getText().toString());
+        double amount = Double.parseDouble(balanceEt.getText().toString());
         String title = titleEt.getText().toString();
 
 

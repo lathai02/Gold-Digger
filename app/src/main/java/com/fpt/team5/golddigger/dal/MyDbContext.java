@@ -12,10 +12,11 @@ import androidx.annotation.Nullable;
 
 import com.fpt.team5.golddigger.Model.Budget;
 import com.fpt.team5.golddigger.Model.Category;
-import com.fpt.team5.golddigger.Model.Plan;
+import com.fpt.team5.golddigger.Model.Notification;
 import com.fpt.team5.golddigger.Model.SubCategory;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.Model.User;
+import com.fpt.team5.golddigger.NotificationActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,7 +67,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "Description TEXT," +
                 "CategoryId INTEGER," +
                 "SubCategoryId INTEGER," +
-                "Amount FLOAT," +
+                "Amount DOUBLE," +
                 "CreateDate DATETIME," +
                 "DueDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id)," +
@@ -104,7 +105,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 TABLE_BUDGET +
                 "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Title TEXT," +
-                "Amount FLOAT," +
+                "Amount DOUBLE," +
                 "UserId INTEGER," +
                 "CreateDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
@@ -142,6 +143,11 @@ public class MyDbContext extends SQLiteOpenHelper {
         String sqlInsertDefaultUser = "INSERT INTO " + TABLE_USER + " (Email,Phone,Name,Password,ImageId) VALUES " +
                 "('thang@gmail.com','0123456789','Thang','123456',1)";
         db.execSQL(sqlInsertDefaultUser);
+
+        String sqlInsertDefaultNoti = "INSERT INTO " + TABLE_NOTIFICATION + " (Title,UserId,CreateDate) VALUES " +
+                "('Ban co thong bao ve khoan vay','1','07/07/2024')," +
+                "('Ban co thong bao ve khoan vay 2','1','07/07/2024')";
+        db.execSQL(sqlInsertDefaultNoti);
 
         String sqlInsertDefaultBudget = "INSERT INTO " + TABLE_BUDGET + " (Title,Amount,UserId,CreateDate) VALUES " +
                 "('Tien tkhoan',23000000,1,'2003-15-10')";
@@ -429,21 +435,21 @@ public class MyDbContext extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public float getBudgetAmountByUserId(int userId) {
+    public double getBudgetAmountByUserId(int userId) {
         String sql = "SELECT amount FROM " + TABLE_BUDGET + " WHERE userId = ?";
         Cursor cursor = getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
 
-        float budgetAmount = 0;
+        double budgetAmount = 0;
         if (cursor.moveToFirst()) {
-            budgetAmount = cursor.getFloat(0);
+            budgetAmount = cursor.getDouble(0);
         }
         cursor.close();
         return budgetAmount;
     }
 
-    public boolean updateBalance(String category, float amount,int userId) {
-        float currentBudget = getBudgetAmountByUserId(userId);
-        float newAmount = 0;
+    public boolean updateBalance(String category, double amount,int userId) {
+        double currentBudget = getBudgetAmountByUserId(userId);
+        double newAmount = 0;
         if(category.equals("Income") || category.equals("Borrow")){
             newAmount =  currentBudget + amount;
         }else{
@@ -509,7 +515,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 String description = cursor.getString(3);
                 int categoryId = cursor.getInt(4);
                 int subcategoryId = cursor.getInt(5);
-                float amount = cursor.getFloat(6);
+                double amount = cursor.getDouble(6);
                 String createDate = cursor.getString(7);
                 String dueDate = cursor.getString(8);
 
@@ -586,7 +592,7 @@ public class MyDbContext extends SQLiteOpenHelper {
             String description = cursor.getString(3);
             int categoryId = cursor.getInt(4);
             int subcategoryId = cursor.getInt(5);
-            float amount = cursor.getFloat(6);
+            double amount = cursor.getDouble(6);
             String createDate = cursor.getString(7);
             String dueDate = cursor.getString(8);
 
@@ -641,7 +647,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 String description = cursor.getString(3);
                 int categoryId = cursor.getInt(4);
                 int subcategoryId = cursor.getInt(5);
-                float amount = cursor.getFloat(6);
+                double amount = cursor.getDouble(6);
                 String createDate = cursor.getString(7);
                 String dueDate = cursor.getString(8);
 
@@ -653,6 +659,30 @@ public class MyDbContext extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return transactions;
+    }
+
+
+
+    public List<Notification> getAllNotiByUserId(int userId) {
+        List<Notification> notifications = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTIFICATION + " WHERE userId = ?", new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                int userIdDB = cursor.getInt(2);
+                String createDate = cursor.getString(3);
+
+                Notification noti = new Notification(id,title,userIdDB,createDate);
+                notifications.add(noti);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return notifications;
     }
 
 
