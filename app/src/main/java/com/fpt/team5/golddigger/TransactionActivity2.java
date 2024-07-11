@@ -101,6 +101,7 @@ public class TransactionActivity2 extends AppCompatActivity {
     }
 
     private void onBtnAddClick(View view) {
+
         if (edtAmount.getText().toString().equals("")) {
             Toast.makeText(this, "Please fill amount fields", Toast.LENGTH_SHORT).show();
         } else {
