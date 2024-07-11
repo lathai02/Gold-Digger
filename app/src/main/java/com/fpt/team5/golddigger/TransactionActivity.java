@@ -113,47 +113,42 @@ public class TransactionActivity extends AppCompatActivity {
     }
 
     private void onBtnAddClick(View view) {
-        String title = edtTitle.getText().toString();
-        String description = edtDescription.getText().toString();
-
-        float amount = 0;
-        try {
-             amount = Float.parseFloat(edtAmount.getText().toString());
-           
-        } catch (NumberFormatException e) {
-            // Handle the exception
-            Toast.makeText(this, "Amount should be number", Toast.LENGTH_SHORT).show();
-        }
-        String createDate = dateTimePickerCreate.getText().toString();
-        String dueDate = dateTimePickerDue.getText().toString();
-        int userId = pref.getInt("userId", 0);
-        int categoryId = context.getCategoryByName(category);
-        int subCategoryId = context.getSubCategoryByName(subCategory);
-
-
-        if (title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+        if (edtAmount.getText().toString().equals("")) {
+            Toast.makeText(this, "Please fill amount fields", Toast.LENGTH_SHORT).show();
         } else {
-            if (checkDate(createDate, dueDate)) {
-                if (categoryId != -1 && subCategoryId != -1) {
-                    Transaction transaction = new Transaction(title, userId, description, amount, categoryId, subCategoryId, createDate, dueDate);
-                    if (context.addTransaction2(transaction)) {
-                        Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
+            String title = edtTitle.getText().toString();
+            String description = edtDescription.getText().toString();
+            float amount = Float.parseFloat(edtAmount.getText().toString());
+            String createDate = dateTimePickerCreate.getText().toString();
+            String dueDate = dateTimePickerDue.getText().toString();
+            int userId = pref.getInt("userId", 0);
+            int categoryId = context.getCategoryByName(category);
+            int subCategoryId = context.getSubCategoryByName(subCategory);
 
-                        context.updateBalance(category, amount, userId);
 
-                        Intent i = new Intent(this, HomeActivity.class);
-                        startActivity(i);
+            if (title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            } else {
+                if (checkDate(createDate, dueDate)) {
+                    if (categoryId != -1 && subCategoryId != -1) {
+                        Transaction transaction = new Transaction(title, userId, description, amount, categoryId, subCategoryId, createDate, dueDate);
+                        if (context.addTransaction2(transaction)) {
+                            Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
+
+                            context.updateBalance(category, amount, userId);
+
+                            Intent i = new Intent(this, HomeActivity.class);
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(this, "Add failed!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(this, "Add failed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Due date must be after create date", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, "Due date must be after create date", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 

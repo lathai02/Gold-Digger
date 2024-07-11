@@ -163,10 +163,10 @@ public class MyDbContext extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getBudgetByUserId(int userId) {
-        String sql = "SELECT * FROM " + TABLE_BUDGET + " WHERE userId = ?";
-        return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
-    }
+//    public Cursor getBudgetByUserId(int userId) {
+//        String sql = "SELECT * FROM " + TABLE_BUDGET + " WHERE userId = ?";
+//        return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
+//    }
 
     public long addBudget(Budget budget) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -187,7 +187,10 @@ public class MyDbContext extends SQLiteOpenHelper {
         return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(cateId)});
     }
 
-
+    public Cursor getBudgetByUserId(int userId) {
+        String sql = "SELECT * FROM " + TABLE_BUDGET + " WHERE UserId = ?";
+        return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
+    }
 
     public Cursor getAllCate() {
         String sql = "SELECT * FROM " + TABLE_CATEGORY ;

@@ -66,10 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
                 int userId = dbContext.addUser(u);
                 if (userId != -1) {
                     Intent i = new Intent(this, BalanceActivity.class);
-                    u = dbContext.getUserById(userId);
-                    editor.putInt("userId", userId);
-                    editor.putString("name", u.getName());
-                    editor.commit();
+                    i.putExtra("userName", u.getName());
+                    i.putExtra("userId", userId);
                     startActivity(i);
                     finish();
                 } else {

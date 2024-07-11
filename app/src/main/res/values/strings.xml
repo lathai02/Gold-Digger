@@ -22,5 +22,6 @@
     <string name="date">Date</string>
     <string name="pick_category">Pick Category</string>
     <string name="submit">Submit</string>
+    <string name="gold_price">Gold price</string>
 
 </resources>
