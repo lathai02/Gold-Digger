@@ -1,9 +1,12 @@
 package com.fpt.team5.golddigger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView rcv;
     private TransactionAdapter adapter;
     private List<Transaction> transactions;
+    private ImageView ivNotification;
+
 
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
@@ -80,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             do {
                 int id = c.getInt(0);
                 String title = c.getString(1);
-                float amount = c.getFloat(2);
+                double amount = c.getDouble(2);
                 int userId = c.getInt(3);
                 String date = c.getString(4);
 
@@ -119,9 +124,15 @@ public class HomeActivity extends AppCompatActivity {
         dbContext = new MyDbContext(this);
         rcv = findViewById(R.id.transactionRcv);
         transactions = new ArrayList<>();
+        ivNotification = findViewById(R.id.ivNotification);
     }
 
     private void BindingAction() {
+        ivNotification.setOnClickListener(this::onNotificationClick);
+    }
 
+    private void onNotificationClick(View view) {
+        Intent i = new Intent(this, NotificationActivity.class);
+        startActivity(i);
     }
 }
