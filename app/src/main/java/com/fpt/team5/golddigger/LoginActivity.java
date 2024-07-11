@@ -19,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.fpt.team5.golddigger.Model.Budget;
 import com.fpt.team5.golddigger.Model.User;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private MyDbContext context;
 
-    private void bindingView(){
+    private void bindingView() {
         etEmailPhone = findViewById(R.id.etEmailPhone);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -45,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         editor = pref.edit();
     }
 
-    private void bindingAction(){
+    private void bindingAction() {
         btnLogin.setOnClickListener(this::onBtnGoToMainScreen);
         tvRegister.setOnClickListener(this::onBtnGoToRegisterScreen);
         tvForgotPassword.setOnClickListener(this::onBtnGoToForgotPasswordScreen);
@@ -65,19 +66,42 @@ public class LoginActivity extends AppCompatActivity {
         String emailPhone = etEmailPhone.getText().toString();
         String password = etPassword.getText().toString();
         int userId = context.checkLogin(emailPhone, password);
-        if(userId != 0){
-            Intent i = new Intent(this, HomeActivity.class);
-            User u = context.getUserById(userId);
-            editor.putInt("userId", userId);
-            editor.putString("name", u.getName());
-            editor.commit();
-            startActivity(i);
-            finish();
-        }else{
+
+        if (userId != 0) {
+            Budget b = null;
+            Cursor c = context.getBudgetByUserId(userId);
+            if (c.moveToFirst()) {
+                do {
+                    int id = c.getInt(0);
+                    String title = c.getString(1);
+                    float amount = c.getFloat(2);
+                    int uId = c.getInt(3);
+                    String date = c.getString(4);
+
+                    b = new Budget(title, uId, date, amount);
+                } while (c.moveToNext());
+            }
+
+            if (b != null) {
+                Intent i = new Intent(this, HomeActivity.class);
+                User u = context.getUserById(userId);
+                editor.putInt("userId", userId);
+                editor.putString("name", u.getName());
+                editor.commit();
+                startActivity(i);
+                finish();
+            } else {
+                Intent i = new Intent(this, BalanceActivity.class);
+                User u = context.getUserById(userId);
+                i.putExtra("userName", u.getName());
+                i.putExtra("userId", userId);
+                startActivity(i);
+                finish();
+            }
+        } else {
             Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     @Override
@@ -112,21 +136,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initializeCategories() {
-        int[] imageIds = {R.drawable.ic_category_income,R.drawable.ic_category_expense,R.drawable.ic_category_borrow,R.drawable.ic_category_lending};
+        int[] imageIds = {R.drawable.ic_category_income, R.drawable.ic_category_expense, R.drawable.ic_category_borrow, R.drawable.ic_category_lending};
 
-        int[] categoryIds = {1, 2, 3,4};
+        int[] categoryIds = {1, 2, 3, 4};
 
-        for (int i=0;i<4;i++) {
+        for (int i = 0; i < 4; i++) {
             context.updateCategoryImageId(categoryIds[i], imageIds[i]);
         }
 
-        int[] imageIds2 = {R.drawable.ic_subcategory_income_salary,R.drawable.ic_subcategory_income_family
-        ,R.drawable.ic_subcategory_income_bonus,R.drawable.ic_subcategory_income_interest,R.drawable.ic_subcategory_income_others
-        ,R.drawable.ic_subcategory_expense_foodanddining,R.drawable.ic_subcategory_expense_utilities,R.drawable.ic_subcategory_expense_transport,
-        R.drawable.ic_subcategory_expense_clothing,R.drawable.ic_subcategory_expense_personal,R.drawable.ic_subcategory_expense_entertainment
-        ,R.drawable.ic_subcategory_expense_home,R.drawable.ic_subcategory_expense_kids,R.drawable.ic_category_borrow,R.drawable.ic_category_lending};
-        int[] subcategoryIds = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-        for (int i=0;i<15;i++) {
+        int[] imageIds2 = {R.drawable.ic_subcategory_income_salary, R.drawable.ic_subcategory_income_family
+                , R.drawable.ic_subcategory_income_bonus, R.drawable.ic_subcategory_income_interest, R.drawable.ic_subcategory_income_others
+                , R.drawable.ic_subcategory_expense_foodanddining, R.drawable.ic_subcategory_expense_utilities, R.drawable.ic_subcategory_expense_transport,
+                R.drawable.ic_subcategory_expense_clothing, R.drawable.ic_subcategory_expense_personal, R.drawable.ic_subcategory_expense_entertainment
+                , R.drawable.ic_subcategory_expense_home, R.drawable.ic_subcategory_expense_kids, R.drawable.ic_category_borrow, R.drawable.ic_category_lending};
+        int[] subcategoryIds = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        for (int i = 0; i < 15; i++) {
             context.updateSubcategoryImageId(subcategoryIds[i], imageIds2[i]);
         }
 
@@ -137,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (pref.getInt("userId",0) != 0) {
+        if (pref.getInt("userId", 0) != 0) {
             Intent i = new Intent(this, HomeActivity.class);
             startActivity(i);
             finish();

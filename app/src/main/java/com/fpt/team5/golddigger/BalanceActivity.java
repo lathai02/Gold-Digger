@@ -28,6 +28,8 @@ public class BalanceActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private MyDbContext dbContext;
+    private String userName;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,14 @@ public class BalanceActivity extends AppCompatActivity {
         });
 
         bindingView();
+        onReceiveIntent();
         bindingAction();
+    }
+
+    private void onReceiveIntent() {
+        Intent i = getIntent();
+        userName = i.getStringExtra("userName");
+        userId = i.getIntExtra("userId", 0);
     }
 
     private void bindingAction() {
@@ -51,7 +60,7 @@ public class BalanceActivity extends AppCompatActivity {
     private void OnBtnStartClick(View view) {
         float amount = Float.parseFloat(balanceEt.getText().toString());
         String title = titleEt.getText().toString();
-        int userId = pref.getInt("userId", 0);
+
 
         LocalDateTime now = null;
         DateTimeFormatter formatter = null;
@@ -64,6 +73,10 @@ public class BalanceActivity extends AppCompatActivity {
 
         Budget b = new Budget(title, userId, formattedDateTime, amount);
         dbContext.addBudget(b);
+
+        editor.putInt("userId", userId);
+        editor.putString("name", userName);
+        editor.commit();
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
         finish();
