@@ -90,8 +90,11 @@ public class LoginActivity extends AppCompatActivity {
                 editor.commit();
                 startActivity(i);
                 finish();
-            }else{
+            } else {
                 Intent i = new Intent(this, BalanceActivity.class);
+                User u = context.getUserById(userId);
+                i.putExtra("userName", u.getName());
+                i.putExtra("userId", userId);
                 startActivity(i);
                 finish();
             }
