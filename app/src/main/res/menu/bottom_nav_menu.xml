@@ -14,8 +14,8 @@
         android:title="@string/add_navigation_bar" />
     <item
         android:id="@+id/navigation_google_map"
-        android:icon="@drawable/ic_map"
-        android:title="@string/map_navigation_bar" />
+        android:icon="@drawable/navigation_plan"
+        android:title="Plan" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile"
