@@ -70,10 +70,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.VH> {
 
         private void OnItemViewClick(View view) {
 
-//            Intent i = new Intent(context, SubcategoryActivity.class);
-//            i.putExtra("cateId", c.getId());
-//            i.putExtra("cateName", c.getTitle());
-//            context.startActivity(i);
+            Intent i = new Intent(context, PlanDetailActivity.class);
+            i.putExtra("title", p.getTitle());
+            i.putExtra("amount", p.getFormattedAmount());
+            i.putExtra("createDate", p.getCreateDate());
+            i.putExtra("dueDate", p.getDueDate());
+            i.putExtra("id", p.getId());
+            i.putExtra("description", p.getDescription());
+
+            context.startActivity(i);
         }
 
         public VH(@NonNull View itemView) {

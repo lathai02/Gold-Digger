@@ -663,6 +663,13 @@ public class MyDbContext extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
+    public boolean deletePlan(int planId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowsAffected = db.delete(TABLE_PLAN, COLUMN_ID + " = ?", new String[]{String.valueOf(planId)});
+        db.close();
+        return rowsAffected > 0;
+    }
+
     public List<Transaction> getTransactionByUserId(int userId) {
         List<Transaction> transactions = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

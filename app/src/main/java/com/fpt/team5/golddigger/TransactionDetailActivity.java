@@ -246,6 +246,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         subCategory = i.getStringExtra("subCategory");
         category = i.getStringExtra("category");
         transactionId = i.getIntExtra("transactionId", 0);
+
         Transaction t = context.getTransactionById(transactionId);
         edtTitle.setText(t.getTitle());
         edtDescription.setText(t.getDescription());
