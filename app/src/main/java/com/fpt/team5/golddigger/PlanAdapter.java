@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,19 +48,27 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.VH> {
     }
 
     protected class VH extends RecyclerView.ViewHolder {
-        private TextView categoryName;
+        private TextView titleTv;
+        private TextView amountTv;
+        private ImageView statusTvv;
+        private TextView createDate;
+        private TextView dueDate;
 
         private Plan p;
 
         private void bindingView() {
-            categoryName = itemView.findViewById(R.id.categoryNameTv);
+            titleTv = itemView.findViewById(R.id.titleTv);
+            amountTv = itemView.findViewById(R.id.amountTv);
+            statusTvv = itemView.findViewById(R.id.statusTvv);
+            createDate = itemView.findViewById(R.id.createDate);
+            dueDate = itemView.findViewById(R.id.dueDate);
         }
 
         private void bindingAction() {
-
+            itemView.setOnClickListener(this::OnItemViewClick);
         }
 
-        private void onCategoryImageButtonClick(View view) {
+        private void OnItemViewClick(View view) {
 
 //            Intent i = new Intent(context, SubcategoryActivity.class);
 //            i.putExtra("cateId", c.getId());
@@ -75,7 +84,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.VH> {
 
         public void setPlan(Plan plan) {
             p = plan;
-
+            titleTv.setText(plan.getTitle());
+            amountTv.setText(plan.getFormattedAmount() + "");
+            createDate.setText(plan.getCreateDate());
+            dueDate.setText(plan.getDueDate());
+            if(plan.getStatus() == 1){
+                statusTvv.setImageResource(R.drawable.ic_done);
+            }else{
+                statusTvv.setImageResource(R.drawable.not_done);
+            }
         }
     }
 }
