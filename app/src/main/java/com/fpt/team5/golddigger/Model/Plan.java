@@ -1,5 +1,7 @@
 package com.fpt.team5.golddigger.Model;
 
+import java.text.DecimalFormat;
+
 public class Plan {
     private int id;
     private String title;
@@ -29,6 +31,11 @@ public class Plan {
         this.status = status;
         this.createDate = createDate;
         this.dueDate = dueDate;
+    }
+
+    public String getFormattedAmount() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(amount);
     }
 
     public String getDueDate() {

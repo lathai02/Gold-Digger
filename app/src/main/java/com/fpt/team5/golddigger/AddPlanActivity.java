@@ -1,6 +1,7 @@
 package com.fpt.team5.golddigger;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -93,22 +94,19 @@ public class AddPlanActivity extends AppCompatActivity {
         } else {
             String title = edtTitle.getText().toString();
             String description = edtDescription.getText().toString();
-            float amount = Float.parseFloat(edtAmount.getText().toString());
+            double amount = Double.parseDouble(edtAmount.getText().toString());
             String createDate = edtCreateDate.getText().toString();
             String dueDate = edtDueDate.getText().toString();
             int userId = pref.getInt("userId", 0);
 
-
-            if (title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()) {
+            if (title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty() || description.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             } else {
                 if (checkDate(createDate, dueDate)) {
-                    int status = getPlanStatus(amount);
-
-                    Plan plan = new Plan(title, description, amount, userId, 0, createDate, dueDate);
+                    int status = getPlanStatus(amount, userId);
+                    Plan plan = new Plan(title, description, amount, userId, status, createDate, dueDate);
                     if (context.addPlan(plan)) {
                         Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
-
                         Intent i = new Intent(this, PlanActivity.class);
                         startActivity(i);
                     } else {
@@ -121,18 +119,30 @@ public class AddPlanActivity extends AppCompatActivity {
         }
     }
 
-    private int getPlanStatus(double amount) {
-        return 0;
+    private int getPlanStatus(double amount, int userId) {
+        Double balance = context.getBudgetAmountByUserId(userId);
+
+        if (balance >= amount) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     private void BindingView() {
         if (naviagtionBarFragment == null) {
             naviagtionBarFragment = new NaviagtionBarFragment();
         }
+        edtAmount = findViewById(R.id.edtAmount);
+        edtTitle = findViewById(R.id.edtTitle);
+        edtDescription = findViewById(R.id.edtDescription);
         btnAdd = findViewById(R.id.btnAdd);
         edtCreateDate = findViewById(R.id.edtCreateDate);
         edtDueDate = findViewById(R.id.edtDueDate);
         calendar = Calendar.getInstance();
+        pref = getSharedPreferences("my_pref", Context.MODE_PRIVATE);
+        editor = pref.edit();
+        context = new MyDbContext(this);
     }
 
 

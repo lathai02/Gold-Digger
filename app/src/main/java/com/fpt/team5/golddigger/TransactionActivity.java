@@ -19,6 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.fpt.team5.golddigger.Model.Plan;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
@@ -26,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TransactionActivity extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
@@ -136,6 +138,7 @@ public class TransactionActivity extends AppCompatActivity {
                             Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
 
                             context.updateBalance(category, amount, userId);
+                            UpdatePlanSatus(userId);
 
                             Intent i = new Intent(this, HomeActivity.class);
                             startActivity(i);
@@ -148,6 +151,20 @@ public class TransactionActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Due date must be after create date", Toast.LENGTH_SHORT).show();
                 }
+            }
+        }
+    }
+
+    private void UpdatePlanSatus(int userId) {
+        double currentBudget = context.getBudgetAmountByUserId(userId);
+        List<Plan> plans = context.getPlanByUserId(userId);
+        for (Plan p : plans) {
+            if (currentBudget >= p.getAmount()) {
+                p.setStatus(1);
+                context.updateStatus(p, p.getId());
+            } else {
+                p.setStatus(0);
+                context.updateStatus(p, p.getId());
             }
         }
     }

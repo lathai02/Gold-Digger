@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.fpt.team5.golddigger.Model.Plan;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
@@ -28,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TransactionDetailActivity extends AppCompatActivity {
     private NaviagtionBarFragment navigationBarFragment;
@@ -109,12 +111,28 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private void deleteTransaction() {
         // Assuming you have the transaction ID to delete
         int userId = pref.getInt("userId", 0);
-        if(context.deleteTransaction(transactionId)){
-            context.updateBalance(category,currentAmount*(-1),userId);
-            Intent i = new Intent(this,HomeActivity.class);
+        if (context.deleteTransaction(transactionId)) {
+            context.updateBalance(category, currentAmount * (-1), userId);
+            UpdatePlanSatus(userId);
+
+            Intent i = new Intent(this, HomeActivity.class);
             startActivity(i);
-        }else{
+        } else {
             Toast.makeText(this, "Delete failed!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void UpdatePlanSatus(int userId) {
+        double currentBudget = context.getBudgetAmountByUserId(userId);
+        List<Plan> plans = context.getPlanByUserId(userId);
+        for (Plan p : plans) {
+            if (currentBudget >= p.getAmount()) {
+                p.setStatus(1);
+                context.updateStatus(p, p.getId());
+            } else {
+                p.setStatus(0);
+                context.updateStatus(p, p.getId());
+            }
         }
     }
 
@@ -146,35 +164,33 @@ public class TransactionDetailActivity extends AppCompatActivity {
         int subCategoryId = context.getSubCategoryByName(subCategory);
 
 
-
-        if(title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()){
+        if (title.isEmpty() || amount == 0 || createDate.isEmpty() || dueDate.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-        }else{
-            if(checkDate(createDate,dueDate)){
-                if(categoryId != -1 && subCategoryId != -1 ){
-                    Transaction transaction = new Transaction(title,userId,description,amount,categoryId,subCategoryId,createDate,dueDate);
-                    if(context.updateTransaction(transaction,transactionId)){
+        } else {
+            if (checkDate(createDate, dueDate)) {
+                if (categoryId != -1 && subCategoryId != -1) {
+                    Transaction transaction = new Transaction(title, userId, description, amount, categoryId, subCategoryId, createDate, dueDate);
+                    if (context.updateTransaction(transaction, transactionId)) {
                         Toast.makeText(this, "Save successfully!", Toast.LENGTH_SHORT).show();
-                        if(currentAmount != amount){
-
-                            context.updateBalance(category,amount-currentAmount,userId);
+                        if (currentAmount != amount) {
+                            context.updateBalance(category, amount - currentAmount, userId);
+                            UpdatePlanSatus(userId);
                         }
-
-
                         Intent i = new Intent(this, HomeActivity.class);
                         startActivity(i);
-                    }else{
+                    } else {
                         Toast.makeText(this, "Save failed!", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
                 }
-            }else{
+            } else {
                 Toast.makeText(this, "Due date must be after create date", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
+
+
 
     private void onDateTimePickerCreateClick(View view) {
         int year = calendar.get(Calendar.YEAR);

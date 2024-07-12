@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:id="@+id/main"
     android:background="@color/blue"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -48,9 +50,8 @@
         android:textColor="@android:color/darker_gray"
         android:layout_marginTop="4dp" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
 </LinearLayout>
+
+
+
+

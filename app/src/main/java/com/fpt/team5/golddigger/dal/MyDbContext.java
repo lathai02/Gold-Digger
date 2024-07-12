@@ -134,6 +134,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
         db.execSQL(sqlCreateNotification);
 
+
         String sqlInsertDefaultData = "INSERT INTO " + TABLE_CATEGORY + " (Title,ImageId) VALUES " +
                 "('Income',1)," +
                 "('Expense',2)," +
@@ -172,6 +173,11 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "(4, 'Lending')";
         db.execSQL(sqlInsertDefaultSubCategories);
 
+
+        String sqlInsertDefaultData2 = "INSERT INTO " + TABLE_PLAN + " (Title,Description,Amount,UserId,Status,CreateDate,DueDate) VALUES " +
+                "('Income','FDS1',555,1,1,'2003-15-10','2003-15-1')";
+
+        db.execSQL(sqlInsertDefaultData2);
     }
 
     @Override
@@ -209,7 +215,7 @@ public class MyDbContext extends SQLiteOpenHelper {
     }
 
     public Cursor getAllCate() {
-        String sql = "SELECT * FROM " + TABLE_CATEGORY ;
+        String sql = "SELECT * FROM " + TABLE_CATEGORY;
         return getReadableDatabase().rawQuery(sql, null);
     }
 
@@ -256,7 +262,7 @@ public class MyDbContext extends SQLiteOpenHelper {
     public User getUserById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USER,
-                new String[]{COLUMN_EMAIL,COLUMN_PHONE, COLUMN_NAME, COLUMN_PASSWORD, COLUMN_IMAGE_ID},
+                new String[]{COLUMN_EMAIL, COLUMN_PHONE, COLUMN_NAME, COLUMN_PASSWORD, COLUMN_IMAGE_ID},
                 COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)},
                 null, null, null);
@@ -284,7 +290,7 @@ public class MyDbContext extends SQLiteOpenHelper {
             db.close();
             return -1; // Indicate that the email already exists
         }
-        try{
+        try {
             ContentValues values = new ContentValues();
             values.put(COLUMN_EMAIL, u.getEmail());
             values.put(COLUMN_NAME, u.getName());
@@ -297,7 +303,7 @@ public class MyDbContext extends SQLiteOpenHelper {
             db.close();
 
             return (newRowId == -1) ? -1 : (int) newRowId;
-        }catch (Exception e){
+        } catch (Exception e) {
             db.close();
             return -1;
         }
@@ -371,7 +377,7 @@ public class MyDbContext extends SQLiteOpenHelper {
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = inputDateFormat.parse(dateString);
-            String result =  outputDateFormat.format(date);
+            String result = outputDateFormat.format(date);
             return ("'" + result + "'");
         } catch (ParseException e) {
             e.printStackTrace();
@@ -448,12 +454,12 @@ public class MyDbContext extends SQLiteOpenHelper {
         return budgetAmount;
     }
 
-    public boolean updateBalance(String category, double amount,int userId) {
+    public boolean updateBalance(String category, double amount, int userId) {
         double currentBudget = getBudgetAmountByUserId(userId);
         double newAmount = 0;
-        if(category.equals("Income") || category.equals("Borrow")){
-            newAmount =  currentBudget + amount;
-        }else{
+        if (category.equals("Income") || category.equals("Borrow")) {
+            newAmount = currentBudget + amount;
+        } else {
             newAmount = currentBudget - amount;
         }
 
@@ -493,7 +499,7 @@ public class MyDbContext extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, plan.getDescription());
         values.put(COLUMN_AMOUNT, plan.getAmount());
         values.put(COLUMN_USER_ID, plan.getUserId());
-        values.put(COLUMN_STATUS, plan.getUserId());
+        values.put(COLUMN_STATUS, plan.getStatus());
         values.put(COLUMN_CREATE_DATE, plan.getCreateDate());
         values.put(COLUMN_DUE_DATE, plan.getDueDate());
 
@@ -520,7 +526,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 String createDate = cursor.getString(7);
                 String dueDate = cursor.getString(8);
 
-                Transaction transaction = new Transaction(id,title,userId,description,amount,categoryId,subcategoryId,createDate,dueDate);
+                Transaction transaction = new Transaction(id, title, userId, description, amount, categoryId, subcategoryId, createDate, dueDate);
                 transactions.add(transaction);
             } while (cursor.moveToNext());
         }
@@ -529,7 +535,6 @@ public class MyDbContext extends SQLiteOpenHelper {
         db.close();
         return transactions;
     }
-
 
 
     public String getCategoryById(int categoryId) {
@@ -600,14 +605,14 @@ public class MyDbContext extends SQLiteOpenHelper {
             cursor.close();
             db.close();
 
-            return new Transaction(id,title,userId,description,amount,categoryId,subcategoryId,createDate,dueDate);
+            return new Transaction(id, title, userId, description, amount, categoryId, subcategoryId, createDate, dueDate);
         } else {
             db.close();
             return null;
         }
     }
 
-    public boolean updateTransaction(Transaction transaction,int transactionId) {
+    public boolean updateTransaction(Transaction transaction, int transactionId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, transaction.getTitle());
@@ -622,6 +627,29 @@ public class MyDbContext extends SQLiteOpenHelper {
         // Updating row
         int rowsAffected = db.update(TABLE_TRANSACTIONS, values, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(transactionId)});
+
+        db.close();
+
+        return rowsAffected > 0;
+    }
+
+
+
+
+    public boolean updateStatus(Plan plan, int planId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, plan.getTitle());
+        values.put(COLUMN_DESCRIPTION, plan.getDescription());
+        values.put(COLUMN_AMOUNT, plan.getAmount());
+        values.put(COLUMN_STATUS, plan.getStatus());
+        values.put(COLUMN_USER_ID, plan.getUserId());
+        values.put(COLUMN_CREATE_DATE, plan.getCreateDate());
+        values.put(COLUMN_DUE_DATE, plan.getDueDate());
+
+        // Updating row
+        int rowsAffected = db.update(TABLE_PLAN, values, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(planId)});
 
         db.close();
 
@@ -652,7 +680,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 String createDate = cursor.getString(7);
                 String dueDate = cursor.getString(8);
 
-                Transaction transaction = new Transaction(id,title,userIdDB,description,amount,categoryId,subcategoryId,createDate,dueDate);
+                Transaction transaction = new Transaction(id, title, userIdDB, description, amount, categoryId, subcategoryId, createDate, dueDate);
                 transactions.add(transaction);
             } while (cursor.moveToNext());
         }
@@ -662,6 +690,32 @@ public class MyDbContext extends SQLiteOpenHelper {
         return transactions;
     }
 
+
+    public List<Plan> getPlanByUserId(int userId) {
+        List<Plan> plans = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PLAN + " WHERE userId = ?", new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String description = cursor.getString(2);
+                double amount = cursor.getDouble(3);
+                int userIdDB = cursor.getInt(4);
+                int status = cursor.getInt(5);
+                String createDate = cursor.getString(6);
+                String dueDate = cursor.getString(7);
+
+                Plan plan = new Plan(id, title, description, amount, userIdDB, status, createDate, dueDate);
+                plans.add(plan);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return plans;
+    }
 
 
     public List<Notification> getAllNotiByUserId(int userId) {
@@ -676,7 +730,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 int userIdDB = cursor.getInt(2);
                 String createDate = cursor.getString(3);
 
-                Notification noti = new Notification(id,title,userIdDB,createDate);
+                Notification noti = new Notification(id, title, userIdDB, createDate);
                 notifications.add(noti);
             } while (cursor.moveToNext());
         }
@@ -809,7 +863,6 @@ public class MyDbContext extends SQLiteOpenHelper {
 //        }
 //        return list;
 //    }
-
 
 
 }
