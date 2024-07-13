@@ -1,5 +1,5 @@
 
-package com.fpt.team5.golddigger.api.ApiResponse;
+package com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
