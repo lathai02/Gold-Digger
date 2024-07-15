@@ -31,7 +31,7 @@
     <string name="sellPriceDown">Sell Price ▼</string>
     <string name="company">Company</string>
     <string name="type">Type ◆</string>
-    <string name="buy_price">Buy Price ◆</string>
+    <string name="buy_price">BuyPrice ◆</string>
     <string name="sell_price">Sell Price ◆</string>
 
 </resources>
