@@ -25,7 +25,7 @@ import com.fpt.team5.golddigger.Model.GoldPrice;
 import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.GoldPriceResponse;
 import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.Last;
 import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.Price;
-import com.fpt.team5.golddigger.api.goldPriceApi.ApiServices;
+import com.fpt.team5.golddigger.api.goldPriceApi.DanTriApiServices;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -92,7 +92,7 @@ public class PriceActivity extends AppCompatActivity {
     private void getGoldPriceByApi() {
         // call api here
         try {
-            ApiServices.getCommentApiEndpoint()
+            DanTriApiServices.getCommentApiEndpoint()
                     .getAlls()
                     .enqueue(new Callback<List<GoldPriceResponse>>() {
                         @Override

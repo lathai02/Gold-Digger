@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="centerInside"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:padding="8dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/deposit_1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/deposit_3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/deposit_6"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/deposit_9"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/deposit_12"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/deposit_18"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/deposit_24"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:padding="4dp"
+        android:textAlignment="center" />
+</LinearLayout>

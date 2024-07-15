@@ -3,21 +3,21 @@ package com.fpt.team5.golddigger.api.interestRate;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiServices {
+public class CafeFApiServices {
     public static final String BASE_URL = "https://s.cafef.vn/ajax/";
     private final BankInterestRateApiEndpoint bankInterestRateApiEndpoint;
 
-    private static ApiServices apiServices = null;
+    private static CafeFApiServices cafeFApiServices = null;
 
-    public static ApiServices getInstance() {
-        if (apiServices == null) {
-            apiServices = new ApiServices();
+    public static CafeFApiServices getInstance() {
+        if (cafeFApiServices == null) {
+            cafeFApiServices = new CafeFApiServices();
         }
-        return apiServices;
+        return cafeFApiServices;
     }
 
 
-    private ApiServices() {
+    private CafeFApiServices() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         bankInterestRateApiEndpoint = retrofit.create(BankInterestRateApiEndpoint.class);
