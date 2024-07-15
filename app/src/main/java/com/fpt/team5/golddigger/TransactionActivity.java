@@ -40,7 +40,6 @@ public class TransactionActivity extends AppCompatActivity {
     private EditText edtDescription;
     private EditText edtAmount;
     private Button btnAdd;
-    private Button btnDelete;
     private EditText dateTimePickerCreate;
     private EditText dateTimePickerDue;
     private Calendar calendar;
@@ -97,7 +96,6 @@ public class TransactionActivity extends AppCompatActivity {
         dateTimePickerCreate.setOnClickListener(this::onDateTimePickerCreateClick);
         dateTimePickerDue.setOnClickListener(this::onDateTimePickerDueClick);
         btnAdd.setOnClickListener(this::onBtnAddClick);
-        btnDelete.setOnClickListener(this::onBtnDeleteClick);
     }
 
     private void onBtnDeleteClick(View view) {
@@ -218,7 +216,6 @@ public class TransactionActivity extends AppCompatActivity {
         edtDescription = findViewById(R.id.edtDescription);
         edtAmount = findViewById(R.id.edtAmount);
         btnAdd = findViewById(R.id.btnAdd);
-        btnDelete = findViewById(R.id.btnDelete);
         context = new MyDbContext(this);
         pref = getSharedPreferences("my_pref", Context.MODE_PRIVATE);
         editor = pref.edit();
