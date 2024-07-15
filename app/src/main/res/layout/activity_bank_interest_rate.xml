@@ -89,6 +89,12 @@
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerView"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="640dp"
       android:scrollbars="vertical|horizontal"/>
+
+  <androidx.fragment.app.FragmentContainerView
+      android:id="@+id/navBarFragment"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
 </LinearLayout>

@@ -6,8 +6,8 @@
         android:title="@string/home_navigation_bar" />
     <item
         android:id="@+id/navigation_gold_price"
-        android:icon="@drawable/ic_gold"
-        android:title="@string/gold_navigation_bar" />
+        android:icon="@drawable/ic_price"
+        android:title="Price" />
     <item
         android:id="@+id/navigation_add"
         android:icon="@drawable/ic_add"

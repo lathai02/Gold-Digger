@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    android:background="@color/gold"
-    tools:context=".PriceActivity"
-    >
+    tools:context=".PriceActivity">
 
     <TextView
         android:id="@+id/gold_price_title"
@@ -40,8 +38,7 @@
             android:id="@+id/tableLayoutGoldPrice"
             android:layout_width="match_parent"
             android:layout_height="600dp"
-            android:padding="8dp"
-            android:background="@color/gold">
+            android:padding="8dp">
 
             <!-- Table headers -->
             <TableRow
@@ -62,10 +59,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="onTypeClick"
                     android:padding="8dp"
                     android:text="@string/type"
-                    android:textStyle="bold"
-                    android:onClick="onTypeClick"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/buy_price"
@@ -82,10 +79,10 @@
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="onSellPriceClick"
                     android:padding="8dp"
                     android:text="@string/sell_price"
-                    android:textStyle="bold"
-                    android:onClick="onSellPriceClick"/>
+                    android:textStyle="bold" />
 
             </TableRow>
 
