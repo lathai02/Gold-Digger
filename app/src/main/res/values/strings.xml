@@ -23,5 +23,15 @@
     <string name="pick_category">Pick Category</string>
     <string name="submit">Submit</string>
     <string name="gold_price">Gold price</string>
+    <string name="typeDown">Type ▼</string>
+    <string name="typeUp">Type ▲</string>
+    <string name="buyPriceUp">Buy Price ▲</string>
+    <string name="buyPriceDown">Buy Price ▼</string>
+    <string name="sellPriceUp">Sell Price ▲</string>
+    <string name="sellPriceDown">Sell Price ▼</string>
+    <string name="company">Company</string>
+    <string name="type">Type ◆</string>
+    <string name="buy_price">Buy Price ◆</string>
+    <string name="sell_price">Sell Price ◆</string>
 
 </resources>

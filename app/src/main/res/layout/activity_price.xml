@@ -47,41 +47,45 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:background="#E2E2E2">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="Co"
+                    android:text="@string/company"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="Type"
-                    android:textStyle="bold" />
+                    android:text="@string/type"
+                    android:textStyle="bold"
+                    android:onClick="onTypeClick"/>
 
                 <TextView
+                    android:id="@+id/buy_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="Buy Price"
-
-                    android:textStyle="bold" />
+                    android:text="@string/buy_price"
+                    android:textStyle="bold"
+                    android:onClick="onBuyPriceClick"/>
 
                 <TextView
+                    android:id="@+id/sell_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="Sell Price"
-
-                    android:textStyle="bold" />
+                    android:text="@string/sell_price"
+                    android:textStyle="bold"
+                    android:onClick="onSellPriceClick"/>
 
             </TableRow>
 
@@ -99,6 +103,7 @@
         android:onClick="onFindMapButtonClick"
         android:text="Find the nearest gold shop"
         android:textColorLink="#2196F3"
+        app:icon="@drawable/fragment_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
