@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -22,8 +23,11 @@ import com.fpt.team5.golddigger.NotificationActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyDbContext extends SQLiteOpenHelper {
     private static final String TAG = "ThaiLAError";
@@ -52,6 +56,7 @@ public class MyDbContext extends SQLiteOpenHelper {
     private static final String COLUMN_CREATE_DATE = "createDate";
     private static final String COLUMN_DUE_DATE = "dueDate";
     private static final String COLUMN_STATUS = "status";
+    private static final String COLUMN_TRANSACTION_ID = "transactionId";
     private static int DATABASE_VERSION = 1;
 
     public MyDbContext(@Nullable Context context) {
@@ -130,6 +135,7 @@ public class MyDbContext extends SQLiteOpenHelper {
                 "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Title TEXT," +
                 "UserId INTEGER," +
+                "TransactionId INTEGER," +
                 "CreateDate DATETIME," +
                 "FOREIGN KEY(UserId) REFERENCES Users(Id))";
         db.execSQL(sqlCreateNotification);
@@ -145,11 +151,6 @@ public class MyDbContext extends SQLiteOpenHelper {
         String sqlInsertDefaultUser = "INSERT INTO " + TABLE_USER + " (Email,Phone,Name,Password,ImageId) VALUES " +
                 "('thang@gmail.com','0123456789','Thang','123456',1)";
         db.execSQL(sqlInsertDefaultUser);
-
-        String sqlInsertDefaultNoti = "INSERT INTO " + TABLE_NOTIFICATION + " (Title,UserId,CreateDate) VALUES " +
-                "('Ban co thong bao ve khoan vay','1','07/07/2024')," +
-                "('Ban co thong bao ve khoan vay 2','1','07/07/2024')";
-        db.execSQL(sqlInsertDefaultNoti);
 
         String sqlInsertDefaultBudget = "INSERT INTO " + TABLE_BUDGET + " (Title,Amount,UserId,CreateDate) VALUES " +
                 "('Tien tkhoan',23000000,1,'2003-15-10')";
@@ -185,10 +186,6 @@ public class MyDbContext extends SQLiteOpenHelper {
 
     }
 
-//    public Cursor getBudgetByUserId(int userId) {
-//        String sql = "SELECT * FROM " + TABLE_BUDGET + " WHERE userId = ?";
-//        return getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userId)});
-//    }
 
     public long addBudget(Budget budget) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -735,7 +732,8 @@ public class MyDbContext extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 int userIdDB = cursor.getInt(2);
-                String createDate = cursor.getString(3);
+                int transactionId = cursor.getInt(3);
+                String createDate = cursor.getString(4);
 
                 Notification noti = new Notification(id, title, userIdDB, createDate);
                 notifications.add(noti);
@@ -746,130 +744,114 @@ public class MyDbContext extends SQLiteOpenHelper {
         db.close();
         return notifications;
     }
+    private String joinIntArray(int[] array) {
+        if (array == null || array.length == 0) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            sb.append(array[i]);
+            if (i < array.length - 1) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
+    }
+
+    public List<Transaction> getNearDueDateTransactions(int userId) {
+        List<Transaction> transactions = new ArrayList<>();
+        int[] excludeTransactionIds = findTransactionsIdAlreadyExist(userId);
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        long threeDaysFromNow = System.currentTimeMillis() + (4 * 24 * 60 * 60 * 1000);
+        String threeDaysFromNowString = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                .format(new Date(threeDaysFromNow));
+
+        String excludeIds = joinIntArray(excludeTransactionIds);
+
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT * FROM ").append(TABLE_TRANSACTIONS)
+                .append(" WHERE ").append(COLUMN_USER_ID).append(" = ?")
+                .append(" AND ").append(COLUMN_CATEGORY_ID).append(" IN (3, 4)")
+                .append(" AND ").append(COLUMN_DUE_DATE).append(" < ?");
+
+        // Add exclusion condition if there are IDs to exclude
+        if (excludeTransactionIds.length > 0) {
+            queryBuilder.append(" AND ").append(COLUMN_ID).append(" NOT IN (").append(excludeIds).append(")");
+        }
+
+        Cursor cursor = db.rawQuery(queryBuilder.toString(), new String[]{
+                String.valueOf(userId),
+                threeDaysFromNowString // Use the formatted date string
+        });
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                int userIdDB = cursor.getInt(2);
+                String description = cursor.getString(3);
+                int categoryId = cursor.getInt(4);
+                int subcategoryId = cursor.getInt(5);
+                double amount = cursor.getDouble(6);
+                String createDate = cursor.getString(7);
+                String dueDate = cursor.getString(8);
+
+                Transaction transaction = new Transaction(id, title, userIdDB, description, amount, categoryId, subcategoryId, createDate, dueDate);
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return transactions;
+    }
+
+    private int[] findTransactionsIdAlreadyExist(int userId) {
+        List<Integer> transactionIds = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT " + COLUMN_TRANSACTION_ID + " FROM " + TABLE_NOTIFICATION + " WHERE " + COLUMN_USER_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int transactionId = cursor.getInt(0);
+                transactionIds.add(transactionId);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        int[] transactionIdArray = new int[transactionIds.size()];
+        for (int i = 0; i < transactionIds.size(); i++) {
+            transactionIdArray[i] = transactionIds.get(i);
+        }
+
+        return transactionIdArray;
+    }
 
 
-//
-//    public List<Transaction> getTransactionByMonth(int month){
-//        List<Transaction> list = new ArrayList<>();
-//        try{
-//            String selection = "strftime('%m', CreateDate) = ?";
-//            String[] selectionArgs = {String.format("%02d", month)};
-//            String orderBy = "CreateDate DESC";
-//            SQLiteDatabase st = getReadableDatabase();
-//            Cursor cs = st.query(TABLE_TRANSACTIONS,null,selection,selectionArgs,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Transaction(id,title,price,categoryId,isIncome,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getTransactionByDate - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-//
-//    public List<Transaction> getTransactionByFilter(int month,String type,String _categoryId){
-//        List<Transaction> list = new ArrayList<>();
-//        try{
-//            String selection = "strftime('%m', CreateDate) = ?";
-//            List<String> selectionArgsList = new ArrayList<>();
-//            selectionArgsList.add(String.format("%02d", month));
-//            String orderBy = "CreateDate DESC";
-//            if(type != null){
-//                selection = selection + " AND IsIncome = ?";
-//                selectionArgsList.add(type);
-//            }
-//            SQLiteDatabase st = getReadableDatabase();
-//            String[] selectionArgs = selectionArgsList.toArray(new String[0]);
-//            Cursor cs = st.query(TABLE_TRANSACTIONS,null,selection,selectionArgs,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                String[] parts = createDateStr.split(" ");
-//                String date = parts[0];
-//                list.add(new Transaction(id,title,price,categoryId,isIncome,date));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getTransactionByDate - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-
-//    public List<Transaction> getTransactionByFilter(Date startDate, Date endDate, Boolean isIncomeFilter, String categoryIdFilter){
-//        List<Transaction> list = new ArrayList<>();
-//        String type = null;
-//        if(isIncomeFilter){
-//            type = "y";
-//        }else if(!isIncomeFilter){
-//            type = "N";
-//        }
-//        try{
-//            String selection = null;
-//            List<String> selectionArgsList = new ArrayList<>();
-//            if(startDate != null){
-//                selection = "CreateDate >= ?";
-//                selectionArgsList.add(String.valueOf(startDate.getTime()));
-//            }
-//            if(endDate != null){
-//                if(selection != null){
-//                    selection = "CreateDate <= ?";
-//                    selectionArgsList.add(String.valueOf(endDate.getTime()));
-//                }else{
-//                    selection = "AND CreateDate <= ?";
-//                    selectionArgsList.add(String.valueOf(endDate.getTime()));
-//                }
-//            }
-//            if(type != null){
-//                if(selection != null){
-//                    selection = "IsIncome = ?";
-//                    selectionArgsList.add(type);
-//                }else{
-//                    selection = "AND IsIncome = ?";
-//                    selectionArgsList.add(type);
-//                }
-//            }
-//            if(categoryIdFilter != null){
-//                if(selection != null){
-//                    selection = "CategoryId = ?";
-//                    selectionArgsList.add(categoryIdFilter);
-//                }else{
-//                    selection = "AND CategoryId = ?";
-//                    selectionArgsList.add(categoryIdFilter);
-//                }
-//            }
-//            String[] selectionArgs = new String[selectionArgsList.size()];
-//            selectionArgs = selectionArgsList.toArray(selectionArgs);
-//
-//            String orderBy = "CreateDate DESC";
-//            SQLiteDatabase st = getReadableDatabase();
-//            Cursor cs = st.query(TABLE_TRANSACTIONS,null,selection,selectionArgs,null,null,orderBy);
-//            while (cs != null && cs.moveToNext()){
-//                int id = cs.getInt(0);
-//                String title = cs.getString(1);
-//                String categoryId = cs.getString(2);
-//                String price = cs.getString(3);
-//                String isIncome = cs.getString(4);
-//                String createDateStr = cs.getString(5);
-//                Date date = new Date(createDateStr);
-//                SimpleDateFormat outputFormat = new SimpleDateFormat(PATTERN, Locale.ENGLISH);
-//                String formattedDate = outputFormat.format(date);
-//                list.add(new Transaction(id,title,categoryId,price,isIncome,formattedDate));
-//            }
-//        }catch (Exception ex){
-//            Log.e(TAG,"MyDbContext - getTransactionByFilter - " + ex.getMessage());
-//        }
-//        return list;
-//    }
-
-
+    public boolean saveNotifications(List<Notification> notifications) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            for (Notification n : notifications) {
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_TITLE, n.getTitle());
+                values.put(COLUMN_USER_ID, n.getUserId());
+                values.put(COLUMN_CREATE_DATE, n.getCreateDate());
+                values.put(COLUMN_TRANSACTION_ID, n.getTransactionId());
+                db.insert(TABLE_NOTIFICATION, null, values);
+            }
+            db.setTransactionSuccessful();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
 }

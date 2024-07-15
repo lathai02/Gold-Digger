@@ -4,17 +4,33 @@ public class Notification {
     private int id;
     private String title;
     private int userId;
+    private int transactionId;
     private String createDate;
 
-    public Notification(int id, String title, int userId, String createDate) {
+    public Notification(int id, String title, int transactionId, String createDate) {
         this.id = id;
+        this.title = title;
+        this.transactionId = transactionId;
+        this.createDate = createDate;
+    }
+
+    public Notification(String title, int userId, String createDate, int transactionId) {
         this.title = title;
         this.userId = userId;
         this.createDate = createDate;
+        this.transactionId = transactionId;
     }
 
     public int getId() {
         return id;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
     public void setId(int id) {
