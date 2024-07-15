@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.material:material:<version>")
+    implementation("com.google.android.material:material:1.6.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.5.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")

@@ -9,16 +9,19 @@
     >
 
 
-
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/img_avatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="10dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/img_ava"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/CircleImage"
+        app:strokeColor="@color/blue"
+        app:strokeWidth="4dp"
         tools:ignore="ContentDescription" />
 
 
