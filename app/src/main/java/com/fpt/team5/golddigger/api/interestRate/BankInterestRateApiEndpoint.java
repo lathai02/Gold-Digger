@@ -8,5 +8,5 @@ import retrofit2.http.GET;
 public interface BankInterestRateApiEndpoint {
 
     @GET("ajaxlaisuatnganhang.ashx")
-    Call<List<BankInterestRateResponse>> getBankInterestRates();
+    Call<BankInterestRateResponse> getBankInterestRates();
 }

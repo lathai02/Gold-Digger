@@ -3,21 +3,21 @@ package com.fpt.team5.golddigger.api.goldPriceApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiServices {
+public class DanTriApiServices {
     public static final String BASE_URL = "https://webapi.dantri.com.vn/";
     private final GoldPriceApiEndpoint goldPriceApiEndpoint;
 
-    private static ApiServices apiServices = null;
+    private static DanTriApiServices danTriApiServices = null;
 
-    public static ApiServices getInstance() {
-        if (apiServices == null) {
-            apiServices = new ApiServices();
+    public static DanTriApiServices getInstance() {
+        if (danTriApiServices == null) {
+            danTriApiServices = new DanTriApiServices();
         }
-        return apiServices;
+        return danTriApiServices;
     }
 
 
-    private ApiServices() {
+    private DanTriApiServices() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         goldPriceApiEndpoint = retrofit.create(GoldPriceApiEndpoint.class);
