@@ -1,6 +1,8 @@
 package com.fpt.team5.golddigger;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -21,10 +23,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpt.team5.golddigger.Model.Budget;
+import com.fpt.team5.golddigger.Model.Notification;
 import com.fpt.team5.golddigger.Model.Transaction;
 import com.fpt.team5.golddigger.dal.MyDbContext;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -104,6 +109,51 @@ public class HomeActivity extends AppCompatActivity {
     private void setDefaultNavigationTab() {
         editor.putInt("selected_item_id", R.id.navigation_home);
         editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int userId = pref.getInt("userId", 0);
+        List<Transaction> transactions = dbContext.getNearDueDateTransactions(userId);
+        List<Notification> notifications = convertToNotification(transactions,userId);
+        if(dbContext.saveNotifications(notifications) && notifications.size() > 0){
+            showNotificationDialog(notifications.size());
+        }
+    }
+
+    private List<Notification> convertToNotification(List<Transaction> transactions,int userId) {
+        List<Notification> notifications = new ArrayList<Notification>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = sdf.format(new Date());
+        for(Transaction t : transactions){
+            String title = "";
+            if (t.getCategoryId() == 3) {
+                title = "You have to return your loan soon for transaction: " + t.getTitle();
+            } else if (t.getCategoryId() == 4) {
+                title = "You need to collect the loan you provided soon for transaction: " + t.getTitle();
+            }
+            if (!title.isEmpty()) {
+                Notification n = new Notification(title,userId, currentDate, t.getId());
+                notifications.add(n);
+            }
+        }
+        return notifications;
+    }
+
+    private void showNotificationDialog(int notificationCount) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Notification")
+                .setMessage("You have " + notificationCount + " notifications. Please check them.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the OK button click if necessary
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void InjectFragment() {
