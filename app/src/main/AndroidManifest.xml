@@ -69,8 +69,7 @@
         <activity
             android:name=".RevenueActivity"
             android:exported="true" />
-        <activity
-            android:name=".SubcategoryActivity"
+        <activity android:name=".SubcategoryActivity"
             android:exported="true" />
         <activity
             android:name=".CategoryActivity"
