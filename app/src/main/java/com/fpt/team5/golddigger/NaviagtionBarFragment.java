@@ -65,7 +65,7 @@ public class NaviagtionBarFragment extends Fragment {
         } else if (itemId == R.id.navigation_google_map) {
             intent = new Intent(getActivity(), PlanActivity.class);
         } else if (itemId == R.id.navigation_gold_price) {
-            intent = new Intent(getActivity(), PriceActivity.class);
+            intent = new Intent(getActivity(), FinanceActiity.class);
         }
 
         if (intent != null) {

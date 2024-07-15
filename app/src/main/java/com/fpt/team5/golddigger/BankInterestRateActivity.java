@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,15 @@ import retrofit2.Response;
 public class BankInterestRateActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BankInterestRateAdapter adapter;
+    private NaviagtionBarFragment navigationBarFragment;
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof NaviagtionBarFragment) {
+            navigationBarFragment = ((NaviagtionBarFragment) fragment);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +44,21 @@ public class BankInterestRateActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         recyclerView = findViewById(R.id.recyclerView);
+        if (navigationBarFragment == null) {
+            navigationBarFragment = new NaviagtionBarFragment();
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getGoldPriceByApi();
+        InjectFragment();
+    }
+
+    private void InjectFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.navBarFragment, navigationBarFragment)
+                .commit();
     }
 
     private void getGoldPriceByApi() {
@@ -52,12 +75,12 @@ public class BankInterestRateActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<BankInterestRateResponse> call, Throwable t) {
-                            Toast.makeText(BankInterestRateActivity.this, "Error: " + call.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BankInterestRateActivity.this, "Can't view bank interest rate right now! Network error!", Toast.LENGTH_SHORT).show();
                         }
                     });
 
         } catch (Exception e) {
-            Toast.makeText(this, "Can't view bank interest rate right now! Unknown error!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Can't view bank interest rate right now! Network error!", Toast.LENGTH_SHORT).show();
         }
     }
 }
