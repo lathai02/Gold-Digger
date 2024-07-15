@@ -1,6 +1,6 @@
-package com.fpt.team5.golddigger.api;
+package com.fpt.team5.golddigger.api.goldPriceApi;
 
-import com.fpt.team5.golddigger.api.ApiResponse.GoldPriceResponse;
+import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.GoldPriceResponse;
 
 import java.util.List;
 

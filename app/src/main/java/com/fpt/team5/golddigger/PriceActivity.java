@@ -3,6 +3,7 @@ package com.fpt.team5.golddigger;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,14 +22,15 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.fpt.team5.golddigger.Model.GoldPrice;
-import com.fpt.team5.golddigger.api.ApiResponse.GoldPriceResponse;
-import com.fpt.team5.golddigger.api.ApiResponse.Last;
-import com.fpt.team5.golddigger.api.ApiResponse.Price;
-import com.fpt.team5.golddigger.api.ApiServices;
+import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.GoldPriceResponse;
+import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.Last;
+import com.fpt.team5.golddigger.api.goldPriceApi.ApiResponse.Price;
+import com.fpt.team5.golddigger.api.goldPriceApi.ApiServices;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +43,10 @@ import retrofit2.Response;
 public class PriceActivity extends AppCompatActivity {
     private TableLayout tableLayoutGoldPrice;
     private NaviagtionBarFragment navigationBarFragment;
-
+    private List<GoldPrice> goldPrices;
+    private TextView textViewType;
+    private TextView textViewBuyPrice;
+    private TextView textViewSellPrice;
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -61,20 +66,23 @@ public class PriceActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        textViewType = findViewById(R.id.type);
+        textViewBuyPrice = findViewById(R.id.buy_price);
+        textViewSellPrice = findViewById(R.id.sell_price);
 
-        BindingView();
+        bindingView();
         getGoldPriceByApi();
-        InjectFragment();
+        injectFragment();
     }
 
-    private void InjectFragment() {
+    private void injectFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.navBarFragment, navigationBarFragment)
                 .commit();
     }
 
-    private void BindingView() {
+    private void bindingView() {
         tableLayoutGoldPrice = findViewById(R.id.tableLayoutGoldPrice);
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
@@ -91,17 +99,18 @@ public class PriceActivity extends AppCompatActivity {
                         public void onResponse(Call<List<GoldPriceResponse>> call, Response<List<GoldPriceResponse>> response) {
                             List<GoldPriceResponse> goldPriceResponse = response.body();
                             // map price here
-                            populateTable(mapPrice(goldPriceResponse));
+                            goldPrices = mapPrice(goldPriceResponse);
+                            populateTable(goldPrices);
                         }
 
                         @Override
                         public void onFailure(Call<List<GoldPriceResponse>> call, Throwable t) {
-                            Toast.makeText(PriceActivity.this, "Can't see gold price right now. Server error!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PriceActivity.this, "Can't view gold price right now. Server error!", Toast.LENGTH_SHORT).show();
                         }
                     });
 
         } catch (Exception e) {
-            Toast.makeText(this, "Can't see gold price right now! Unknown error!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Can't view gold price right now! Unknown error!", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -137,7 +146,6 @@ public class PriceActivity extends AppCompatActivity {
         goldPrice.setImageLink(mapImageLink(logo));
         goldPrice.setType(price.getType());
 
-        // Sử dụng hàm formatWithThousandSeparator để định dạng giá trị
         goldPrice.setBuyPrice(formatWithThousandSeparator(price.getBuyPrice()));
         goldPrice.setSellPrice(formatWithThousandSeparator(price.getSellPrice()));
         goldPrice.setBuyPriceChange(formatWithThousandSeparator(price.getBuyPriceChange()));
@@ -146,19 +154,19 @@ public class PriceActivity extends AppCompatActivity {
         return goldPrice;
     }
 
-    // Hàm ánh xạ đường dẫn logo sang tên file
+    // Hàm map link logo sang tên file
     private static String mapImageLink(String logo) {
         try {
-            final String danTriCDN = "https://cdnweb.dantri.com.vn/dist/";
-            // Khai báo bản đồ ánh xạ
+            final String DAN_TRI_CDN = "https://cdnweb.dantri.com.vn/dist/";
+            // Khai báo bản đồ map
             final Map<String, String> fileMapping = new HashMap<>();
 
-            // Khởi tạo bản đồ ánh xạ
-            fileMapping.put("btmc.png", danTriCDN + "e2c061426883a3703746.png");
-            fileMapping.put("btmh.png", danTriCDN + "b701a29f38eddef2770f.png");
-            fileMapping.put("doji.png", danTriCDN + "ce3e12527138b7fc8033.png");
-            fileMapping.put("pnj.png", danTriCDN + "3a9a419fd085a7de616b.png");
-            fileMapping.put("sjc.png", danTriCDN + "8acbf8108fc82f37ca20.png");
+            // Khởi tạo bản đồ map
+            fileMapping.put("btmc.png", DAN_TRI_CDN + "e2c061426883a3703746.png");
+            fileMapping.put("btmh.png", DAN_TRI_CDN + "b701a29f38eddef2770f.png");
+            fileMapping.put("doji.png", DAN_TRI_CDN + "ce3e12527138b7fc8033.png");
+            fileMapping.put("pnj.png", DAN_TRI_CDN + "3a9a419fd085a7de616b.png");
+            fileMapping.put("sjc.png", DAN_TRI_CDN + "8acbf8108fc82f37ca20.png");
 
 
             // Tách lấy phần tên file từ đường dẫn
@@ -167,9 +175,7 @@ public class PriceActivity extends AppCompatActivity {
             String[] fileNameParts = fileNameWithQuery.split("\\?"); // ["sjc.png", "v=0101070000"]
             String fileName = fileNameParts[0]; // "sjc.png"
 
-            // Kiểm tra trong bản đồ ánh xạ
             String mappedFileName = fileMapping.get(fileName);
-
             if (mappedFileName != null) {
                 return mappedFileName;
             } else {
@@ -182,6 +188,7 @@ public class PriceActivity extends AppCompatActivity {
     }
 
     private void populateTable(List<GoldPrice> goldPriceList) {
+        tableLayoutGoldPrice.removeViews(1, tableLayoutGoldPrice.getChildCount() - 1);
         for (GoldPrice goldPrice : goldPriceList) {
             TableRow tableRow = new TableRow(this);
 
@@ -198,26 +205,41 @@ public class PriceActivity extends AppCompatActivity {
             textViewType.setTextColor(Color.BLACK); // Set text color
             tableRow.addView(textViewType);
 
+
+
             TextView textViewBuyPrice = new TextView(this);
-            textViewBuyPrice.setText(goldPrice.getBuyPrice() + "\n(" + goldPrice.getBuyPriceChange() + ")");
+            setPriceAndChange(goldPrice, textViewBuyPrice, goldPrice.getBuyPrice(), goldPrice.getBuyPriceChange() );
             textViewBuyPrice.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
             textViewBuyPrice.setPadding(8, 8, 8, 8); // Add padding for text view
-            textViewBuyPrice.setTextColor(Color.BLACK); // Set text color
             tableRow.addView(textViewBuyPrice);
 
             TextView textViewSellPrice = new TextView(this);
-            textViewSellPrice.setText(goldPrice.getSellPrice() + "\n(" + goldPrice.getSellPriceChange() + ")");
+            setPriceAndChange(goldPrice, textViewSellPrice, goldPrice.getSellPrice(), goldPrice.getSellPriceChange());
             textViewSellPrice.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
             textViewSellPrice.setPadding(8, 8, 8, 8); // Add padding for text view
-            textViewSellPrice.setTextColor(Color.BLACK); // Set text color
             tableRow.addView(textViewSellPrice);
 
-            // Add background color to alternate rows for better readability
+            // Set giao diện xen kẽ
             if (tableLayoutGoldPrice.getChildCount() % 2 == 0) {
-                tableRow.setBackgroundColor(Color.parseColor("#f0f0f0")); // Light gray background color
+                tableRow.setBackgroundColor(Color.parseColor("#f0f0f0"));
             }
-
             tableLayoutGoldPrice.addView(tableRow);
+        }
+    }
+
+    // Tăng: xanh lá, Giảm: đỏ, Ngang: vàng
+    private static void setPriceAndChange(GoldPrice goldPrice, TextView textViewPrice,String price, String priceChange) {
+        double buyPriceChange = Double.parseDouble(priceChange);
+
+        if (buyPriceChange > 0) {
+            textViewPrice.setText(String.format("%s\n(▲%s)", price, (int) buyPriceChange));
+            textViewPrice.setTextColor(Color.rgb(0,153,25)); // Dark green
+        } else if (buyPriceChange < 0) {
+            textViewPrice.setText(String.format("%s\n(▼%s)", price, (int) Math.abs(buyPriceChange)));
+            textViewPrice.setTextColor(Color.rgb(230,0,0)); // Dark red
+        } else {
+            textViewPrice.setText(String.format("%s", price));
+            textViewPrice.setTextColor(Color.rgb(204,102,0)); // Dark yellow
         }
     }
 
@@ -249,5 +271,76 @@ public class PriceActivity extends AppCompatActivity {
                 Toast.makeText(this, "No map application and browser found", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void onTypeClick(View view) {
+        sortByType();
+    }
+
+    private void sortByType() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if(!textViewType.getText().equals(getString(R.string.typeDown))) {
+                goldPrices.sort(Comparator.comparing(GoldPrice::getType));
+                resetTextViews();
+                textViewType.setText(R.string.typeDown);
+                Toast.makeText(this, "Sort by type A-Z", Toast.LENGTH_SHORT).show();
+            } else {
+                goldPrices.sort((goldPrice1, goldPrice2) -> goldPrice2.getType().compareTo(goldPrice1.getType()));
+                resetTextViews();
+                textViewType.setText(R.string.typeUp);
+                Toast.makeText(this, "Sort by type Z-A", Toast.LENGTH_SHORT).show();
+            }
+            populateTable(goldPrices);
+        }
+    }
+
+    public void onSellPriceClick(View view) {
+        sortBySellPrice();
+    }
+
+    private void sortBySellPrice() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if(!textViewSellPrice.getText().equals(getString(R.string.sellPriceDown))) {
+                goldPrices.sort((goldPrice1, goldPrice2) -> goldPrice2.getSellPrice().compareTo(goldPrice1.getSellPrice()));
+                resetTextViews();
+                textViewSellPrice.setText(R.string.sellPriceDown);
+                Toast.makeText(this, "Sort by decreasing sell price", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                goldPrices.sort(Comparator.comparing(GoldPrice::getSellPrice));
+                resetTextViews();
+                textViewSellPrice.setText(R.string.sellPriceUp);
+                Toast.makeText(this, "Sort by increasing sell price", Toast.LENGTH_SHORT).show();
+            }
+            populateTable(goldPrices);
+        }
+    }
+
+    public void onBuyPriceClick(View view) {
+        sortByBuyPrice();
+    }
+
+    private void sortByBuyPrice() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if(!textViewBuyPrice.getText().equals(getString(R.string.buyPriceDown))) {
+                goldPrices.sort((goldPrice1, goldPrice2) -> goldPrice2.getBuyPrice().compareTo(goldPrice1.getBuyPrice()));
+                resetTextViews();
+                textViewBuyPrice.setText(R.string.buyPriceDown);
+                Toast.makeText(this, "Sort by decreasing buy price", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                goldPrices.sort(Comparator.comparing(GoldPrice::getBuyPrice));
+                resetTextViews();
+                textViewBuyPrice.setText(R.string.buyPriceUp);
+                Toast.makeText(this, "Sort by increasing buy price", Toast.LENGTH_SHORT).show();
+            }
+            populateTable(goldPrices);
+        }
+    }
+
+    private void resetTextViews() {
+        textViewType.setText(getString(R.string.type));
+        textViewBuyPrice.setText(getString(R.string.buy_price));
+        textViewSellPrice.setText(getString(R.string.sell_price));
     }
 }
