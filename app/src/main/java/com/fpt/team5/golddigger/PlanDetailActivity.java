@@ -175,7 +175,9 @@ public class PlanDetailActivity extends AppCompatActivity {
         } else {
             String title = edtTitle.getText().toString();
             String description = edtDescription.getText().toString();
-            double amount = Double.parseDouble(edtAmount.getText().toString());
+            String numberString = edtAmount.getText().toString();
+            String numberStringCloned = numberString.replace(",", "");
+            double amount = Double.parseDouble(numberStringCloned);
             String createDate = edtCreateDate.getText().toString();
             String dueDate = edtDueDate.getText().toString();
             int userId = pref.getInt("userId", 0);
