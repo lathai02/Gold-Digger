@@ -33,5 +33,39 @@
     <string name="type">Type ◆</string>
     <string name="buy_price">BuyPrice ◆</string>
     <string name="sell_price">Sell Price ◆</string>
+    <string name="bank_interest_rates">Bank Interest Rates</string>
+    <string name="bank">Bank ◆</string>
+    <string name="header_1m">1M◆</string>
+    <string name="header_3m">3M◆</string>
+    <string name="header_6m">6M◆</string>
+    <string name="header_9m">9M◆</string>
+    <string name="header_12m">12M◆</string>
+    <string name="header_18m">18M◆</string>
+    <string name="header_24m">24M◆</string>
 
+    <string name="header_1m_down">1M▼</string>
+    <string name="header_1m_up">1M▲</string>
+
+    <string name="header_3m_down">3M▼</string>
+    <string name="header_3m_up">3M▲</string>
+
+    <string name="header_6m_down">6M▼</string>
+    <string name="header_6m_up">6M▲</string>
+
+    <string name="header_9m_down">9M▼</string>
+    <string name="header_9m_up">9M▲</string>
+
+    <string name="header_12m_down">12M▼</string>
+    <string name="header_12m_up">12M▲</string>
+
+    <string name="header_18m_down">18M▼</string>
+    <string name="header_18m_up">18M▲</string>
+
+    <string name="header_24m_down">24M▼</string>
+    <string name="header_24m_up">24M▲</string>
+
+    <string name="bank_header_down">Bank ▼</string>
+    <string name="bank_header_up">Bank ▲</string>
+
+    <string name="up">▲</string>
 </resources>

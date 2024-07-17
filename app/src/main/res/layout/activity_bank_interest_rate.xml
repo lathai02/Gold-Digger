@@ -8,116 +8,152 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-  <TextView
-      android:id="@+id/textView3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:paddingBottom="16dp"
-      android:text="Bank Interest Rates"
-      android:textSize="24sp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-  <HorizontalScrollView
-      android:id="@+id/horizontalScrollView2"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginBottom="50dp"
-      android:scrollbars="horizontal"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="16dp"
+        android:text="@string/bank_interest_rates"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-      <!-- Header Row -->
-      <TableRow
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:background="#E2E2E2"
-          android:padding="12dp">
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="50dp"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-        <TextView
-            android:layout_width="128dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Bank"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="1M"
-            android:textStyle="bold" />
+            <!-- Header Row -->
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#E2E2E2"
+                android:padding="12dp">
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="3M"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/bank_header"
+                    android:layout_width="134dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/bank"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="6M"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/header_1m"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_1m"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="9M"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/header_3m"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_3m"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="12M"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/header_6m"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_6m"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="18M"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/header_9m"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_9m"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="24M"
-            android:textStyle="bold" />
-      </TableRow>
+                <TextView
+                    android:id="@+id/header_12m"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_12m"
+                    android:textStyle="bold" />
 
-      <!-- RecyclerView -->
-      <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/recyclerView"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:scrollbars="vertical|horizontal" />
-    </LinearLayout>
-  </HorizontalScrollView>
+                <TextView
+                    android:id="@+id/header_18m"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_18m"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/header_24m"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/header_24m"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical|horizontal" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 
-  <androidx.fragment.app.FragmentContainerView
-      android:id="@+id/navBarFragment"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navBarFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="2dp"
+        android:text="* Note: M = month"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView2"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

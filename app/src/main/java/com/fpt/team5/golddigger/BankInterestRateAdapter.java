@@ -14,10 +14,12 @@ import com.bumptech.glide.Glide;
 import com.fpt.team5.golddigger.api.interestRate.ApiResponse.Datum;
 import com.fpt.team5.golddigger.api.interestRate.ApiResponse.InterestRate;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class BankInterestRateAdapter extends RecyclerView.Adapter<BankInterestRateAdapter.ViewHolder> {
-    private List<Datum> bankList;
+    private final List<Datum> bankList;
 
     public BankInterestRateAdapter(List<Datum> bankList) {
         this.bankList = bankList;
@@ -42,10 +44,10 @@ public class BankInterestRateAdapter extends RecyclerView.Adapter<BankInterestRa
         // Set up interest rates as needed
         for (InterestRate rate : bank.getInterestRates()) {
             String rateValue;
-            if (rate.getValue()==null){
-                rateValue = "--";
-            }else {
-                rateValue= rate.getValue().toString() + "%";
+            if (rate.getValue() == null) {
+                rateValue = "  -  ";
+            } else {
+                rateValue = rate.getValue().toString() + "%";
             }
             switch (rate.getDeposit()) {
                 case 1:
@@ -74,9 +76,44 @@ public class BankInterestRateAdapter extends RecyclerView.Adapter<BankInterestRa
             }
         }
         int backgroundColor = (position % 2 == 0) ?
-                Color.parseColor("#f0f0f0") :
-                Color.WHITE;
+                Color.WHITE :
+                Color.parseColor("#f0f0f0");
+
         holder.itemView.setBackgroundColor(backgroundColor);
+    }
+
+    public void sortByDeposit(int deposit, boolean isAscending) {
+        Collections.sort(bankList, (bank1, bank2) -> {
+            double rate1 = findInterestRateForDeposit(bank1, deposit);
+            double rate2 = findInterestRateForDeposit(bank2, deposit);
+            return Double.compare(rate1, rate2) * (isAscending?1:-1);
+        });
+        notifyItemRangeChanged(0, bankList.size());
+    }
+
+    public void sortByBankName(boolean isAscending) {
+        if (isAscending) {
+            Collections.sort(bankList, (bank1, bank2) -> bank1.getName().compareToIgnoreCase(bank2.getName()));
+        } else {
+            Collections.sort(bankList, (bank1, bank2) -> bank2.getName().compareToIgnoreCase(bank1.getName()));
+        }
+        notifyItemRangeChanged(0, bankList.size());
+    }
+
+    private double findInterestRateForDeposit(Datum bank, int deposit) {
+        try {
+            for (InterestRate rate : bank.getInterestRates()) {
+                if (rate.getDeposit() == deposit) {
+                    if (rate.getValue() != null)
+                        return (double) rate.getValue();
+                    else
+                        return 0.0;
+                }
+            }
+        } catch (Exception e) {
+            return 0.0;
+        }
+        return 0.0;
     }
 
     @Override
