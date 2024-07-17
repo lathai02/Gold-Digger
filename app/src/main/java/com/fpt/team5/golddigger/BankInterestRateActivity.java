@@ -45,10 +45,10 @@ public class BankInterestRateActivity extends AppCompatActivity {
             return insets;
         });
 
-        recyclerView = findViewById(R.id.recyclerView);
         if (navigationBarFragment == null) {
             navigationBarFragment = new NaviagtionBarFragment();
         }
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getGoldPriceByApi();
         InjectFragment();

@@ -1,5 +1,6 @@
 package com.fpt.team5.golddigger;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,37 +40,43 @@ public class BankInterestRateAdapter extends RecyclerView.Adapter<BankInterestRa
                 .into(holder.iconImageView);
 
         // Set up interest rates as needed
-        StringBuilder rates = new StringBuilder();
         for (InterestRate rate : bank.getInterestRates()) {
+            String rateValue;
             if (rate.getValue()==null){
-                rate.setValue("--");
+                rateValue = "--";
+            }else {
+                rateValue= rate.getValue().toString() + "%";
             }
             switch (rate.getDeposit()) {
                 case 1:
-                    holder.deposit_1.setText(rate.getValue() +"");
+                    holder.deposit_1.setText(rateValue);
                     break;
                 case 3:
-                    holder.deposit_3.setText(rate.getValue() +"");
+                    holder.deposit_3.setText(rateValue);
                     break;
                 case 6:
-                    holder.deposit_6.setText(rate.getValue() +"");
+                    holder.deposit_6.setText(rateValue);
                     break;
                 case 9:
-                    holder.deposit_9.setText(rate.getValue() +"");
+                    holder.deposit_9.setText(rateValue);
                     break;
                 case 12:
-                    holder.deposit_12.setText(rate.getValue() +"");
+                    holder.deposit_12.setText(rateValue);
                     break;
                 case 18:
-                    holder.deposit_18.setText(rate.getValue() +"");
+                    holder.deposit_18.setText(rateValue);
                     break;
                 case 24:
-                    holder.deposit_24.setText(rate.getValue() +"");
+                    holder.deposit_24.setText(rateValue);
                     break;
                 default:
                     break;
             }
         }
+        int backgroundColor = (position % 2 == 0) ?
+                Color.parseColor("#f0f0f0") :
+                Color.WHITE;
+        holder.itemView.setBackgroundColor(backgroundColor);
     }
 
     @Override

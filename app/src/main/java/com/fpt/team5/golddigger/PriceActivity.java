@@ -229,7 +229,7 @@ public class PriceActivity extends AppCompatActivity {
 
     // Tăng: xanh lá, Giảm: đỏ, Ngang: vàng
     private static void setPriceAndChange(GoldPrice goldPrice, TextView textViewPrice,String price, String priceChange) {
-        double buyPriceChange = Double.parseDouble(priceChange);
+        double buyPriceChange = Double.parseDouble(priceChange.replace(",", ""));
 
         if (buyPriceChange > 0) {
             textViewPrice.setText(String.format("%s\n(▲%s)", price, (int) buyPriceChange));
@@ -246,35 +246,43 @@ public class PriceActivity extends AppCompatActivity {
 
     // Phương thức xử lý sự kiện onClick cho nút
     public void onFindMapButtonClick(@NonNull View view) {
-        // Tạo truy vấn tìm kiếm
-        String query = "Tiệm vàng";
+        try {
+            // Tạo truy vấn tìm kiếm
+            String query = "Tiệm vàng";
 
-        // Tạo implicit intent để mở ứng dụng bản đồ với truy vấn tìm kiếm
-        Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(query));
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            // Tạo implicit intent để mở ứng dụng bản đồ với truy vấn tìm kiếm
+            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(query));
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
 
-        // Kiểm tra xem có ứng dụng nào có thể xử lý intent này không
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            // Tạo chooser để người dùng chọn ứng dụng
-            Intent chooser = Intent.createChooser(mapIntent, "Chọn ứng dụng để mở bản đồ");
-            startActivity(chooser);
-        } else {
-            // Nếu không tìm thấy ứng dụng bản đồ, mở trình duyệt web
-            Uri webIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=" + Uri.encode(query));
-            Intent webIntent = new Intent(Intent.ACTION_VIEW, webIntentUri);
-            // Tạo chooser để người dùng chọn ứng dụng
-            Intent chooser = Intent.createChooser(webIntent, "Select the application to open the map");
-            if (webIntent.resolveActivity(getPackageManager()) != null) {
+            // Kiểm tra xem có ứng dụng nào có thể xử lý intent này không
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                // Tạo chooser để người dùng chọn ứng dụng
+                Intent chooser = Intent.createChooser(mapIntent, "Chọn ứng dụng để mở bản đồ");
                 startActivity(chooser);
             } else {
-                // Hiển thị thông báo nếu không có ứng dụng nào có thể xử lý intent
-                Toast.makeText(this, "No map application and browser found", Toast.LENGTH_SHORT).show();
+                // Nếu không tìm thấy ứng dụng bản đồ, mở trình duyệt web
+                Uri webIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=" + Uri.encode(query));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, webIntentUri);
+                // Tạo chooser để người dùng chọn ứng dụng
+                Intent chooser = Intent.createChooser(webIntent, "Select the application to open the map");
+                if (webIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(chooser);
+                } else {
+                    // Hiển thị thông báo nếu không có ứng dụng nào có thể xử lý intent
+                    Toast.makeText(this, "No map application and browser found", Toast.LENGTH_SHORT).show();
+                }
             }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onTypeClick(View view) {
-        sortByType();
+        try {
+            sortByType();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sortByType() {
@@ -295,7 +303,11 @@ public class PriceActivity extends AppCompatActivity {
     }
 
     public void onSellPriceClick(View view) {
-        sortBySellPrice();
+        try {
+            sortBySellPrice();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sortBySellPrice() {
@@ -317,7 +329,11 @@ public class PriceActivity extends AppCompatActivity {
     }
 
     public void onBuyPriceClick(View view) {
-        sortByBuyPrice();
+        try {
+            sortByBuyPrice();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sortByBuyPrice() {
